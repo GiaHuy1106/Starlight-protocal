@@ -1,5 +1,12 @@
 fileFormatVersion: 2
 guid: d172c22791a73d64ab9cfd99ee72de93
+AssetOrigin:
+  serializedVersion: 1
+  productId: 309418
+  packageName: StellarWitch 3D
+  packageVersion: 1.1
+  assetPath: Assets/StellarWitch3D/Meshes/StellarWitch.fbx
+  uploadId: 740464
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -41,8 +48,6 @@ ModelImporter:
     optimizeGameObjects: 0
     removeConstantScaleCurves: 0
     motionNodeName: 
-    rigImportErrors: 
-    rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
@@ -285,14 +290,6 @@ ModelImporter:
         modified: 0
     - boneName: pupil_root_R
       humanName: RightEye
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: Fronthair_2
-      humanName: Jaw
       limit:
         min: {x: 0, y: 0, z: 0}
         max: {x: 0, y: 0, z: 0}
@@ -1312,10 +1309,3 @@ ModelImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 309418
-  packageName: StellarWitch 3D
-  packageVersion: 1.1
-  assetPath: Assets/StellarWitch3D/Meshes/StellarWitch.fbx
-  uploadId: 740464
