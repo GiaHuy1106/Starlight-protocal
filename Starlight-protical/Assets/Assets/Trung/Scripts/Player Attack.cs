@@ -4,10 +4,9 @@ public class PlayerAttack : MonoBehaviour
 {
     public PlayerInput playerInput;
     public Animator playerAnimator;
-
+    public PlayerSkill playerSkill;
     private int attackHash;
     private int skillHash;
-
     private bool isAttacking;
 
     void Start()
@@ -18,7 +17,7 @@ public class PlayerAttack : MonoBehaviour
 
     void Update()
     {
-        if (isAttacking) return; // ⭐ chặn spam
+        if (isAttacking) return;
 
         HandleAttackInput();
     }
@@ -27,11 +26,11 @@ public class PlayerAttack : MonoBehaviour
     {
         if (playerInput.IsAltHolding()) return;
 
-        if (playerInput.IsAttacking())
+        if (playerInput.IsAttacking() && playerSkill.IsBasicReady)
         {
             StartAttack(attackHash);
         }
-        else if (playerInput.IsSpecialAttacking())
+        else if (playerInput.IsSpecialAttacking() && playerSkill.IsSpecialReady) 
         {
             StartAttack(skillHash);
         }
@@ -41,12 +40,11 @@ public class PlayerAttack : MonoBehaviour
     {
         isAttacking = true;
 
-        playerInput.SetInputLock(true); // ⭐ khóa di chuyển
+        playerInput.SetInputLock(true);
 
         playerAnimator.SetTrigger(hash);
     }
 
-    // ⭐ Animation Event gọi cuối clip
     public void EndAttack()
     {
         isAttacking = false;
