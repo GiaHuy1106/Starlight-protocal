@@ -71,7 +71,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1245140238675101910}
-  - component: {fileID: 6684765983730065684}
+  - component: {fileID: 7335684907173953821}
+  - component: {fileID: 5912475713421589718}
+  - component: {fileID: 9091066167483041683}
   m_Layer: 0
   m_Name: EA_Bld_Obelisk_2b_PRE
   m_TagString: Untagged
@@ -95,8 +97,8 @@ Transform:
   - {fileID: 6120801019282096829}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!64 &6684765983730065684
-MeshCollider:
+--- !u!65 &7335684907173953821
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -113,10 +115,51 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -808555634552139833, guid: 48d0d1d339c61084581c393de929aa6a, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 5.1735525, y: 1.3082738, z: 4.557005}
+  m_Center: {x: 0.11856699, y: 0.55726457, z: 0}
+--- !u!65 &5912475713421589718
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1876999250730422892}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3.46619, y: 1.6876888, z: 3.2764826}
+  m_Center: {x: 0.02371347, y: 1.9800661, z: -0.0474267}
+--- !u!65 &9091066167483041683
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1876999250730422892}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.1464329, y: 9.813678, z: 1.8145709}
+  m_Center: {x: 0.060338736, y: 7.6047835, z: -0.07542324}
 --- !u!1 &3907541804295997838
 GameObject:
   m_ObjectHideFlags: 0

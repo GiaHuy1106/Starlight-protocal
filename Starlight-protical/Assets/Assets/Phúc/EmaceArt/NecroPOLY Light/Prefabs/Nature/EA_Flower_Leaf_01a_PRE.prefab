@@ -95,7 +95,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4631185181587947529}
-  - component: {fileID: 6771640235062314436}
   m_Layer: 0
   m_Name: EA_Flower_Leaf_01a_PRE
   m_TagString: Untagged
@@ -119,27 +118,6 @@ Transform:
   - {fileID: 8332538520205201180}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &6771640235062314436
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5408426014817262259}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.40914178, y: 0.14140964, z: 0.5023519}
-  m_Center: {x: 0.013256431, y: 0.06379628, z: 0.009971857}
 --- !u!1 &5461345724777563744
 GameObject:
   m_ObjectHideFlags: 0
