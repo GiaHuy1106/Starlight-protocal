@@ -55,21 +55,21 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0
+      - time: 0.072727256
         functionName: ShootFireball
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.018181762
+      - time: 0.098701224
         functionName: GlowOn
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.98181826
+      - time: 0.961039
         functionName: GlowOff
         data: 
         objectReferenceParameter: {instanceID: 0}

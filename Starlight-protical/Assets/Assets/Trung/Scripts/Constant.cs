@@ -9,4 +9,6 @@ public class Constant
     //Né
     public static readonly int DodgeLeftHash = Animator.StringToHash("DodgeLeft");
     public static readonly int DodgeRightHash = Animator.StringToHash("DodgeRight");
+    public static readonly int HurtHash = Animator.StringToHash("Hurt");
+    public static readonly int DieHash = Animator.StringToHash("Die");
 }
