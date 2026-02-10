@@ -709,7 +709,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
-  field of view: 35.76
+  field of view: 45
   orthographic: 0
   orthographic size: 10
   m_Depth: -1
@@ -735,8 +735,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 191788199}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.077737175, y: -0.00000002319854, z: 0.0000000018088626, w: 0.99697393}
-  m_LocalPosition: {x: 5.45, y: 1.9000001, z: -3.2}
+  m_LocalRotation: {x: 0.037212003, y: 0, z: 0, w: 0.9993074}
+  m_LocalPosition: {x: 5.45, y: 2.77, z: -2.09}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -968,8 +968,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9384ab8608cdc3d479fe89cd51eed48f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BindingMode: 1
-  m_FollowOffset: {x: 0, y: 1.6, z: -6}
+  m_BindingMode: 4
+  m_FollowOffset: {x: 0, y: 2.55, z: -6}
   m_XDamping: 0.1
   m_YDamping: 0.1
   m_ZDamping: 0.1
@@ -1299,7 +1299,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
-    FieldOfView: 35.76
+    FieldOfView: 45
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
@@ -1325,7 +1325,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 271140679}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.077737175, y: -4.3397617e-16, z: -6.2933973e-18, w: 0.99697393}
+  m_LocalRotation: {x: 0.105524324, y: 0, z: 0, w: 0.9944167}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2880,7 +2880,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
-    FieldOfView: 35.76
+    FieldOfView: 45
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
@@ -2906,7 +2906,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 491187572}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.12993279, y: 0.000000029549687, z: -0.0000000038723, w: 0.99152285}
+  m_LocalRotation: {x: 0.19958591, y: 0, z: 0, w: 0.97988033}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3696,8 +3696,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 651.44, y: 2.9375}
-  m_SizeDelta: {x: -1302.9, y: -33.3191}
+  m_AnchoredPosition: {x: 651.44, y: 0}
+  m_SizeDelta: {x: -1302.9, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &721196286
 MonoBehaviour:
@@ -4123,8 +4123,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.937, y: -2.3698}
-  m_SizeDelta: {x: 567.769, y: 1004.6915}
+  m_AnchoredPosition: {x: -0.937, y: 3.0394}
+  m_SizeDelta: {x: 567.769, y: 1030.5729}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &986640186
 MonoBehaviour:
@@ -4637,7 +4637,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 135.85, y: -214}
+  m_AnchoredPosition: {x: 125, y: -208}
   m_SizeDelta: {x: 240, y: 43}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1129048199
@@ -5338,6 +5338,7 @@ GameObject:
   - component: {fileID: 1310782016}
   - component: {fileID: 1310782015}
   - component: {fileID: 1310782017}
+  - component: {fileID: 1310782018}
   m_Layer: 0
   m_Name: FreeLook Camera
   m_TagString: Untagged
@@ -5367,7 +5368,7 @@ MonoBehaviour:
   m_Follow: {fileID: 1668885164}
   m_CommonLens: 1
   m_Lens:
-    FieldOfView: 35.76
+    FieldOfView: 45
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
@@ -5385,7 +5386,7 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_YAxis:
-    Value: 0.5
+    Value: 0
     m_SpeedMode: 0
     m_MaxSpeed: 1
     m_AccelTime: 0
@@ -5411,9 +5412,9 @@ MonoBehaviour:
   m_XAxis:
     Value: 0
     m_SpeedMode: 0
-    m_MaxSpeed: 250
-    m_AccelTime: 0
-    m_DecelTime: 0
+    m_MaxSpeed: 300
+    m_AccelTime: 0.1
+    m_DecelTime: 0.1
     m_InputAxisName: Mouse X
     m_InputAxisValue: 0
     m_InvertInput: 0
@@ -5436,14 +5437,14 @@ MonoBehaviour:
     m_RecenteringTime: 2
     m_LegacyHeadingDefinition: -1
     m_LegacyVelocityFilterStrength: -1
-  m_BindingMode: 1
+  m_BindingMode: 4
   m_SplineCurvature: 0.2
   m_Orbits:
-  - m_Height: 3.72
+  - m_Height: 4
     m_Radius: 6
-  - m_Height: 1.6
+  - m_Height: 3
     m_Radius: 6
-  - m_Height: 1.47
+  - m_Height: 2.55
     m_Radius: 6
   m_LegacyHeadingBias: 3.4028235e+38
   m_Rigs:
@@ -5459,7 +5460,7 @@ Transform:
   m_GameObject: {fileID: 1310782014}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.45, y: 1.9000001, z: -3.2}
+  m_LocalPosition: {x: 5.45, y: 2.77, z: -2.09}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5485,6 +5486,36 @@ MonoBehaviour:
   zoomSpeed: 5
   minRadius: 2
   maxRadisu: 6
+--- !u!114 &1310782018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1310782014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e501d18bb52cf8c40b1853ca4904654f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CollideAgainst:
+    serializedVersion: 2
+    m_Bits: 1
+  m_IgnoreTag: 
+  m_TransparentLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_MinimumDistanceFromTarget: 0.1
+  m_AvoidObstacles: 1
+  m_DistanceLimit: 0
+  m_MinimumOcclusionTime: 0
+  m_CameraRadius: 0.6
+  m_Strategy: 1
+  m_MaximumEffort: 4
+  m_SmoothingTime: 0
+  m_Damping: 0.3
+  m_DampingWhenOccluded: 0.5
+  m_OptimalTargetDistance: 0
 --- !u!1 &1448866075
 GameObject:
   m_ObjectHideFlags: 0
@@ -5521,8 +5552,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.484, y: -198.71707}
-  m_SizeDelta: {x: 489.4524, y: 312.1834}
+  m_AnchoredPosition: {x: -0.484, y: -203.78192}
+  m_SizeDelta: {x: 489.4524, y: 277.7422}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1448866077
 MonoBehaviour:
@@ -5758,7 +5789,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 197, y: 23}
+  m_AnchoredPosition: {x: 189, y: 23}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1500144548
@@ -5912,14 +5943,14 @@ MonoBehaviour:
   m_LookaheadTime: 0
   m_LookaheadSmoothing: 0
   m_LookaheadIgnoreY: 0
-  m_HorizontalDamping: 0
-  m_VerticalDamping: 0
+  m_HorizontalDamping: 0.6
+  m_VerticalDamping: 0.6
   m_ScreenX: 0.5
-  m_ScreenY: 0.34
-  m_DeadZoneWidth: 0
-  m_DeadZoneHeight: 0
-  m_SoftZoneWidth: 0.8
-  m_SoftZoneHeight: 0.8
+  m_ScreenY: 0.5
+  m_DeadZoneWidth: 0.05
+  m_DeadZoneHeight: 0.05
+  m_SoftZoneWidth: 0.05
+  m_SoftZoneHeight: 0.05
   m_BiasX: 0
   m_BiasY: 0.206
   m_CenterOnActivate: 1
@@ -5935,8 +5966,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9384ab8608cdc3d479fe89cd51eed48f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BindingMode: 1
-  m_FollowOffset: {x: 0, y: 1.6, z: -6}
+  m_BindingMode: 4
+  m_FollowOffset: {x: 0, y: 2.55, z: -6}
   m_XDamping: 0.1
   m_YDamping: 0.1
   m_ZDamping: 0.1
@@ -6249,7 +6280,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 135.85, y: -156}
+  m_AnchoredPosition: {x: 126, y: -150}
   m_SizeDelta: {x: 240, y: 43}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1552545555
@@ -6501,8 +6532,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9384ab8608cdc3d479fe89cd51eed48f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BindingMode: 1
-  m_FollowOffset: {x: 0, y: 1.6, z: -6}
+  m_BindingMode: 4
+  m_FollowOffset: {x: 0, y: 2.55, z: -6}
   m_XDamping: 0.1
   m_YDamping: 0.1
   m_ZDamping: 0.1
@@ -6584,7 +6615,7 @@ Transform:
   m_GameObject: {fileID: 1668885163}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.45, y: 0.3, z: 2.8}
+  m_LocalPosition: {x: 5.45, y: 0.22, z: 3.91}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6709,7 +6740,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 135.84875, y: -102}
+  m_AnchoredPosition: {x: 128, y: -93}
   m_SizeDelta: {x: 240, y: 43}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1685437795
@@ -6855,12 +6886,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerStats: {fileID: 1668885170}
   playerInput: {fileID: 1668885166}
-  specialDistance: 10
+  specialDistance: 5
   fireballPrefab: {fileID: 4252543257995965755, guid: d3e59c27dbc34654fb97dff36e55bdff, type: 3}
   specialPrefab: {fileID: 9020393680873406411, guid: 1fa999c572717314e9cdd22bddc8de3c, type: 3}
   firePoint: {fileID: 329787924}
   wandGlow: {fileID: 525757455}
-  basicCooldown: 1
+  basicCooldown: 0.5
   specialCooldown: 5
   specialcooldownMask: {fileID: 149164266}
   basicCooldownMask: {fileID: 1883548793}
@@ -7529,7 +7560,7 @@ GameObject:
   - component: {fileID: 1926285115}
   - component: {fileID: 1926285114}
   - component: {fileID: 1926285113}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7928,7 +7959,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
-    FieldOfView: 35.76
+    FieldOfView: 45
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
@@ -7954,7 +7985,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2092428704}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.0009947749, y: -1.3683663e-17, z: -2.5053652e-19, w: 0.9999995}
+  m_LocalRotation: {x: 0.037212033, y: 0.000000029781685, z: -0.000000001109005, w: 0.9993074}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

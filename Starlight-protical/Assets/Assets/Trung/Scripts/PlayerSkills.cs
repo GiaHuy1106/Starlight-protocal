@@ -42,7 +42,7 @@ public class PlayerSkill : MonoBehaviour
 
     [Header("Skill Icon")]
     public Image specialIcon;
-    public float disableAlpha = 0.3f;
+    public float disableAlpha = 0.3f; // 
     void Update()
     {
         UpdateBasicCooldown();
