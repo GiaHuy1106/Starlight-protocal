@@ -21,4 +21,10 @@ public static class Enemy_Constant
     public static readonly int Enemy3GetHurtHash = Animator.StringToHash("Enemy3GetHurt");
     public static readonly int Enemy3DieHash = Animator.StringToHash("Enemy3Die");
 
+    //anim for e4
+    public static readonly int Enemy4SpeedHash = Animator.StringToHash("Enemy4Speed");
+    public static readonly int Enemy4AttackHash = Animator.StringToHash("Enemy4Attack");
+    public static readonly int Enemy4GetHurtHash = Animator.StringToHash("Enemy4GetHurt");
+    public static readonly int Enemy4DieHash = Animator.StringToHash("Enemy4Die");
+
 }

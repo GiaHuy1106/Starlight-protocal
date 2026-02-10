@@ -12,6 +12,7 @@ public class FakePlayer : MonoBehaviour
     public Transform enemyTransform;
     public Transform enemyTransform2;
     public Transform enemyTransform3;
+    public Transform enemyTransform4;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -38,6 +39,8 @@ public class FakePlayer : MonoBehaviour
                 enemyTransform2.GetComponent<Enemy2>().TakeDamage(10);
             if(enemyTransform3!=null)
                 enemyTransform3.GetComponent<Enemy3>().TakeDamage(10);
+            if(enemyTransform4!=null)
+                enemyTransform4.GetComponent<Enemy4>().TakeDamage(40);
         }    
     }
 }

@@ -66,7 +66,8 @@ public class Enemy3 : MonoBehaviour
         }
         //khởi tạo máu
         currentHP = maxHP;
-
+        //khởi tạo stopping distance 
+        slime3NavMeshAgent.stoppingDistance = 0f;
     }
     private void Update()
     {
@@ -103,6 +104,7 @@ public class Enemy3 : MonoBehaviour
     }
     void HandleIdle(float distanceToPlayer)
     {
+        slime3NavMeshAgent.stoppingDistance = 0f;
         // Nếu người chơi đến gần trong lúc đang nghỉ thì phải đuổi theo ngay
         if (distanceToPlayer < chaseRange)
         {
@@ -129,6 +131,7 @@ public class Enemy3 : MonoBehaviour
     }
     void HandlePatrolling(float distanceToPlayer)
     {
+        slime3NavMeshAgent.stoppingDistance = 0f;
         slime3NavMeshAgent.speed = patrolSpeed;
         //nếu người chơi đến gần, chuyển sang trạng thái theo người chơi
         if (distanceToPlayer < chaseRange)
@@ -141,7 +144,7 @@ public class Enemy3 : MonoBehaviour
             patrolPoints[currentPatrolIndex].position);
         //nếu điểm đi tuần hiện tại, chuyển sang điểm tiếp theo
         if (!slime3NavMeshAgent.pathPending &&
-            slime3NavMeshAgent.remainingDistance < 10f)
+            slime3NavMeshAgent.remainingDistance < 2f)
         {
             //Chuyển sang trạng thái đợi 3s trước khi chuyển điểm
             currentState = Enemy3State.Idle;
@@ -151,6 +154,7 @@ public class Enemy3 : MonoBehaviour
     //Xử lý hành vi đuổi theo
     void HandleChasing(float distanceToPlayer, float distanceToHome)
     {
+        slime3NavMeshAgent.stoppingDistance = 10f;
         slime3NavMeshAgent.speed = chaseSpeed;
         //Nếu người chơi quá xa, chuyển sang trạng thái quay về chỗ ban đầu
         if (distanceToHome > returnRange)
@@ -167,7 +171,7 @@ public class Enemy3 : MonoBehaviour
             return;
         }
         //nếu người chơi đi quá xa, chuyển về trạng thái đi tuần
-        if (distanceToPlayer > chaseRange + 4f)
+        if (distanceToPlayer > chaseRange + 1f)
         {
             currentState = Enemy3State.Patrolling;
             return;
@@ -176,12 +180,13 @@ public class Enemy3 : MonoBehaviour
     //xử lý quay về
     void HandleReturningHome()
     {
+        slime3NavMeshAgent.stoppingDistance = 0f;
         slime3NavMeshAgent.speed = patrolSpeed;
         //quay về vị trí ban đầu
         slime3NavMeshAgent.SetDestination(initialPosition);
         //nếu đã về chỗ ban đầu , chuyển sang trạng thái đi tuần
         if (!slime3NavMeshAgent.pathPending &&
-            slime3NavMeshAgent.remainingDistance < 10f)
+            slime3NavMeshAgent.remainingDistance < 2f)
         {
             currentState = Enemy3State.Patrolling;
             return;
@@ -189,6 +194,7 @@ public class Enemy3 : MonoBehaviour
     }
     void HandleAttacking(float distanceToPlayer)
     {
+        slime3NavMeshAgent.stoppingDistance = 10f;
         //dừng lại và tấn công 
         slime3NavMeshAgent.SetDestination(transform.position);
         //xoay mặt về phía player khi tấn công 
