@@ -4,6 +4,7 @@ using System.Collections;
 
 public class PlayerSkill : MonoBehaviour
 {
+    public TargetSystem targetSystem;
     public PlayerStats playerStats;
 
     [Header("Input")]
@@ -94,13 +95,47 @@ public class PlayerSkill : MonoBehaviour
             wandGlow.SetGlow(false);
     }
 
+
     public void ShootFireball()
     {
         if (!IsBasicReady) return;
 
-        Vector3 dir = firePoint.forward;
-         // ⭐ đẩy ra trước để không va Player
-        Vector3 spawnPos = firePoint.position + firePoint.forward * 0.6f;
+        Transform target = targetSystem != null ? targetSystem.GetTarget() : null;
+        Vector3 dir;
+
+        if (target != null)
+        {
+            // Có target → bắn vào target (chỉ tính ngang)
+            dir = target.position - transform.position;
+        }
+        else
+        {
+            // Không có target → bắn theo chuột trên mặt phẳng đất (Y = 0)
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            Plane groundPlane = new Plane(Vector3.up, Vector3.zero); // mặt đất thật
+
+            if (groundPlane.Raycast(ray, out float distance))
+            {
+                Vector3 point = ray.GetPoint(distance);
+                dir = point - transform.position;
+            }
+            else
+            {
+                dir = transform.forward;
+            }
+        }
+
+        //  CHỈ GIỮ HƯỚNG NGANG
+        dir.y = 0f;
+        dir.Normalize();
+
+        //  Quay player theo hướng bắn
+        if (dir != Vector3.zero)
+            transform.rotation = Quaternion.LookRotation(dir);
+
+        //  Spawn đạn
+        Vector3 spawnPos = firePoint.position;
 
         GameObject go = Instantiate(fireballPrefab, spawnPos, Quaternion.identity);
 

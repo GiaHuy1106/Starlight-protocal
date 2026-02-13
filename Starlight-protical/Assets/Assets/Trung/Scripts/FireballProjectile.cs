@@ -9,6 +9,7 @@ public class FireballProjectile : MonoBehaviour
     public float maxDistance = 10f;
     public float speed = 10f;
     public int damage; // damage nhận từ player
+    public LayerMask enemyLayer;
     bool exploded = false;
     Rigidbody rb;
 
@@ -52,9 +53,9 @@ public class FireballProjectile : MonoBehaviour
         
         if (other.CompareTag("Player")) return;
 
-        if (other.TryGetComponent<IDamageable>(out var dmg))
+        // Kiểm tra layer có phải Enemy không
+        if (((1 << other.gameObject.layer) & enemyLayer) != 0)
         {
-            dmg.TakeDamage(damage);
             Explode();
         }
     }
