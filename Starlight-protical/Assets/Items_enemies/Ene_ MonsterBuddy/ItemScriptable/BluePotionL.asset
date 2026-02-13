@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87af97dc15f769c4eb9de625e0ff26af, type: 3}
+  m_Name: BluePotionL
+  m_EditorClassIdentifier: 
+  itemId: 
+  itemName: Large blue potion
+  description: 'Big blue potion get max 100% upgrade to wands level 1
+
+'
+  icon: {fileID: 0}
+  worldPrefab: {fileID: 8203311953583805806, guid: eba50c41f276efe478d26df31b1f68b9, type: 3}
+  itemType: 1
+  rarity: 1
+  stackable: 1
+  maxStack: 20
+  sellPrice: 10
+  attackBonus: 100
+  healAmount: 0
+  dropChance: 0.2
