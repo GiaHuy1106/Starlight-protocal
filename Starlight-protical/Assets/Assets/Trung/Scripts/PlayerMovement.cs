@@ -1,5 +1,4 @@
 using System.Collections;
-
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -9,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
     public float runMultiplier = 1.8f; // Hệ số tăng tốc khi nhân vật chạy
     public float acceleration = 6f; // Tốc độ animation speed tăng  IDLE -> RUN, Walk -> Run
     public float deceleration = 8f; // Tốc độ animation speed giảm  IDLE -> Walk, Run -> Walk
-
+    private PlayerCameraController cameraController;
     [Header("Gravity")]
     public float gravity = -9.81f; 
     [Header("References")]
@@ -35,7 +34,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Start() 
     { 
-        
+        cameraController = FindObjectOfType<PlayerCameraController>();
         //Khởi tạo Hash cho các trạng thái animation 
         speedHash = Constant.SpeedHash;
         playerAnimator.SetFloat(speedHash, 0f);
@@ -112,7 +111,20 @@ public class PlayerMovement : MonoBehaviour
             Quaternion targetRot = Quaternion.LookRotation(moveDir);
             playerModel.transform.rotation = Quaternion.Slerp(playerModel.transform.rotation, targetRot, 12f * Time.deltaTime);
         }
+        Vector3 camForwardFlat = cam.forward;
+        camForwardFlat.y = 0f;
+        camForwardFlat.Normalize();
+        float dot = Vector3.Dot(moveDir.normalized, camForwardFlat);
+        if ( dot > 0.6f) // đi lên, đi chéo
+        {
+            if (!cameraController.IsEdgeScrolling)
+            {
+                cameraController.ForceRotateTo(moveDir);
+            }
+        }
+
     }
+
     void ApplyGravity()
     {
         if (characterController.isGrounded)
