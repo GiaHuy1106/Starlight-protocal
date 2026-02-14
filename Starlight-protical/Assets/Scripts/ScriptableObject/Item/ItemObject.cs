@@ -18,6 +18,14 @@ public enum ItemRarity
     Legendary
 }
 
+public enum CurrentLevel
+{
+    Default,
+    Level1,
+    Level2,
+    Level3
+}
+
 [CreateAssetMenu(fileName = "ItemObject", menuName = "GameData/Item")]
 public class ItemObject : ScriptableObject
 {
@@ -25,6 +33,9 @@ public class ItemObject : ScriptableObject
     //public string itemId;
     public string itemName;
     [TextArea] public string description;
+
+    [Header("Level Requirement")]
+    public CurrentLevel requiredLevel;
 
     [Header("Visual")]
     public Sprite icon;
