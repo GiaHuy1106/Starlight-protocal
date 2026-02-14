@@ -202,7 +202,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 3.3016052, y: 47.8659}
+  m_AnchoredPosition: {x: 3.3015137, y: 47.865967}
   m_SizeDelta: {x: 391.908, y: 56.5228}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &80451300
@@ -735,8 +735,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 191788199}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.09392114, y: 0.000000045119783, z: -0.000000004256517, w: 0.9955797}
-  m_LocalPosition: {x: 5.45, y: 2.77, z: -0.5899999}
+  m_LocalRotation: {x: 0.045381837, y: 0.000000029771625, z: -0.0000000013524842, w: 0.99896973}
+  m_LocalPosition: {x: 5.45, y: 2.22, z: -0.5899999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -969,7 +969,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 4
-  m_FollowOffset: {x: 0, y: 2.55, z: -4.5}
+  m_FollowOffset: {x: 0, y: 2, z: -4.5}
   m_XDamping: 0.1
   m_YDamping: 0.1
   m_ZDamping: 0.1
@@ -1325,7 +1325,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 271140679}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.13989751, y: 0, z: 0, w: 0.990166}
+  m_LocalRotation: {x: 0.08044501, y: 0, z: 0, w: 0.99675906}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2416,7 +2416,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 3.3007965, y: 111}
+  m_AnchoredPosition: {x: 3.3007812, y: 111}
   m_SizeDelta: {x: 391.91, y: 39.3439}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &444425463
@@ -2906,7 +2906,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 491187572}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.25492918, y: 0, z: 0, w: 0.9669597}
+  m_LocalRotation: {x: 0.20759149, y: 0, z: 0, w: 0.97821563}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -5442,9 +5442,9 @@ MonoBehaviour:
   m_Orbits:
   - m_Height: 4
     m_Radius: 4.5
-  - m_Height: 3
+  - m_Height: 0
     m_Radius: 4.5
-  - m_Height: 2.55
+  - m_Height: 2
     m_Radius: 4.5
   m_LegacyHeadingBias: 3.4028235e+38
   m_Rigs:
@@ -5460,7 +5460,7 @@ Transform:
   m_GameObject: {fileID: 1310782014}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.45, y: 2.77, z: -0.5899999}
+  m_LocalPosition: {x: 5.45, y: 2.22, z: -0.5899999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5484,7 +5484,7 @@ MonoBehaviour:
   playerInput: {fileID: 1668885166}
   freeLookCam: {fileID: 1310782015}
   zoomSpeed: 5
-  minRadius: 2
+  minRadius: 3
   maxRadisu: 6
   deadzone: 150
   rotationSpeed: 120
@@ -5656,7 +5656,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -56.168, y: -15.1}
+  m_AnchoredPosition: {x: -56.16797, y: -15.099976}
   m_SizeDelta: {x: 232, y: 36}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1460594225
@@ -5970,7 +5970,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 4
-  m_FollowOffset: {x: 0, y: 2.55, z: -4.5}
+  m_FollowOffset: {x: 0, y: 2, z: -4.5}
   m_XDamping: 0.1
   m_YDamping: 0.1
   m_ZDamping: 0.1
@@ -6536,7 +6536,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 4
-  m_FollowOffset: {x: 0, y: 2.55, z: -4.5}
+  m_FollowOffset: {x: 0, y: 2, z: -4.5}
   m_XDamping: 0.1
   m_YDamping: 0.1
   m_ZDamping: 0.1
@@ -8007,7 +8007,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2092428704}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.09392114, y: 0, z: 0, w: 0.99557966}
+  m_LocalRotation: {x: 0.04538187, y: 0, z: 0, w: 0.99896973}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
