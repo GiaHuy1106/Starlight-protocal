@@ -12,12 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87af97dc15f769c4eb9de625e0ff26af, type: 3}
   m_Name: BluePotionL
   m_EditorClassIdentifier: 
-  itemId: 
   itemName: Large blue potion
   description: 'Big blue potion get max 100% upgrade to wands level 1
 
 '
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: c05dbddf4504d824997d38a344e25633, type: 3}
   worldPrefab: {fileID: 8203311953583805806, guid: eba50c41f276efe478d26df31b1f68b9, type: 3}
   itemType: 1
   rarity: 1

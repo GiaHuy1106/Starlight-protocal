@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87af97dc15f769c4eb9de625e0ff26af, type: 3}
   m_Name: Skull
   m_EditorClassIdentifier: 
-  itemId: 
   itemName: Skull
   description: Skull for troll
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: cc8043ad07ebd21418922bbd4249d577, type: 3}
   worldPrefab: {fileID: 3881617421431615440, guid: 99b8335962a17c74ab404038a35d1558, type: 3}
   itemType: 3
   rarity: 0
