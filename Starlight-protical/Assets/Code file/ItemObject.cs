@@ -1,4 +1,4 @@
-using UnityEngine;
+ using UnityEngine;
 
 public enum ItemType
 {
@@ -47,7 +47,7 @@ public class ItemObject : ScriptableObject
 
     [Header("Stack & Economy")]
     public bool stackable = true;
-    public int maxStack = 99;
+    public int maxStack;
     public int sellPrice;
 
     [Header("Combat / Effect")] //các chỉ số cộng thêm khi sử dụng item
