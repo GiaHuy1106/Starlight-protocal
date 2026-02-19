@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Audio;
+using UnityEngine.UI;
 
 public enum Enemy1State
 {
@@ -44,10 +46,24 @@ public class Enemy1 : MonoBehaviour
     public float chaseSpeed = 6f; //tốc độ đuổi theo 
     [Header("Combat Settings")]
     public float rotationSpeed = 10f; // Tốc độ xoay khi tấn công
-    [Header("Combat Stats")]
+    [Header("Combat Stats")] //Thông số 
     public float maxHP = 100f;
     private float currentHP;
     public float damage = 10f;
+
+    //Âm thanh
+    public AudioSource music;
+    public AudioClip[] musicClip; //thứ tự như sau: 0.fight 1.patrolling  2.Stop 3.Hurt 4.die
+    //khoảng cách giữa 2 tiếng nhảy 
+    private float stepTimer = 0f;
+    public float stepInterval = 0.7f;
+    //lập cờ để biết nó phát âm thanh dừng chưa
+    private bool hasPlayedStopSound = false;
+
+    //hiện panel profile
+    public GameObject miniProfilePanel;
+    public Slider hpSlider;
+
     private void Start()
     {
         //vị trí ban đầu
@@ -63,8 +79,12 @@ public class Enemy1 : MonoBehaviour
         }
         //khởi tạo máu
         currentHP = maxHP;
+        hpSlider.maxValue = maxHP; 
+        hpSlider.value = currentHP;
         //khởi tạo stopping distance 
         slime1NavMeshAgent.stoppingDistance = 0f;
+        //tắt panel 
+        miniProfilePanel.SetActive(false);
     }
     private void Update()
     {
@@ -97,6 +117,29 @@ public class Enemy1 : MonoBehaviour
         }
         //cập nhật trạng thái animator
         enemy1Animator.SetFloat(enemy1SpeedHash, slime1NavMeshAgent.velocity.magnitude);
+        if (slime1NavMeshAgent.velocity.magnitude > 0.1f)
+        {
+            // Trừ dần thời gian chờ
+            stepTimer -= Time.deltaTime;
+
+            // Khi thời gian đếm ngược về 0 hoặc âm
+            if (stepTimer <= 0f)
+            {
+                music.PlayOneShot(musicClip[1]);
+                stepTimer = stepInterval; // Đặt lại bộ đếm cho bước tiếp theo
+            }
+            hasPlayedStopSound = false;
+        }
+        else
+        {
+            // Reset lại timer khi đứng im để lần đi tiếp theo phát tiếng ngay lập tức
+            stepTimer = 0f;
+            if (hasPlayedStopSound == false)
+            {
+                music.PlayOneShot(musicClip[2]);
+                hasPlayedStopSound = true;
+            }
+        }
     }
     void HandleIdle(float distanceToPlayer)
     {
@@ -138,8 +181,9 @@ public class Enemy1 : MonoBehaviour
         //di chuyển giữa các điểm đi tuần
         slime1NavMeshAgent.SetDestination(
             patrolPoints[currentPatrolIndex].position);
+        
         //nếu điểm đi tuần hiện tại, chuyển sang điểm tiếp theo
-        if(!slime1NavMeshAgent.pathPending &&
+        if (!slime1NavMeshAgent.pathPending &&
             slime1NavMeshAgent.remainingDistance < 2f)
         {
             //Chuyển sang trạng thái đợi 3s trước khi chuyển điểm
@@ -152,10 +196,12 @@ public class Enemy1 : MonoBehaviour
     {
         slime1NavMeshAgent.stoppingDistance = 2f;
         slime1NavMeshAgent.speed = chaseSpeed;
+        miniProfilePanel.SetActive(true);
         //Nếu người chơi quá xa, chuyển sang trạng thái quay về chỗ ban đầu
-        if(distanceToHome > returnRange)
+        if (distanceToHome > returnRange)
         {
             currentState = Enemy1State.ReturningHome;
+            miniProfilePanel.SetActive(false);
             return;
         }    
         //di chuyển về phía người chơi
@@ -163,12 +209,14 @@ public class Enemy1 : MonoBehaviour
         //nếu đến gần người chơi thì chuyển sang trạng thái tấn công
         if(distanceToPlayer < attackRange)
         {
+            miniProfilePanel.SetActive(true);
             currentState = Enemy1State.Attacking;
             return;
         }    
         //nếu người chơi đi quá xa, chuyển về trạng thái đi tuần
         if(distanceToPlayer>chaseRange +1f)
         {
+            miniProfilePanel.SetActive(false);
             currentState = Enemy1State.Patrolling;
             return;
         }    
@@ -205,6 +253,7 @@ public class Enemy1 : MonoBehaviour
         if(Time.time >= nextAttackTime)
         {
             enemy1Animator.SetTrigger(Enemy_Constant.Enemy1AttackHash);
+            music.PlayOneShot(musicClip[0]);
             playerTargetTransform.GetComponent<FakePlayerHealth>().TakeDamage(damage);
             nextAttackTime = Time.time + attackRate;
             Debug.Log("Enemy1 attack...");
@@ -225,7 +274,9 @@ public class Enemy1 : MonoBehaviour
     public void TakeDamage(float amount)
     {
         currentHP -= amount;
+        hpSlider.value = currentHP;
         enemy1Animator.SetTrigger(Enemy_Constant.Enemy1GetHurtHash);
+        music.PlayOneShot(musicClip[3]);
         Debug.Log("Enemy bị đánh! HP còn " +  currentHP);
         if(currentHP <= 0)
         {
@@ -238,8 +289,14 @@ public class Enemy1 : MonoBehaviour
         slime1NavMeshAgent.isStopped = true;
         slime1NavMeshAgent.velocity = Vector3.zero;
 
+        //âm thanh
+        music.PlayOneShot(musicClip[4]);
+
         //chạy anim
         enemy1Animator.SetTrigger(Enemy_Constant.Enemy1DieHash);
+
+        //Tắt profile
+        miniProfilePanel.SetActive(false);
 
         //Biến mất
         StartCoroutine(WaitAndDisable(2f));
