@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Audio;
@@ -11,6 +12,11 @@ public enum Enemy1State
     FollowingPlayer,
     ReturningHome,
     Attacking
+}
+[System.Serializable]
+public class LootItem
+{
+    public ItemObject itemData;
 }
 public class Enemy1 : MonoBehaviour
 {
@@ -63,6 +69,10 @@ public class Enemy1 : MonoBehaviour
     //hiện panel profile
     public GameObject miniProfilePanel;
     public Slider hpSlider;
+
+    //rớt đồ 
+    [Header("Loot System")]
+    public List<LootItem> lootTable = new List<LootItem>();
 
     private void Start()
     {
@@ -297,7 +307,19 @@ public class Enemy1 : MonoBehaviour
 
         //Tắt profile
         miniProfilePanel.SetActive(false);
+        //Rớt đồ
+        foreach (LootItem loot in lootTable)
+        {
+            // Tạo tọa độ ngẫu nhiên lệch đi một chút để các món đồ không rớt đè chặt lên nhau
+            Vector3 dropPos = transform.position + new Vector3(
+                Random.Range(-2f, 2f),
+                0f,
+                Random.Range(-2f, 2f)
+            );
+            // Đẻ đồ ra
+            GameObject droppedItem = Instantiate(loot.itemData.worldPrefab, dropPos, Quaternion.identity);
 
+        }
         //Biến mất
         StartCoroutine(WaitAndDisable(2f));
 

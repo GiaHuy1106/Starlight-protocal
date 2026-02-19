@@ -2350,6 +2350,10 @@ MonoBehaviour:
   stepInterval: 0.7
   miniProfilePanel: {fileID: 973314067}
   hpSlider: {fileID: 1914292241}
+  lootTable:
+  - itemData: {fileID: 11400000, guid: eafee7c8e36b1cb4099816c35f6b8a20, type: 2}
+  - itemData: {fileID: 11400000, guid: 5321df397f1aae14cb18b32d9e098210, type: 2}
+  - itemData: {fileID: 11400000, guid: 207fe0e636e88cc4ab3edf90f17f7110, type: 2}
 --- !u!1 &1699881520
 GameObject:
   m_ObjectHideFlags: 0
