@@ -56,6 +56,7 @@ public class Enemy1 : MonoBehaviour
     public float maxHP = 100f;
     private float currentHP;
     public float damage = 10f;
+    public float def = 10f; 
 
     //Âm thanh
     public AudioSource music;
@@ -283,7 +284,15 @@ public class Enemy1 : MonoBehaviour
     }
     public void TakeDamage(float amount)
     {
-        currentHP -= amount;
+        if (amount > def)
+        {
+            amount -= def;
+            currentHP -= amount;
+        }
+        else
+        {
+            Debug.Log("Sát thương không đủ phá giáp");
+        }    
         hpSlider.value = currentHP;
         enemy1Animator.SetTrigger(Enemy_Constant.Enemy1GetHurtHash);
         music.PlayOneShot(musicClip[3]);

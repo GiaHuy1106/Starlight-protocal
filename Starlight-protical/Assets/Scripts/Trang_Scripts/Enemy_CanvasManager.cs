@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Enemy1_CanvasManager : MonoBehaviour
+public class Enemy_CanvasManager : MonoBehaviour
 {
     public GameObject profileDetail;
     public GameObject miniProfile;

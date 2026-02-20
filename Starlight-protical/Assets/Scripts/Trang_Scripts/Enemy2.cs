@@ -1,6 +1,9 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
+using static UnityEngine.Rendering.DebugUI;
 
 public enum Enemy2State
 {
@@ -10,6 +13,11 @@ public enum Enemy2State
     ReturningHome,
     Defending,
     Attacking
+}
+[System.Serializable]
+public class LootItem2
+{
+    public ItemObject itemData;
 }
 public class Enemy2 : MonoBehaviour
 {
@@ -49,6 +57,7 @@ public class Enemy2 : MonoBehaviour
     public float maxHP = 200f;
     private float currentHP;
     public float damage = 20f;
+    public float def = 20f;
     [Header("Ranged Attack")]
     public GameObject bulletPrefab; // viên đạn prefab
     public Transform firePoint;     // Vị trí nòng 
@@ -57,8 +66,29 @@ public class Enemy2 : MonoBehaviour
     public float defendChance = 30f; // 30% cơ hội đỡ đòn
     public float defendDuration = 1.5f; // Thời gian đứng đỡ (giây)
     private bool isDefending = false;   // Biến cờ để khóa logic khi đang đỡ
+
+    //Âm thanh
+    public AudioSource music;
+    public AudioClip[] musicClip; // thứ tự như sau 0.fight 1.patrolling 2.stop 3.hurt 4.die 5.defense
+    //khoảng cách giữa 2 lần di chuyển
+    private float stepTimer = 0f;
+    public float stepInterval = 0.7f;
+    //lập cờ để biết nó phát âm thanh dừng chưa
+    private bool hasPlayedStopSound = false;
+
+    //hiện panel profile
+    public GameObject miniProfilePanel;
+    public Slider hpSlider;
+
+    //rớt đồ 
+    [Header("Loot System")]
+    public List<LootItem2> lootTable = new List<LootItem2>();
+
+    public GameObject shield;
     private void Start()
     {
+        //tắt shield
+        shield.SetActive(false);
         //vị trí ban đầu
         initialPosition = transform.position;
         //khởi tạo hash cho các trạng thái animation
@@ -72,8 +102,12 @@ public class Enemy2 : MonoBehaviour
         }
         //khởi tạo máu
         currentHP = maxHP;
+        hpSlider.maxValue = maxHP;
+        hpSlider.value = currentHP;
         //khởi tạo stopping distance 
         slime2NavMeshAgent.stoppingDistance = 0f;
+        //tắt panel 
+        miniProfilePanel.SetActive(false);
     }
     private void Update()
     {
@@ -108,6 +142,31 @@ public class Enemy2 : MonoBehaviour
         }
         //cập nhật trạng thái animator
         enemy2Animator.SetFloat(enemy2SpeedHash, slime2NavMeshAgent.velocity.magnitude);
+        bool isMovingState = currentState == Enemy2State.Patrolling;
+
+        if (isMovingState &&  slime2NavMeshAgent.velocity.magnitude > 0.1f)
+        {
+            // Trừ dần thời gian chờ
+            stepTimer -= Time.deltaTime;
+
+            // Khi thời gian đếm ngược về 0 hoặc âm
+            if (stepTimer <= 0f)
+            {
+                music.PlayOneShot(musicClip[1]);
+                stepTimer = stepInterval; // Đặt lại bộ đếm cho bước tiếp theo
+            }
+            hasPlayedStopSound = false;
+        }
+        else
+        {
+            // Reset lại timer khi đứng im để lần đi tiếp theo phát tiếng ngay lập tức
+            stepTimer = 0f;
+            if (hasPlayedStopSound == false)
+            {
+                music.PlayOneShot(musicClip[2]);
+                hasPlayedStopSound = true;
+            }
+        }
     }
     void HandleIdle(float distanceToPlayer)
     {
@@ -167,6 +226,7 @@ public class Enemy2 : MonoBehaviour
         if (distanceToHome > returnRange)
         {
             currentState = Enemy2State.ReturningHome;
+            miniProfilePanel.SetActive(false);
             return;
         }
         //di chuyển về phía người chơi
@@ -174,12 +234,14 @@ public class Enemy2 : MonoBehaviour
         //nếu đến gần người chơi thì chuyển sang trạng thái tấn công
         if (distanceToPlayer < attackRange)
         {
+            miniProfilePanel.SetActive(true);
             currentState = Enemy2State.Attacking;
             return;
         }
         //nếu người chơi đi quá xa, chuyển về trạng thái đi tuần
         if (distanceToPlayer > chaseRange + 1f)
         {
+            miniProfilePanel.SetActive(false);
             currentState = Enemy2State.Patrolling;
             return;
         }
@@ -227,6 +289,7 @@ public class Enemy2 : MonoBehaviour
         {
             //tạo đạn theo hướng nòng
             GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+            music.PlayOneShot(musicClip[0]);
             Enemy2_Bullet enemy2_bullet = bullet.GetComponent<Enemy2_Bullet>();
             if(enemy2_bullet != null)
             {
@@ -258,8 +321,18 @@ public class Enemy2 : MonoBehaviour
             StartCoroutine(PerformDefend());
             return; // Dừng hàm tại đây, KHÔNG TRỪ MÁU 
         }
-        currentHP -= amount;
+        //trừ máu theo giáp
+        if (amount > def)
+        {
+            amount -= def;
+            currentHP -= amount;
+        }
+        else
+        {
+            Debug.Log("Sát thương không đủ phá giáp");
+        }
         enemy2Animator.SetTrigger(Enemy_Constant.Enemy2GetHurtHash);
+        music.PlayOneShot(musicClip[3]);
         Debug.Log("Enemy bị đánh! HP còn " + currentHP);
         if (currentHP <= 0)
         {
@@ -271,10 +344,25 @@ public class Enemy2 : MonoBehaviour
         //Ngừng di chuyển
         slime2NavMeshAgent.isStopped = true;
         slime2NavMeshAgent.velocity = Vector3.zero;
-
+        //âm thanh
+        music.PlayOneShot(musicClip[4]);
         //chạy anim
         enemy2Animator.SetTrigger(Enemy_Constant.Enemy2DieHash);
+        //Tắt profile
+        miniProfilePanel.SetActive(false);
+        //Rớt đồ
+        foreach (LootItem2 loot in lootTable)
+        {
+            // Tạo tọa độ ngẫu nhiên lệch đi một chút để các món đồ không rớt đè chặt lên nhau
+            Vector3 dropPos = transform.position + new Vector3(
+                Random.Range(-2f, 2f),
+                0f,
+                Random.Range(-2f, 2f)
+            );
+            // Đẻ đồ ra
+            GameObject droppedItem = Instantiate(loot.itemData.worldPrefab, dropPos, Quaternion.identity);
 
+        }
         //Biến mất
         StartCoroutine(WaitAndDisable(3f));
 
@@ -296,12 +384,14 @@ public class Enemy2 : MonoBehaviour
         slime2NavMeshAgent.velocity = Vector3.zero;
 
         enemy2Animator.SetTrigger(Enemy_Constant.Enemy2DefendHash);
-
+        music.PlayOneShot(musicClip[5]);
         Debug.Log("Enemy defend");
-
+        // mở shield
+        shield.SetActive(true);
         // 3. Chờ hết thời gian đỡ 
         yield return new WaitForSeconds(defendDuration);
-
+        //tắt shield
+        shield.SetActive(false);
         // 4. Quay lại trạng thái chiến đấu
         isDefending = false;
         slime2NavMeshAgent.isStopped = false; // Mở lại di chuyển

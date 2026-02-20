@@ -34,13 +34,13 @@ public class FakePlayer : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.T))
         {
             if(enemyTransform!=null)
-                enemyTransform.GetComponent<Enemy1>().TakeDamage(10);
+                enemyTransform.GetComponent<Enemy1>().TakeDamage(20);
             if(enemyTransform2!=null)
-                enemyTransform2.GetComponent<Enemy2>().TakeDamage(10);
+                enemyTransform2.GetComponent<Enemy2>().TakeDamage(30);
             if(enemyTransform3!=null)
-                enemyTransform3.GetComponent<Enemy3>().TakeDamage(10);
+                enemyTransform3.GetComponent<Enemy3>().TakeDamage(40);
             if(enemyTransform4!=null)
-                enemyTransform4.GetComponent<Enemy4>().TakeDamage(40);
+                enemyTransform4.GetComponent<Enemy4>().TakeDamage(50);
         }    
     }
 }
