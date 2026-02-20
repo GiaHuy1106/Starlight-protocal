@@ -38,9 +38,9 @@ public class FakePlayer : MonoBehaviour
             if(enemyTransform2!=null)
                 enemyTransform2.GetComponent<Enemy2>().TakeDamage(30);
             if(enemyTransform3!=null)
-                enemyTransform3.GetComponent<Enemy3>().TakeDamage(40);
+                enemyTransform3.GetComponent<Enemy3_Controller>().TakeDamage(100);
             if(enemyTransform4!=null)
-                enemyTransform4.GetComponent<Enemy4>().TakeDamage(50);
+                enemyTransform4.GetComponent<Enemy4_Controller>().TakeDamage(200);
         }    
     }
 }

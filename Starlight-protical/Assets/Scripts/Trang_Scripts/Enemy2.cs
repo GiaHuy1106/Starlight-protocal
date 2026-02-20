@@ -331,6 +331,7 @@ public class Enemy2 : MonoBehaviour
         {
             Debug.Log("Sát thương không đủ phá giáp");
         }
+        hpSlider.value = currentHP;
         enemy2Animator.SetTrigger(Enemy_Constant.Enemy2GetHurtHash);
         music.PlayOneShot(musicClip[3]);
         Debug.Log("Enemy bị đánh! HP còn " + currentHP);

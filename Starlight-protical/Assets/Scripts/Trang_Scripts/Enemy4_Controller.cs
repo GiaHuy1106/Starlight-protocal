@@ -1,6 +1,8 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public enum Enemy4State
 {
@@ -10,7 +12,12 @@ public enum Enemy4State
     ReturningHome,
     Attacking
 }
-public class Enemy4 : MonoBehaviour
+[System.Serializable]
+public class LootItem4
+{
+    public ItemObject itemData;
+}
+public class Enemy4_Controller : MonoBehaviour
 {
     public Transform playerTargetTransform;
     public NavMeshAgent slime4NavMeshAgent;
@@ -45,11 +52,30 @@ public class Enemy4 : MonoBehaviour
     [Header("Combat Settings")]
     public float rotationSpeed = 10f; // Tốc độ xoay khi tấn công
     [Header("Combat Stats")]
-    public float maxHP = 400f;
+    public float maxHP = 800f;
     private float currentHP;
+    public float def = 80f;
+
 
     public GameObject PoisonArea;
     public float poisonDuration = 10f; // Vòng độc hiện 10s rồi tắt
+
+    //Âm thanh
+    public AudioSource music;
+    public AudioClip[] musicClip; //thứ tự như sau: 0.fight 1.patrolling  2.Stop 3.Hurt 4.die
+    //khoảng cách giữa 2 tiếng nhảy 
+    private float stepTimer = 0f;
+    public float stepInterval = 0.7f;
+    //lập cờ để biết nó phát âm thanh dừng chưa
+    private bool hasPlayedStopSound = false;
+
+    //hiện panel profile
+    public GameObject miniProfilePanel;
+    public Slider hpSlider;
+
+    //rớt đồ 
+    [Header("Loot System")]
+    public List<LootItem4> lootTable = new List<LootItem4>();
     private void Start()
     {
         //vị trí ban đầu
@@ -65,10 +91,14 @@ public class Enemy4 : MonoBehaviour
         }
         //khởi tạo máu
         currentHP = maxHP;
+        hpSlider.maxValue = maxHP;
+        hpSlider.value = currentHP;
         //Đảm bảo tắt vòng độc 
         if (PoisonArea != null) PoisonArea.SetActive(false);
         //khởi tạo stopping distance 
         slime4NavMeshAgent.stoppingDistance = 0f;
+        //tắt panel 
+        miniProfilePanel.SetActive(false);
     }
     private void Update()
     {
@@ -101,6 +131,31 @@ public class Enemy4 : MonoBehaviour
         }
         //cập nhật trạng thái animator
         enemy4Animator.SetFloat(enemy4SpeedHash, slime4NavMeshAgent.velocity.magnitude);
+        bool isMovingState = currentState == Enemy4State.Patrolling;
+
+        if (isMovingState && slime4NavMeshAgent.velocity.magnitude > 0.1f)
+        {
+            // Trừ dần thời gian chờ
+            stepTimer -= Time.deltaTime;
+
+            // Khi thời gian đếm ngược về 0 hoặc âm
+            if (stepTimer <= 0f)
+            {
+                music.PlayOneShot(musicClip[1]);
+                stepTimer = stepInterval; // Đặt lại bộ đếm cho bước tiếp theo
+            }
+            hasPlayedStopSound = false;
+        }
+        else
+        {
+            // Reset lại timer khi đứng im để lần đi tiếp theo phát tiếng ngay lập tức
+            stepTimer = 0f;
+            if (hasPlayedStopSound == false)
+            {
+                music.PlayOneShot(musicClip[2]);
+                hasPlayedStopSound = true;
+            }
+        }
     }
     void HandleIdle(float distanceToPlayer)
     {
@@ -156,10 +211,12 @@ public class Enemy4 : MonoBehaviour
     {
         slime4NavMeshAgent.stoppingDistance = 8f;
         slime4NavMeshAgent.speed = chaseSpeed;
+        miniProfilePanel.SetActive(true);
         //Nếu người chơi quá xa, chuyển sang trạng thái quay về chỗ ban đầu
         if (distanceToHome > returnRange)
         {
             currentState = Enemy4State.ReturningHome;
+            miniProfilePanel.SetActive(false);
             return;
         }
         //di chuyển về phía người chơi
@@ -167,13 +224,14 @@ public class Enemy4 : MonoBehaviour
         //nếu đến gần người chơi thì chuyển sang trạng thái tấn công
         if (distanceToPlayer < attackRange)
         {
-            
+            miniProfilePanel.SetActive(true);
             currentState = Enemy4State.Attacking;
             return;
         }
         //nếu người chơi đi quá xa, chuyển về trạng thái đi tuần
         if (distanceToPlayer > chaseRange + 1f)
         {
+            miniProfilePanel.SetActive(false);
             currentState = Enemy4State.Patrolling;
             return;
         }
@@ -222,8 +280,9 @@ public class Enemy4 : MonoBehaviour
     {
         // Bật vòng độc
         PoisonArea.SetActive(true);
-
-        // Chờ X giây (ví dụ 3s)
+        //âm thanh vòng độc
+        music.PlayOneShot(musicClip[0]);
+        // Chờ X giây (ví dụ 10s)
         yield return new WaitForSeconds(poisonDuration);
 
         // Tắt vòng độc
@@ -244,8 +303,18 @@ public class Enemy4 : MonoBehaviour
     }
     public void TakeDamage(float amount)
     {
-        currentHP -= amount;
+        if (amount > def)
+        {
+            amount -= def;
+            currentHP -= amount;
+        }
+        else
+        {
+            Debug.Log("Sát thương không đủ phá giáp");
+        }
+        hpSlider.value = currentHP;
         enemy4Animator.SetTrigger(Enemy_Constant.Enemy4GetHurtHash);
+        music.PlayOneShot(musicClip[3]);
         Debug.Log("Enemy bị đánh! HP còn " + currentHP);
         if (currentHP <= 0)
         {
@@ -258,9 +327,27 @@ public class Enemy4 : MonoBehaviour
         slime4NavMeshAgent.isStopped = true;
         slime4NavMeshAgent.velocity = Vector3.zero;
 
+        //âm thanh
+        music.PlayOneShot(musicClip[4]);
+
         //chạy anim
         enemy4Animator.SetTrigger(Enemy_Constant.Enemy4DieHash);
 
+        //Tắt profile
+        miniProfilePanel.SetActive(false);
+        //Rớt đồ
+        foreach (LootItem4 loot in lootTable)
+        {
+            // Tạo tọa độ ngẫu nhiên lệch đi một chút để các món đồ không rớt đè chặt lên nhau
+            Vector3 dropPos = transform.position + new Vector3(
+                Random.Range(-2f, 2f),
+                0f,
+                Random.Range(-2f, 2f)
+            );
+            // Đẻ đồ ra
+            GameObject droppedItem = Instantiate(loot.itemData.worldPrefab, dropPos, Quaternion.identity);
+
+        }
         //Biến mất
         StartCoroutine(WaitAndDisable(3f));
 
@@ -273,3 +360,4 @@ public class Enemy4 : MonoBehaviour
     }
 
 }
+
