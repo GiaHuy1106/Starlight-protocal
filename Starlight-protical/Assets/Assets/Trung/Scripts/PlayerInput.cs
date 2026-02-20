@@ -8,12 +8,18 @@ public class PlayerInput : MonoBehaviour
     
     void Start()
     {
-        
+        IsInputLocked = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (IsInputLocked)
+        {
+            horizontalInput = 0;
+            verticalInput = 0;
+            return;
+        }
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput   = Input.GetAxis("Vertical");  
     }
@@ -55,11 +61,13 @@ public class PlayerInput : MonoBehaviour
     // Nhấn chuột trái xài basic attack
     public bool IsAttacking() 
     {
+        if (IsInputLocked) return false;
         return Input.GetMouseButtonDown(0);
     }
     // Nhấn chuột phái xài special attack
     public bool IsSpecialAttacking() 
     {
+        if (IsInputLocked) return false;
         return Input.GetMouseButtonDown(1);
     }   
 }

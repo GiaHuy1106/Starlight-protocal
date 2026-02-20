@@ -4,7 +4,6 @@ using System.Collections;
 
 public class PlayerSkill : MonoBehaviour
 {
-    public TargetSystem targetSystem;
     public PlayerStats playerStats;
 
     [Header("Input")]
@@ -20,7 +19,7 @@ public class PlayerSkill : MonoBehaviour
     [Header("Spawn")]
     public Transform firePoint;
 
-    // ⭐ Glow tip
+    // Glow tip
     [Header("Glow")]
     public WandGlow wandGlow;
 
@@ -53,6 +52,7 @@ public class PlayerSkill : MonoBehaviour
     }
     public void CastSpecial()
     {
+        if (Time.timeScale == 0f) return;
         // cooldown
         if (!IsSpecialReady) return;
 
@@ -98,46 +98,34 @@ public class PlayerSkill : MonoBehaviour
 
     public void ShootFireball()
     {
+        if (Time.timeScale == 0f) return;
         if (!IsBasicReady) return;
 
-        Transform target = targetSystem != null ? targetSystem.GetTarget() : null;
         Vector3 dir;
 
-        if (target != null)
-        {
-            // Có target → bắn vào target (chỉ tính ngang)
-            dir = target.position - transform.position;
-        }
-        else
-        {
-            // Không có target → bắn theo chuột trên mặt phẳng đất (Y = 0)
+        // Ray từ camera xuống mặt đất
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            Plane groundPlane = new Plane(Vector3.up, Vector3.zero); // mặt đất thật
+            Plane groundPlane = new Plane(Vector3.up, firePoint.position);
 
             if (groundPlane.Raycast(ray, out float distance))
             {
                 Vector3 point = ray.GetPoint(distance);
-                dir = point - transform.position;
+                dir = point - firePoint.position;
             }
             else
             {
                 dir = transform.forward;
             }
-        }
 
-        //  CHỈ GIỮ HƯỚNG NGANG
-        dir.y = 0f;
-        dir.Normalize();
+            dir.y = 0f;
+            dir.Normalize();
 
-        //  Quay player theo hướng bắn
+        // Xoay player theo hướng chuột
         if (dir != Vector3.zero)
             transform.rotation = Quaternion.LookRotation(dir);
 
-        //  Spawn đạn
-        Vector3 spawnPos = firePoint.position;
-
-        GameObject go = Instantiate(fireballPrefab, spawnPos, Quaternion.identity);
+        // Spawn đạn
+        GameObject go = Instantiate(fireballPrefab, firePoint.position, Quaternion.identity);
 
         FireballProjectile projectile = go.GetComponent<FireballProjectile>();
         projectile.damage = playerStats.GetBasicDamage();
@@ -152,16 +140,16 @@ public class PlayerSkill : MonoBehaviour
             basicCooldownTimer -= Time.deltaTime;
     }
     void UpdateBasicCooldownUI()
-{
-    if (basicCooldownTimer > 0f)
     {
-        basicCooldownMask.fillAmount = basicCooldownTimer / basicCooldown;
+        if (basicCooldownTimer > 0f)
+        {
+            basicCooldownMask.fillAmount = basicCooldownTimer / basicCooldown;
+        }
+        else
+        {
+            basicCooldownMask.fillAmount = 0f;
+        }
     }
-    else
-    {
-        basicCooldownMask.fillAmount = 0f;
-    }
-}
 
     void UpdateSpecialCooldownUI()
     {

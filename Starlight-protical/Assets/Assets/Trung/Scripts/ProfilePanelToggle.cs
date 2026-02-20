@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class ProfilePanelToggle : MonoBehaviour
 {
+    public PlayerInput playerInput;
     [Header("Panel cần đóng/mở")]
     public GameObject profilePanel;
     
@@ -21,11 +22,18 @@ public class ProfilePanelToggle : MonoBehaviour
     public void Open()
     {
         isOpen = true;
+        playerInput.SetInputLock(true);
         profilePanel.SetActive(true);
+        Time.timeScale = 0f; // Dừng game
+        
+
     }
     public void Close()
     {
         isOpen = false;
         profilePanel.SetActive(false);
+
+        playerInput.SetInputLock(false);
+        Time.timeScale = 1f; // chạy game
     }
 }

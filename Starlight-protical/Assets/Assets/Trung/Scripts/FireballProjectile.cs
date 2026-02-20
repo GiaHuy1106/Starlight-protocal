@@ -21,8 +21,9 @@ public class FireballProjectile : MonoBehaviour
     {
         direction = dir.normalized;
 
-        // xoay visual cho đẹp (không ảnh hưởng vật lý)
         transform.forward = direction;
+
+        rb.linearVelocity = direction * speed; 
     }
 
     void Awake()
@@ -33,9 +34,6 @@ public class FireballProjectile : MonoBehaviour
     void Start()
     {
         startPos = transform.position;
-
-        rb.linearVelocity = direction * speed;
-
         Destroy(gameObject, 5f);
     }
 

@@ -7,8 +7,8 @@ public class PlayerCameraController : MonoBehaviour
     public CinemachineFreeLook freeLookCam;
     [Header("Zoom Settings")]
     public float zoomSpeed = 5f;
-    public float minRadius = 2f;
-    public float maxRadisu= 6f;
+    public float minFOV = 30f;
+    public float maxFOV = 70f;
     [Header("Deadzone")]
     public float deadzone = 150f;
     public float rotationSpeed = 120f;
@@ -33,15 +33,14 @@ public class PlayerCameraController : MonoBehaviour
     void HandleZoom()
     {
         float scroll = Input.GetAxis("Mouse ScrollWheel");
-        if (Mathf.Abs(scroll)  < 0.01f) return;
-        float currentRadius = freeLookCam.m_Orbits[1].m_Radius;
-        currentRadius -= scroll * zoomSpeed;
-        currentRadius = Mathf.Clamp(currentRadius, minRadius, maxRadisu);
-        //set cho cả 3 rig để không bị zoom khi lia dọc
-        for (int i = 0; i < 3; i++)
-        {
-            freeLookCam.m_Orbits[i].m_Radius = currentRadius;
-        }
+        if (Mathf.Abs(scroll) < 0.01f) return;
+
+        var lens = freeLookCam.m_Lens;
+
+        lens.FieldOfView -= scroll * zoomSpeed * 10f;
+        lens.FieldOfView = Mathf.Clamp(lens.FieldOfView, minFOV, maxFOV);
+
+        freeLookCam.m_Lens = lens;
     }
     void HandleDeadzoneRotation()
     {
@@ -63,15 +62,17 @@ public class PlayerCameraController : MonoBehaviour
     }
     public void ForceRotateTo(Vector3 direction)
     {
+        if (direction.sqrMagnitude < 0.01f) return;
+
         float targetYaw = Quaternion.LookRotation(direction).eulerAngles.y;
 
         currentYaw = Mathf.SmoothDampAngle(
-        currentYaw,
-        targetYaw,
-        ref yawVelocity,
-        smoothTime
-    );
+            currentYaw,
+            targetYaw,
+            ref yawVelocity,
+            smoothTime
+        );
 
-    freeLookCam.m_XAxis.Value = currentYaw;
+        freeLookCam.m_XAxis.Value = currentYaw;
     }
 }

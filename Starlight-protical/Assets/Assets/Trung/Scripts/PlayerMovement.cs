@@ -12,7 +12,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Gravity")]
     public float gravity = -9.81f; 
     [Header("References")]
-    public CharacterController characterController; 
+    public CharacterController characterController ; 
     public PlayerInput playerInput; 
     //Internal
     public Vector3 _movementVelocity; 
@@ -97,8 +97,7 @@ public class PlayerMovement : MonoBehaviour
         float speed = moveSpeed;
         if (playerInput.IsRunning())
         {
-            Debug.Log("RUNNING");
-            speed *= runMultiplier; // <-- RUN SPEED
+            speed *= runMultiplier;
         }
 
         _movementVelocity.x = moveDir.x * speed;
@@ -114,33 +113,36 @@ public class PlayerMovement : MonoBehaviour
         Vector3 camForwardFlat = cam.forward;
         camForwardFlat.y = 0f;
         camForwardFlat.Normalize();
-        float dot = Vector3.Dot(moveDir.normalized, camForwardFlat);
-        if ( dot > 0.6f) // đi lên, đi chéo
+        if (moveDir.sqrMagnitude > 0.01f)
         {
-            if (!cameraController.IsEdgeScrolling)
-            {
-                cameraController.ForceRotateTo(moveDir);
-            }
-        }
+            Quaternion targetRot = Quaternion.LookRotation(moveDir);
+            playerModel.transform.rotation = Quaternion.Slerp(
+                playerModel.transform.rotation,
+                targetRot,
+                12f * Time.deltaTime
+            );
 
+        }
     }
 
     void ApplyGravity()
     {
-        if (characterController.isGrounded)
-        {
-            // CHỈ reset khi KHÔNG nhảy
-            if (!playerAnimator.GetBool(Constant.JumpHash))
-            {
-                _verticalVelocity = -2f;
-            }
-        }
-        else
-        {
-            _verticalVelocity += gravity * Time.deltaTime;
-        }
+         bool grounded = characterController.isGrounded;
 
-        _movementVelocity.y = _verticalVelocity;
+    if (grounded)
+    {
+        // Nếu đang rơi xuống và đã chạm đất
+        if (_verticalVelocity < 0f)
+        {
+            _verticalVelocity = 0f;   // ✅ reset hoàn toàn
+        }
+    }
+    else
+    {
+        _verticalVelocity += gravity * Time.deltaTime;
+    }
+
+    _movementVelocity.y = _verticalVelocity;
     }
     void UpdateAnimanator()
     {
@@ -184,9 +186,8 @@ public class PlayerMovement : MonoBehaviour
     {
             if (isDodging) return;
             if (!playerInput.IsDodging()) return;
-
-           Vector2 raw = playerInput.GetRawInputDir();
-           Vector3 dir = new Vector3(raw.x, 0, raw.y);
+            Vector2 raw = playerInput.GetRawInputDir();
+            Vector3 dir = new Vector3(raw.x, 0, raw.y);
 
             if (dir.sqrMagnitude < 0.1f)
             dir = playerModel.transform.forward;

@@ -99,34 +99,34 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.9843137, g: 0.36862746, b: 0.06666667, a: 1}
-      key1: {r: 0, g: 0, b: 0, a: 0}
-      key2: {r: 0, g: 0, b: 0, a: 0}
-      key3: {r: 0, g: 0, b: 0, a: 0}
+      key0: {r: 0.87169814, g: 0.30588236, b: 0.25882354, a: 0.61960787}
+      key1: {r: 0.94716984, g: 0.3731952, b: 0.27700236, a: 0}
+      key2: {r: 0.44810957, g: 0.97735846, b: 0.525417, a: 1}
+      key3: {r: 0.34217867, g: 0.38518292, b: 0.9698113, a: 1}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
-      ctime0: 8712
-      ctime1: 65535
-      ctime2: 0
-      ctime3: 0
+      ctime0: 0
+      ctime1: 55312
+      ctime2: 55312
+      ctime3: 56360
       ctime4: 0
       ctime5: 0
       ctime6: 0
       ctime7: 0
       atime0: 0
-      atime1: 65535
-      atime2: 0
-      atime3: 0
-      atime4: 0
+      atime1: 848
+      atime2: 6708
+      atime3: 34310
+      atime4: 65535
       atime5: 0
       atime6: 0
       atime7: 0
       m_Mode: 0
       m_ColorSpace: 0
       m_NumColorKeys: 2
-      m_NumAlphaKeys: 2
+      m_NumAlphaKeys: 5
     numCornerVertices: 0
     numCapVertices: 0
     alignment: 0
@@ -362,7 +362,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.33333334, g: 0.09019608, b: 0, a: 1}
+      maxColor: {r: 0.2981131, g: 0.11201296, b: 0.10068346, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -426,7 +426,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.9
+      scalar: 0.64
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -5254,7 +5254,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.98490566, g: 0.3689247, b: 0.065040804, a: 1}
+      maxColor: {r: 0.9254902, g: 0.1722557, b: 0.054901984, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -5318,7 +5318,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.78
+      scalar: 0.44
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -11239,16 +11239,16 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 0.98490566, g: 0.98490566, b: 0.98490566, a: 0.61960787}
-        key1: {r: 1, g: 0.6431373, b: 0, a: 0}
+        key0: {r: 0.87169814, g: 0.30588236, b: 0.25882354, a: 0.61960787}
+        key1: {r: 0.94716984, g: 0.3731952, b: 0.27700236, a: 0}
         key2: {r: 0, g: 0, b: 0, a: 1}
         key3: {r: 0, g: 0, b: 0, a: 1}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
         key6: {r: 0, g: 0, b: 0, a: 0}
         key7: {r: 0, g: 0, b: 0, a: 0}
-        ctime0: 1619
-        ctime1: 62374
+        ctime0: 0
+        ctime1: 55312
         ctime2: 0
         ctime3: 0
         ctime4: 0
@@ -11264,7 +11264,7 @@ ParticleSystem:
         atime6: 0
         atime7: 0
         m_Mode: 0
-        m_ColorSpace: -1
+        m_ColorSpace: 0
         m_NumColorKeys: 2
         m_NumAlphaKeys: 5
       minGradient:
@@ -14778,7 +14778,7 @@ GameObject:
   - component: {fileID: 3149512096840566352}
   - component: {fileID: 965090807081829516}
   m_Layer: 0
-  m_Name: vfx_fireball_ps
+  m_Name: fireball level 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14868,7 +14868,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.5
+  m_Radius: 0.3
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7254896623661050251
 GameObject:

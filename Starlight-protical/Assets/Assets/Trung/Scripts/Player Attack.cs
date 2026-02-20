@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using UnityEngine.EventSystems;
 public class PlayerAttack : MonoBehaviour
 {
     public PlayerInput playerInput;
@@ -17,6 +17,11 @@ public class PlayerAttack : MonoBehaviour
 
     void Update()
     {
+        if (EventSystem.current.IsPointerOverGameObject())
+        return; // Khóa input khi trên con trỏ chuột
+        if (playerInput.IsInputLocked) return; 
+
+        if (Time.timeScale == 0f) return; 
         if (isAttacking) return;
 
         HandleAttackInput();
