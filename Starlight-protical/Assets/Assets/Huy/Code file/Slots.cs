@@ -39,6 +39,12 @@ public class Slots : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoi
 
     public void UpdateSlots() //cập nhật hiển thị của slot dựa trên item và số lượng hiện tại
     {
+        if (imageIcon == null)
+        {
+            imageIcon = transform.GetChild(0).GetComponent<Image>(); //lấy component Image của con đầu tiên (icon)
+            textAmount = transform.GetChild(1).GetComponent<TextMeshProUGUI>(); //lấy component TextMeshProUGUI của con thứ hai (số lượng)
+        }
+
         if (item != null)
         {
             imageIcon.enabled = true; //hiển thị icon nếu có item

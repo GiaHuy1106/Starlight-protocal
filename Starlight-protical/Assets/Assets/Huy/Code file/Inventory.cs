@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Xml.Serialization;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +13,18 @@ public class Inventory : MonoBehaviour
 
     public GameObject inventorySlotsParent; //Panel chứa các slot trong inventory
     public Image IconDrag;
+    
+    public float pickupRange = 3f; //Khoảng cách tối đa để nhặt item, có thể điều chỉnh trong Inspector
+    private Item lookedAtItem;
+    public Material highlightMaterial;
+    private Material originalMaterial;
+    private Renderer lookedAtItemRenderer = null;
+
+    public GameObject itemDesciptionParent;
+    //public GameObject worldItemInfoPrefab;
+    public Image itemDescriptionIcon;
+    public TextMeshProUGUI itemDescriptionName;
+    public TextMeshProUGUI itemDescription;
 
     private List<Slots> inventorySlots = new List<Slots>(); //Danh sách các slot trong inventory, sẽ được khởi tạo từ các slot con của inventorySlotsPanel
     private List<Slots> allSlots = new List<Slots>(); //Danh sách tất cả các slot trong game, bao gồm cả các slot trong inventory và các slot khác (như slot của nhân vật, slot của cửa hàng, v.v.)
@@ -27,20 +41,30 @@ public class Inventory : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            Additem(BigPotion, 3);          
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            Additem(SmallPotion, 2);
-        }
+        //Test item 
+        testItem();
+        
+        DetecLookAtItem();
+        Pickup();
 
         StartDrag();
         UpdateItemDragPos();
         EndDrag();
+
+        UpdateItemDescrip();
     }
 
+    private void testItem()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            Additem(SmallPotion, 1); 
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            Additem(BigPotion, 1); 
+        }
+    }
     public void Additem (ItemObject ItemToAdd, int amount)
     {
         int remainingAmount = amount; //Số lượng còn lại cần thêm vào inventory, ban đầu bằng với số lượng muốn thêm
@@ -175,6 +199,64 @@ public class Inventory : MonoBehaviour
         if (isDragging)
         {
             IconDrag.transform.position = Input.mousePosition; //Cập nhật vị trí của icon theo con trỏ chuột khi đang kéo
+        }
+    }
+
+    private void Pickup()
+    {
+        if (lookedAtItemRenderer != null && Input.GetMouseButtonDown(0))
+        {
+            Item item = lookedAtItemRenderer.GetComponent<Item>();
+            if (item != null)
+            {
+                Additem(item.item, item.itemAmount); //Thêm item vào inventory với số lượng được chỉ định trong component Item của item đó
+                Destroy(item.gameObject); //Xóa item khỏi thế giới sau khi nhặt
+            }
+        }
+    }
+
+    private void DetecLookAtItem()
+    {
+        if (lookedAtItemRenderer != null) //Nếu đang có item được nhìn thấy trước đó, khôi phục vật liệu gốc của item đó
+        {
+            lookedAtItemRenderer.material = originalMaterial; //Khôi phục vật liệu gốc của item trước đó nếu có
+            lookedAtItemRenderer = null;
+            originalMaterial = null;
+        }
+
+        Ray ray = new Ray (Camera.main.transform.position, Camera.main.transform.forward); //Tạo một tia từ vị trí của camera theo hướng mà camera đang nhìn
+        if (Physics.Raycast(ray, out RaycastHit hit, pickupRange))
+        {
+            Item item = hit.collider.GetComponent<Item>(); //Kiểm tra xem tia có va chạm với một collider có component Item hay không
+            if (item != null)
+            {
+                Renderer renderer = item.GetComponent<Renderer>(); //Lưu renderer của item đang nhìn thấy để có thể thay đổi vật liệu khi highlight
+                if (renderer != null)
+                {
+                    originalMaterial = renderer.material; //Lưu vật liệu gốc của item để có thể khôi phục sau khi không còn nhìn thấy nữa
+                    renderer.material = highlightMaterial; //Thay đổi vật liệu của item thành highlight để làm nổi bật khi nhìn thấy
+                    lookedAtItemRenderer = renderer; //Lưu renderer của item đang nhìn thấy để có thể khôi phục sau này nếu cần
+                }
+            }
+        }
+    }
+
+    private void UpdateItemDescrip()
+    {
+        itemDesciptionParent.SetActive(false);
+        Slots hovered = GetHoveredSlot();
+        if (hovered != null)
+        {
+            ItemObject item = hovered.GetItem();
+            if (item != null)
+            {
+                itemDesciptionParent.SetActive(true);
+                itemDescriptionIcon.sprite = item.icon;
+                itemDescriptionName.text = item.itemName;
+                itemDescription.text = item.description;
+                return;
+            }
+            itemDesciptionParent.SetActive(false);
         }
     }
 }

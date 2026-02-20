@@ -24,7 +24,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 29427
+  controlID: 11847
   draggingID: 0
 --- !u!114 &2
 MonoBehaviour:
@@ -153,7 +153,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 29428
+  controlID: 11848
   draggingID: 0
 --- !u!114 &4
 MonoBehaviour:
@@ -179,7 +179,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 50}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 29411
+  controlID: 11809
   draggingID: 0
 --- !u!114 &5
 MonoBehaviour:
@@ -246,9 +246,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 5eaa0000
-      m_LastClickedID: 43614
-      m_ExpandedIDs: 02fbffff04fbffff54aa00005eaa000072aa0000
+      m_SelectedIDs: f2faffff
+      m_LastClickedID: -1294
+      m_ExpandedIDs: 3eb1ffffcabcffff02fbffff04fbffff70aa00008aaa0000bcaa0000ceaa0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -292,8 +292,8 @@ MonoBehaviour:
     y: 0
     width: 860
     height: 457.6
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 202, y: 226}
+  m_MaxSize: {x: 4002, y: 4026}
   m_ActualView: {fileID: 8}
   m_Panes:
   - {fileID: 8}
@@ -868,9 +868,9 @@ MonoBehaviour:
   m_AudioPlay: 0
   m_DebugDrawModesUseInteractiveLightBakingData: 0
   m_Position:
-    m_Target: {x: 988.6475, y: 626.74927, z: 2.0456686}
+    m_Target: {x: 514.6318, y: 700.1039, z: 8.637896}
     speed: 2
-    m_Value: {x: 988.6475, y: 626.74927, z: 2.0456686}
+    m_Value: {x: 514.6318, y: 700.1039, z: 8.637896}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -920,9 +920,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 896.8864
+    m_Target: 237.66255
     speed: 2
-    m_Value: 896.8864
+    m_Value: 237.66255
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -980,7 +980,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 50}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 29429
+  controlID: 11849
   draggingID: 0
 --- !u!114 &10
 MonoBehaviour:
@@ -1082,7 +1082,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/HuyPrefab
+    - Assets/Assets/Huy/Material
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
@@ -1092,16 +1092,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/HuyPrefab
+  - Assets/Assets/Huy/Material
   m_LastFoldersGridSize: 16
   m_LastProjectPath: D:\GitHub\Starlight-protocal\Starlight-protical
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 30.800018}
-    m_SelectedIDs: 3aad0000
-    m_LastClickedID: 44346
-    m_ExpandedIDs: 00000000ccac0000ceac0000d0ac000058af00005eaf000042c0000074c0000078c00000
+    scrollPos: {x: 0, y: 31}
+    m_SelectedIDs: 8eb60000
+    m_LastClickedID: 46734
+    m_ExpandedIDs: 000000009cad00009ead0000a0ad0000a2ad0000a4ad0000a6ad0000a8ad0000aaad000008ae0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1130,7 +1130,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000ccac0000ceac0000d0ac000058af00005eaf000042c0000074c0000078c00000
+    m_ExpandedIDs: 000000009cad00009ead0000a0ad0000a2ad0000a4ad0000a6ad0000a8ad0000aaad000008ae0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1156,8 +1156,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 5eaa0000
-    m_LastClickedInstanceID: 43614
+    m_SelectedInstanceIDs: f2faffff
+    m_LastClickedInstanceID: -1294
     m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: 86af0000
     m_RenameOverlay:
