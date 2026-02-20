@@ -47,7 +47,7 @@ public class ItemObject : ScriptableObject
 
     [Header("Stack & Economy")]
     public bool stackable = true;
-    public int maxStack;
+    public int maxStack = 1000;
     public int sellPrice;
 
     [Header("Combat / Effect")] //các chỉ số cộng thêm khi sử dụng item

@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 
-public class Slots : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class Slots : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerMoveHandler, IPointerExitHandler
 {
     public bool hovering;
 
@@ -95,4 +95,13 @@ public class Slots : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         hovering = false;
     }
 
+    public void OnPointerMove(PointerEventData eventData)
+    {
+        hovering = true;
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        hovering = false;
+    }
 }
