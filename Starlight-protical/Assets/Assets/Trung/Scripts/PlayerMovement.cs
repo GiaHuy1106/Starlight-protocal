@@ -24,7 +24,8 @@ public class PlayerMovement : MonoBehaviour
     private bool isDodging;
     //Animator
     public Animator playerAnimator; 
-    public int speedHash; 
+    public int moveXHash;
+    public int moveZHash;
     private float currentAnimSpeed;
     private float targetAnimSpeed;
 
@@ -36,8 +37,10 @@ public class PlayerMovement : MonoBehaviour
     { 
         cameraController = FindObjectOfType<PlayerCameraController>();
         //Khởi tạo Hash cho các trạng thái animation 
-        speedHash = Constant.SpeedHash;
-        playerAnimator.SetFloat(speedHash, 0f);
+        moveXHash = Constant.MoveXHash;
+        moveZHash = Constant.MoveZHash;
+        playerAnimator.SetFloat(moveXHash, 0f);
+        playerAnimator.SetFloat(moveZHash, 0f);
     } 
     // xử lý di chuyển trong FixedUpdate 
     void Update() 
@@ -94,6 +97,14 @@ public class PlayerMovement : MonoBehaviour
 
         // QUYẾT ĐỊNH TỐC ĐỘ WALK / RUN
         Vector3 moveDir = camForward * input.z + camRight * input.x;
+
+        // CHẶN S + A / S + D
+        if (input.z < 0 && Mathf.Abs(input.x) > 0.1f)
+        {
+            moveDir = camRight * input.x;
+        }
+
+        moveDir.Normalize();
         float speed = moveSpeed;
         if (playerInput.IsRunning())
         {
@@ -103,25 +114,14 @@ public class PlayerMovement : MonoBehaviour
         _movementVelocity.x = moveDir.x * speed;
         _movementVelocity.z = moveDir.z * speed;
 
-        //Xoay model theo camera
-        if (moveDir.sqrMagnitude > 0.01f)
-        {
-            // Smooth rotation (đẹp hơn)
-            Quaternion targetRot = Quaternion.LookRotation(moveDir);
-            playerModel.transform.rotation = Quaternion.Slerp(playerModel.transform.rotation, targetRot, 12f * Time.deltaTime);
-        }
-        Vector3 camForwardFlat = cam.forward;
-        camForwardFlat.y = 0f;
-        camForwardFlat.Normalize();
-        if (moveDir.sqrMagnitude > 0.01f)
-        {
-            Quaternion targetRot = Quaternion.LookRotation(moveDir);
-            playerModel.transform.rotation = Quaternion.Slerp(
-                playerModel.transform.rotation,
-                targetRot,
-                12f * Time.deltaTime
-            );
+        // Luôn nhìn theo hướng camera
+        Vector3 lookDir = camForward;
 
+        if (lookDir.sqrMagnitude > 0.01f)
+        {
+            Quaternion targetRot = Quaternion.LookRotation(lookDir);
+            playerModel.transform.rotation =
+                Quaternion.Slerp(playerModel.transform.rotation, targetRot, 12f * Time.deltaTime);
         }
     }
 
@@ -146,19 +146,36 @@ public class PlayerMovement : MonoBehaviour
     }
     void UpdateAnimanator()
     {
-        float inputMagnitude = playerInput.GetInputMagnitude();
-        if (inputMagnitude > 0.01f)
-        {
-            targetAnimSpeed = playerInput.IsRunning() ? 1f : 0.5f;
-        }
-        else
-        {
-            targetAnimSpeed = 0f;
-        }
-        float smooth = targetAnimSpeed > currentAnimSpeed ? acceleration : deceleration;
-        currentAnimSpeed = Mathf.MoveTowards(currentAnimSpeed, targetAnimSpeed, smooth * Time.deltaTime);
+        Transform cam = Camera.main.transform;
+        Vector3 camForward = cam.forward;
+        Vector3 camRight = cam.right;
+        camForward.y = 0;
+        camRight.y = 0;
+        camForward.Normalize();
+        camRight.Normalize();
+        Vector3 velocity = new Vector3(_movementVelocity.x, 0, _movementVelocity.z);
+        // chuyển velocity sang local camera space
+        float currentSpeed = playerInput.IsRunning() ? moveSpeed * runMultiplier : moveSpeed;
+        float z = Vector3.Dot(velocity.normalized, camForward);
+        float x = Vector3.Dot(velocity.normalized, camRight);
 
-        playerAnimator.SetFloat(speedHash, currentAnimSpeed);
+        Vector2 input = new Vector2(x, z);
+        if (input.magnitude > 0.01f)
+        {
+            input.Normalize(); // luôn giữ tốc độ animation = 1
+        }
+        // ép tốc độ di chuyển chéo WA, WD = 1, không có là lun di chuyển tốc độ thành 0.7 cảm giác như slow-motion
+        input.x = Mathf.Round(input.x);
+        input.y = Mathf.Round(input.y);
+        if (playerInput.IsRunning())
+        {
+            input *= 2f;
+        }
+        float smoothX = Mathf.Lerp(playerAnimator.GetFloat(moveXHash), input.x, Time.deltaTime * 10f);
+        float smoothZ = Mathf.Lerp(playerAnimator.GetFloat(moveZHash), input.y, Time.deltaTime * acceleration);
+
+        playerAnimator.SetFloat(moveXHash, smoothX);
+        playerAnimator.SetFloat(moveZHash, smoothZ);
     }
     // hàm để nhân vật khi nhảy lên
     void HandleJump()

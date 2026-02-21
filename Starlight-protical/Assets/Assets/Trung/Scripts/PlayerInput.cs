@@ -20,14 +20,15 @@ public class PlayerInput : MonoBehaviour
             verticalInput = 0;
             return;
         }
-        horizontalInput = Input.GetAxis("Horizontal");
-        verticalInput   = Input.GetAxis("Vertical");  
+        horizontalInput = Input.GetAxisRaw("Horizontal");
+        verticalInput   = Input.GetAxisRaw("Vertical");  
     }
     //Độ mạnh input (0 -> 1)
     public float GetInputMagnitude()
     {
         Vector2 input = new Vector2(horizontalInput, verticalInput);
-        return Mathf.Clamp01(input.magnitude);
+        input = Vector2.ClampMagnitude(input, 1f);
+        return input.magnitude;
     }
     // Nút chạy
     public bool IsRunning() 
