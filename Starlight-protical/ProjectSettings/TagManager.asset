@@ -9,14 +9,14 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Ground
+  - Player
   - Water
   - UI
-  - Enemy
-  - Player
-  - Avatar
-  - MagicWand
-  - PlayerIcon
+  - 
+  - 
+  - 
+  - 
+  - 
   - 
   - 
   - 
@@ -41,12 +41,6 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
-    locked: 0
-  - name: Skill
-    uniqueID: 1392209327
-    locked: 0
-  - name: Effect
-    uniqueID: 624410659
     locked: 0
   m_RenderingLayers:
   - Default
