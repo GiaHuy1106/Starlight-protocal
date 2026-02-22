@@ -6,13 +6,13 @@ public class PlayerAttack : MonoBehaviour
     public Animator playerAnimator;
     public PlayerSkill playerSkill;
     private int attackHash;
-    private int skillHash;
+    private int specialHash;
     private bool isAttacking;
 
     void Start()
     {
         attackHash = Constant.AttackHash;
-        skillHash  = Constant.SkillHash;
+        specialHash = Constant.SkillHash;
     }
 
     void Update()
@@ -20,7 +20,7 @@ public class PlayerAttack : MonoBehaviour
         if (EventSystem.current.IsPointerOverGameObject())
         return; // Khóa input khi trên con trỏ chuột
         if (playerInput.IsInputLocked) return; 
-
+        if (playerSkill.IsAiming) return;
         if (Time.timeScale == 0f) return; 
         if (isAttacking) return;
 
@@ -34,10 +34,6 @@ public class PlayerAttack : MonoBehaviour
         if (playerInput.IsAttacking() && playerSkill.IsBasicReady)
         {
             StartAttack(attackHash);
-        }
-        else if (playerInput.IsSpecialAttacking() && playerSkill.IsSpecialReady) 
-        {
-            StartAttack(skillHash);
         }
     }
 
@@ -54,5 +50,13 @@ public class PlayerAttack : MonoBehaviour
     {
         isAttacking = false;
         playerInput.SetInputLock(false);
+    }
+    public void StartSpecialAttack()
+    {
+        isAttacking = true;
+
+        playerInput.SetInputLock(true);
+
+        playerAnimator.SetTrigger(specialHash);
     }
 }

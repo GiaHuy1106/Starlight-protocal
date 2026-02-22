@@ -60,15 +60,27 @@ public class PlayerInput : MonoBehaviour
         IsInputLocked = value;
     }
     // Nhấn chuột trái xài basic attack
-    public bool IsAttacking() 
+    public bool IsAttacking(bool block = false) 
     {
         if (IsInputLocked) return false;
+        if (block) return false;
         return Input.GetMouseButtonDown(0);
     }
     // Nhấn chuột phái xài special attack
-    public bool IsSpecialAttacking() 
+
+    public bool IsAimSkill() // Dùng để nhắm kỹ năng special
     {
         if (IsInputLocked) return false;
-        return Input.GetMouseButtonDown(1);
-    }   
+        return Input.GetKeyDown(KeyCode.R);
+    }
+    public bool IsConfirmSkill() // Dùng để phóng kỹ năng special
+    {
+        
+        return Input.GetMouseButtonDown(0);
+    }
+    public bool IsCancelSkill() // Dùng để huy kỹ năng special
+    {
+
+        return Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.Escape);
+    }
 }

@@ -1,10 +1,12 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEditor.VersionControl;
 
 public class PlayerSkill : MonoBehaviour
 {
     public PlayerStats playerStats;
+    public PlayerAttack playerAttack;
 
     [Header("Input")]
     public PlayerInput playerInput;
@@ -43,32 +45,67 @@ public class PlayerSkill : MonoBehaviour
     [Header("Skill Icon")]
     public Image specialIcon;
     public float disableAlpha = 0.3f; // 
+    [Header("Meteor Range")]
+    public float meteorRange = 8f;
+    public float rangeCircleScaleFactor = 0.14f;
+    [Header("Indicator")]
+    public GameObject rangeCirclePrefab;
+    public GameObject targetIndicatorPrefab;
+    GameObject rangeCircle;
+    GameObject targetIndicator;
+    public bool isAimingSkill; // nút nhắm kỹ năng special
+    
+    void Start()
+    {
+        isAimingSkill = false;
+    }
     void Update()
     {
         UpdateBasicCooldown();
         UpdateSpecialCooldownUI();
         UpdateBasicCooldownUI();
         UpdateSpecialIconState();
+        HandleSkillInput();
     }
     public void CastSpecial()
     {
-        if (Time.timeScale == 0f) return;
-        // cooldown
+         if (!isAimingSkill) return;
+        if (targetIndicator == null) return;
+
         if (!IsSpecialReady) return;
 
-        // thiếu mana
-        if (playerStats.CurrentMana < specialManaCost) return;
-        // trừ mana
+        if (playerStats.CurrentMana < specialManaCost)
+        {
+            UIMessage.Instance.Show("Not enough mana");
+            return;
+        }
+
         playerStats.UseMana(specialManaCost);
 
-        Vector3 spawnPos = transform.position + transform.forward * specialDistance;
+        Vector3 spawnPos = targetIndicator.transform.position;
 
-        GameObject go = Instantiate(specialPrefab, spawnPos, Quaternion.identity);
+        Vector3 dir = spawnPos - transform.position;
+        dir.y = 0;
 
-        MeterorSkillDamage meteor = go.GetComponent<MeterorSkillDamage>();
-        meteor.damage = playerStats.GetSpecialDamage();
+        if (dir != Vector3.zero)
+            transform.rotation = Quaternion.LookRotation(dir);
+
+        // khóa input trong lúc cast
+        playerInput.SetInputLock(true);
+
+        playerAttack.StartSpecialAttack();
+    }
+        public void SpawnSpecial()
+    {
+        if (targetIndicator == null) return;
+
+        Vector3 spawnPos = targetIndicator.transform.position;
+
+        Instantiate(specialPrefab, spawnPos, Quaternion.identity);
 
         cooldownTimer = specialCooldown;
+
+        StopAim();
     }
 
     // Cập nhật trạng thái icon kỹ năng đặc biệt
@@ -134,6 +171,7 @@ public class PlayerSkill : MonoBehaviour
         basicCooldownTimer = basicCooldown;
     }
 
+
     void UpdateBasicCooldown()
     {
         if (basicCooldownTimer > 0f)
@@ -161,6 +199,82 @@ public class PlayerSkill : MonoBehaviour
         else
         {
             specialcooldownMask.fillAmount = 0f;
+        }
+    }
+
+    void HandleSkillInput()
+    {
+        // Bắt đầu aim
+        if (!isAimingSkill)
+        {
+            if (playerInput.IsAimSkill() && IsSpecialReady)
+            {
+                StartAim();
+            }
+            return;
+        }
+        // đang aim
+        if (playerInput.IsConfirmSkill())
+        {
+            CastSpecial();
+        }
+        if (playerInput.IsCancelSkill())
+        {
+            StopAim();
+        }
+    }
+    void StartAim()
+    {
+        // kiểm tra mana trước khi cho aim
+        if (playerStats.CurrentMana < specialManaCost)
+        {
+            UIMessage.Instance.Show("Not enough mana");
+            return;
+        }
+        isAimingSkill = true;
+        playerInput.SetInputLock(true);
+        rangeCircle = Instantiate(rangeCirclePrefab, transform.position, Quaternion.Euler(90f, 0f, 0f));
+        rangeCircle.transform.localScale = Vector3.one * meteorRange * rangeCircleScaleFactor;
+
+        targetIndicator = Instantiate(targetIndicatorPrefab);
+    }
+
+    // bật indicator ở đây nếu có
+    void StopAim()
+    {
+        isAimingSkill = false;
+        if (rangeCircle) Destroy(rangeCircle);
+        if (targetIndicator) Destroy(targetIndicator);
+    }
+    public bool IsAiming => isAimingSkill;
+    void LateUpdate()
+    {
+        if (!isAimingSkill) return;
+
+        UpdateIndicatorPosition();
+
+        if (rangeCircle != null)
+        rangeCircle.transform.position = transform.position;
+    }
+    void UpdateIndicatorPosition()
+    {
+        if (targetIndicator == null) return;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Plane plane = new Plane(Vector3.up, transform.position);
+
+        if (plane.Raycast(ray, out float distance))
+        {
+            Vector3 point = ray.GetPoint(distance);
+
+            Vector3 dir = point - transform.position;
+            dir.y = 0;
+
+            // Giới hạn trong bán kính
+            dir = Vector3.ClampMagnitude(dir, meteorRange);
+
+            Vector3 finalPos = transform.position + dir;
+
+            targetIndicator.transform.position = finalPos;
         }
     }
 }
