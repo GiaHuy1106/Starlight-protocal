@@ -6,11 +6,9 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Inventory : MonoBehaviour
+public class InventorySystem : MonoBehaviour
 {
-    //Test item
-    // public ItemObject BigPotion;
-    // public ItemObject SmallPotion;
+    public static InventorySystem Instance { get; private set;}
 
     //Inventory
     public GameObject inventorySlotsParent; //Panel chứa các slot trong inventory
@@ -30,21 +28,16 @@ public class Inventory : MonoBehaviour
     public TextMeshProUGUI itemDescriptionName;
     public TextMeshProUGUI itemDescription;
 
-    //Crafting
-    public List<CraftingRec> craftingRecipes; //Danh sách các công thức chế tạo, có thể được khởi tạo từ các ScriptableObject CraftingRec
-    public Transform craftingGrid;
-    public GameObject craftingBTN;
-    public GameObject itemNeededUIPrefab;
-
     //Danh sách slot
-    private List<Slots> inventorySlots = new List<Slots>(); //Danh sách các slot trong inventory, sẽ được khởi tạo từ các slot con của inventorySlotsPanel
-    private List<Slots> allSlots = new List<Slots>(); //Danh sách tất cả các slot trong game, bao gồm cả các slot trong inventory và các slot khác (như slot của nhân vật, slot của cửa hàng, v.v.)
+    public List<Slots> inventorySlots = new List<Slots>(); //Danh sách các slot trong inventory, sẽ được khởi tạo từ các slot con của inventorySlotsPanel
+    public List<Slots> allSlots = new List<Slots>(); //Danh sách tất cả các slot trong game, bao gồm cả các slot trong inventory và các slot khác (như slot của nhân vật, slot của cửa hàng, v.v.)
 
     private Slots draggedSlot = null; //Biến tạm để lưu slot đang được kéo thả, sẽ được sử dụng trong các sự kiện kéo thả để xác định slot nguồn và slot đích
     private bool isDragging = false; //Kiểm tra xem có đang kéo item hay không
 
     void Awake()
     {
+        Instance = this;
         inventorySlots.AddRange(inventorySlotsParent.GetComponentsInChildren<Slots>()); //Lấy tất cả các slot con của inventorySlotsPanel và thêm vào danh sách inventorySlots
         allSlots.AddRange(inventorySlots); //Thêm tất cả các slot trong inventory vào danh sách allSlots
     }
@@ -65,18 +58,6 @@ public class Inventory : MonoBehaviour
         UpdateItemDescrip();
     }
 
-    /*private void testItem()
-    {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            Additem(SmallPotion, 1); 
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            Additem(BigPotion, 1); 
-        }
-    }
-    */
 
     public void Additem (ItemObject ItemToAdd, int amount)
     {
@@ -100,7 +81,7 @@ public class Inventory : MonoBehaviour
 
                     if(remainingAmount <= 0)
                     {
-                        populateCraftingGrid();
+                        CraftingSystem.instance.populateCraftingGrid();
                         return; //Nếu đã thêm đủ số lượng cần thiết vào inventory thì dừng việc tìm kiếm và thêm vào các slot khác
                     }
                 }
@@ -118,7 +99,7 @@ public class Inventory : MonoBehaviour
 
                 if(remainingAmount <= 0)
                 {
-                    populateCraftingGrid();
+                    CraftingSystem.instance.populateCraftingGrid();
                     return; //Nếu đã thêm đủ số lượng cần thiết vào inventory thì dừng việc tìm kiếm và thêm vào các slot khác
                 }
             }
@@ -129,7 +110,7 @@ public class Inventory : MonoBehaviour
         {
             Debug.LogWarning("Not enough space in inventory to add all items. Remaining amount: " + remainingAmount + " of " + ItemToAdd.name);
         }
-        populateCraftingGrid();
+        CraftingSystem.instance.populateCraftingGrid();
     }
 
     public void StartDrag() //Bắt đầu kéo item khi nhấn chuột trái vào slot có item, sẽ được gọi trong sự kiện OnMouseDown của slot
@@ -229,7 +210,7 @@ public class Inventory : MonoBehaviour
 
     private void Pickup()
     {
-        if (lookedAtItemRenderer != null && Input.GetMouseButtonDown(0))
+        if (lookedAtItemRenderer != null && Input.GetKeyDown(KeyCode.E))
         {
             Item item = lookedAtItemRenderer.GetComponent<Item>();
             if (item != null)
@@ -283,89 +264,5 @@ public class Inventory : MonoBehaviour
             }
             itemDesciptionParent.SetActive(false);
         }
-    }
-
-    private void populateCraftingGrid()
-    {
-        //Xóa tất cả các slot con hiện có trong craftingGrid trước khi tạo lại dựa trên công thức chế tạo hiện tại
-        for (int i = 0; i < craftingGrid.childCount; i++)
-        {
-            Destroy(craftingGrid.GetChild(i).gameObject);
-        }
-
-        //Dựa trên công thức chế tạo hiện tại, tạo các slot mới trong craftingGrid và đặt item tương ứng vào mỗi slot
-        foreach (CraftingRec recipe in craftingRecipes)
-        {
-            GameObject btnObj = Instantiate(craftingBTN, craftingGrid); //Tạo một slot mới từ prefab craftingBTN và đặt nó làm con của craftingGrid
-
-            Image img = btnObj.transform.GetChild(0).GetComponent<Image>(); //Lấy component Image của con đầu tiên (icon) của slot mới
-            img.sprite = recipe.resultItem.icon; //Đặt icon của item kết quả vào slot mới
-
-            Button btn = btnObj.GetComponent<Button>(); //Lấy component Button của slot mới để có thể thêm sự kiện khi nhấn vào slot đó
-
-            btn.interactable = CanCraft(recipe);
-            btn.onClick.RemoveAllListeners();
-            btn.onClick.AddListener(() => CraftItem(recipe)); //Thêm sự kiện khi nhấn vào slot đó, sẽ gọi hàm CraftItem
-
-            foreach (Ingredient ingredient in recipe.ingredients)
-            {
-                GameObject neededItemUI = Instantiate(itemNeededUIPrefab, btnObj.transform.GetChild(1));
-                neededItemUI.GetComponent<Image>().sprite = ingredient.item.icon;
-                neededItemUI.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "x" + ingredient.amount.ToString(); //Hiển thị số lượng nguyên liệu cần thiết trên UI của slot đó
-            }
-        }
-    }
-
-    public void CraftItem(CraftingRec recipe)
-    {
-        if (!CanCraft(recipe)) return;
-        
-        ConsumIngredients(recipe);
-        Additem(recipe.resultItem, recipe.amount);
-
-        populateCraftingGrid(); //Cập nhật lại crafting grid sau khi chế tạo để cập nhật trạng thái có thể chế tạo của các công thức khác
-    }
-
-    private void ConsumIngredients(CraftingRec recipe)
-    {
-        foreach ( Ingredient ingredient in recipe.ingredients)
-        {
-            int remaining = ingredient.amount;
-
-            foreach (Slots slot in allSlots)
-            {
-                if (!slot.HasItem()) continue;
-                if (slot.GetItem() != ingredient.item) continue;
-                
-                int take = Mathf.Min(slot.GetAmount(), remaining);
-                slot.SetItem(slot.GetItem(), slot.GetAmount() - take);
-
-                if (slot.GetAmount() <= 0) slot.ClearSlots();
-
-                remaining -= take; //Cập nhật số lượng còn lại cần tiêu thụ sau khi đã lấy từ slot này
-                if (remaining <= 0) break; //Nếu đã tiêu thụ đủ số lượng cần thiết thì dừng việc tìm kiếm và tiêu thụ từ các slot khác
-
-            }
-        }
-    }
-
-    public bool CanCraft(CraftingRec recipe)
-    {
-        foreach (Ingredient ingredient in recipe.ingredients)
-        {
-            int totalFound = 0;
-
-            foreach (Slots slot in allSlots)
-            {
-                if (slot.HasItem() && slot.GetItem() == ingredient.item)
-                {
-                    totalFound += slot.GetAmount(); //Tính tổng số lượng của item nguyên liệu hiện có trong tất cả các slot
-                }
-            }
-
-            if (totalFound < ingredient.amount) return false; //Nếu tổng số lượng của item nguyên liệu hiện có nhỏ hơn số lượng cần thiết thì không thể chế tạo được
-        }
-
-        return true; //Nếu đã kiểm tra tất cả nguyên liệu và đều đủ số lượng cần thiết thì có thể chế tạo được
     }
 }
