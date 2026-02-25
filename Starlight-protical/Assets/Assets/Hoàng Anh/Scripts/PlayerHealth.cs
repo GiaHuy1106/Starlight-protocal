@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UnityEditor.Experimental.GraphView;
+using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -9,9 +10,10 @@ public class PlayerHealth : MonoBehaviour
         currentHealth = maxHealth;
     }
     public void TakeDamage(int damage)
-    {
-        currentHealth -= damage;
-        Debug.Log("Player bị trúng đòn! Máu còn: " + currentHealth);
+    {      
+        Debug.Log("Damage nhận: " + damage);
+        currentHealth -= damage;      
+        Debug.Log("Máu còn: " + currentHealth);
         if (currentHealth <= 0)
         {
             Die();

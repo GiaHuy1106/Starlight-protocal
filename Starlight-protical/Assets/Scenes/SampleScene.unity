@@ -405,9 +405,9 @@ GameObject:
   - component: {fileID: 423048823}
   - component: {fileID: 423048822}
   - component: {fileID: 423048821}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Plane
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -869,6 +869,37 @@ MonoBehaviour:
   attackDuration: 1.2
   attackRange: 15
   attackCooldown: 2
+--- !u!1 &772995839
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 772995840}
+  m_Layer: 0
+  m_Name: firePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &772995840
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 772995839}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -5.0300026, y: 9.63, z: 8.65}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1229027322}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1229027321
 GameObject:
   m_ObjectHideFlags: 0
@@ -897,10 +928,11 @@ Transform:
   m_GameObject: {fileID: 1229027321}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -31.8, y: 0, z: 0}
+  m_LocalPosition: {x: -62, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 772995840}
   - {fileID: 397182608}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -914,7 +946,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: -1372625422
   m_Radius: 4.5
-  m_Speed: 9
+  m_Speed: 15
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -938,16 +970,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7f69bc31606d8347b4c509e664463e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHP: 300
   playerTargetTransform: {fileID: 2072557640}
   bossNavMeshAgent: {fileID: 1229027323}
   bossAnimator: {fileID: 1229027325}
-  weaponHitBox: {fileID: 1653113579}
-  patrolRadius: 100
+  projectilePrefab: {fileID: 5370883666413489655, guid: 537691027713e124d85794ce1a3979d7, type: 3}
+  firePoint: {fileID: 772995840}
+  warningZone: {fileID: 8344833059453742285, guid: 49d0b3b453ab06b4e87f46728b8ddb9f, type: 3}
+  skill2Cooldown: 15
+  skill2Timer: 0
+  shieldPrefab: {fileID: 1662567779382470279, guid: 8e91262c02d5284499dc8ad25762371c, type: 3}
+  shieldDuration: 10
+  shieldCooldown: 20
+  slowPercent: 0.5
+  patrolRadius: 120
   waitTimeAtPoint: 3
-  chaseRange: 80
-  returnRange: 70
+  detectRange: 100
+  returnRange: 110
   attackDuration: 1.2
-  attackRange: 15
+  attackRange: 60
   attackCooldown: 2
 --- !u!95 &1229027325
 Animator:
@@ -1110,20 +1151,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.89, y: 0.57, z: -0.53}
   m_Center: {x: -0.4800001, y: 0.0030858228, z: 0.9630591}
---- !u!114 &1653113580
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1653113576}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16214658f9c164b4a82a7e82bd6ad4da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damageAmount: 20
-  hasHit: 0
 --- !u!1001 &1786915018
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1150,7 +1177,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5030645071561653626, guid: 379cfb6848589a948b84691a4df3bed9, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5030645071562137762, guid: 379cfb6848589a948b84691a4df3bed9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1396,9 +1423,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5030645071561653626, guid: 379cfb6848589a948b84691a4df3bed9, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1653113579}
-    - targetCorrespondingSourceObject: {fileID: 5030645071561653626, guid: 379cfb6848589a948b84691a4df3bed9, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1653113580}
   m_SourcePrefab: {fileID: 100100000, guid: 379cfb6848589a948b84691a4df3bed9, type: 3}
 --- !u!1001 &2061002257
 PrefabInstance:
@@ -1495,7 +1519,6 @@ GameObject:
   - component: {fileID: 2072557640}
   - component: {fileID: 2072557639}
   - component: {fileID: 2072557638}
-  - component: {fileID: 2072557637}
   - component: {fileID: 2072557641}
   - component: {fileID: 2072557643}
   - component: {fileID: 2072557642}
@@ -1507,29 +1530,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!136 &2072557637
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2072557636}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &2072557638
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1592,7 +1592,7 @@ Transform:
   m_GameObject: {fileID: 2072557636}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.7, y: 5.091093, z: 11.8}
+  m_LocalPosition: {x: 43.4, y: 5, z: 0}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1612,7 +1612,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 522ce5d3d1982024298a8f6f8b68d468, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  maxHealth: 1000
 --- !u!114 &2072557642
 MonoBehaviour:
   m_ObjectHideFlags: 0

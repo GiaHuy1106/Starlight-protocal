@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.AI;
 
 public enum Boss01State
@@ -10,24 +11,49 @@ public enum Boss01State
 }
 public class Boss01 : MonoBehaviour
 {
+    [Header("Health Settings")]
+    public float maxHP = 300f;
+    private float currentHP;
     [Header("References")]
     public Transform playerTargetTransform;
     public NavMeshAgent bossNavMeshAgent;
     public Animator bossAnimator;
-    public Collider weaponHitBox;
+
+    [Header("Projectile Settings")]
+    public GameObject projectilePrefab;   // Prefab của đạn bắn ra
+    public Transform firePoint;          // Điểm bắn đạn ra
+
+    [Header("Skill 2 Settings")]
+    //public ObjectPool icePool;   // Pool để spawn vùng cảnh báo
+    public GameObject warningZone;
+    public float skill2Cooldown = 20f;   // Thời gian hồi chiêu kỹ năng 2
+    public float skill2Timer;              // Bộ đếm thời gian hồi chiêu kỹ năng 2
+
+    [Header("Passive Shield Settings")]
+    public GameObject shieldPrefab;
+    public float shieldDuration = 5f;    // Thời gian tồn tại của lá chắn
+    public float shieldCooldown = 25f;   // Thời gian hồi chiêu lá chắn
+    public float slowPercent = 0.5f;       // Phần trăm giảm tốc của lá chắn
+
+    private GameObject currentShield;        // Tham chiếu đến lá chắn đang hoạt động (nếu có)
+    private float shieldCycleTimer;              // Bộ đếm thời gian hồi chiêu lá chắn
+    private bool isShieldActive;           // Trạng thái lá chắn có đang hoạt động hay không
 
     [Header("Patrol Settings")]
     public float patrolRadius = 10f;    // Bán kính đi tuần quanh vị trí ban đầu
     public float waitTimeAtPoint = 2f;  // Thời gian đứng chờ trước khi đi tiếp
 
     [Header("Follow / Return  Settings")]
-    public float chaseRange = 8f;       // Khoảng cách phát hiện player
+    public float detectRange = 12f;    // Khoảng cách để boss phát hiện player (có thể lớn hơn chaseRange để tránh tình trạng boss mất dấu player quá nhanh)  
     public float returnRange = 15f;     // Đi quá xa vị trí ban đầu thì quay về
     public float attackDuration = 1.2f;    // Thời gian thực hiện 1 đòn tấn công
 
     [Header("Attack Settings")]
     public float attackRange = 2f;     // Khoảng cách tấn công
     public float attackCooldown = 2f;  // Thời gian giữa các lần tấn công
+
+    
+    private bool hasDetectedPlayer;     // Đã phát hiện player chưa
 
     private float attackTimer;         // Bộ đếm thời gian giữa các lần tấn công
     private bool isAttacking;        // Trạng thái tấn công
@@ -42,30 +68,71 @@ public class Boss01 : MonoBehaviour
     {
         //bossNavMeshAgent.SetDestination(playerTargetTransform.position);
         //bossSpeedHash = Constants.speedBoss;
-
+        currentHP = maxHP;
         // Lưu vị trí ban đầu để làm mốc đi tuần & quay về
         spawnpoint = transform.position;
         // Chọn điểm đi tuần đầu tiên
         SetNewPatrolPoint();
 
-        weaponHitBox.enabled = false;
-
         bossNavMeshAgent.stoppingDistance = attackRange;
         bossNavMeshAgent.angularSpeed = 360f;
         bossNavMeshAgent.autoBraking = true;
+        shieldCycleTimer = shieldCooldown; // Cho phép kích hoạt lá chắn ngay khi bắt đầu
     }
     void Update()
     {
         if (playerTargetTransform == null) return;
 
         float distanceToPlayer = Vector3.Distance(transform.position, playerTargetTransform.position);
+
+
+        if (distanceToPlayer <= detectRange)
+        {
+            if (!hasDetectedPlayer)
+            {
+
+                hasDetectedPlayer = true;
+                //Reset coooldown khi vua phat hien player
+                skill2Timer = 0f;
+                shieldCycleTimer = 0f;
+                
+                currentState = Boss01State.FollowingPlayer;
+
+                Debug.Log("Boss Detected Player!");
+            }
+        }
+        else
+        {
+            if (hasDetectedPlayer)
+            {
+                hasDetectedPlayer = false;
+                skill2Timer = 0f;
+                shieldCycleTimer = 0f;
+                currentState = Boss01State.Returning;
+                Debug.Log("Boss Lost Player!");
+            }
+
+        }
+       
         float distanceToHome = Vector3.Distance(transform.position, spawnpoint);
 
         float speed = bossNavMeshAgent.velocity.magnitude;
         bossAnimator.SetFloat("Speed", speed, 0.1f, Time.deltaTime);
 
         attackTimer += Time.deltaTime;
+        if(hasDetectedPlayer)
+        {
+            skill2Timer += Time.deltaTime;
+            shieldCycleTimer += Time.deltaTime;
+        }
 
+        // Kiểm tra điều kiện kích hoạt lá chắn    
+        if (hasDetectedPlayer && !isShieldActive && shieldCycleTimer >= shieldCooldown)
+        {
+            ActivateShield();
+            shieldCycleTimer = 0f; // Reset bộ đếm để bắt đầu chu kỳ mới
+        }   
+        
         switch (currentState)
         {
             case Boss01State.Patrolling:
@@ -90,11 +157,11 @@ public class Boss01 : MonoBehaviour
     void HandlePatrol(float distanceToPlayer)
     {
         //Nếu phát hiện player trong phạm vi → chuyển trạng thái theo đuổi
-        if (distanceToPlayer <= chaseRange)
-        {
-            currentState = Boss01State.FollowingPlayer;
-            return;
-        }
+        //if (distanceToPlayer <= chaseRange)
+        //{
+            //currentState = Boss01State.FollowingPlayer;
+           // return;
+       // }
         if (!bossNavMeshAgent.pathPending && bossNavMeshAgent.remainingDistance <= bossNavMeshAgent.stoppingDistance)
         {
             // Đứng chờ 1 chút cho tự nhiên
@@ -128,6 +195,14 @@ public class Boss01 : MonoBehaviour
     {
         // Nếu player trong tầm đánh
         bossNavMeshAgent.isStopped = false;
+
+        //
+        if (hasDetectedPlayer && skill2Timer >= skill2Cooldown)
+        {
+            UseSkill2();
+            skill2Timer = 0f;
+        }
+
         if (!isAttacking && distanceToPlayer <= attackRange + 0.1f && attackTimer >= attackCooldown)
         {
             StartAttack();
@@ -141,18 +216,17 @@ public class Boss01 : MonoBehaviour
             return;
         }
         // Nếu player chạy mất → quay lại đi tuần
-        if (distanceToPlayer > chaseRange + 2f)
-        {
-            currentState = Boss01State.Patrolling;
-            SetNewPatrolPoint();
-            return;
-        }
+        //if (distanceToPlayer > chaseRange + 2f)
+        //{
+           // currentState = Boss01State.Patrolling;
+           // SetNewPatrolPoint();
+           // return;
+       // }
         // Di chuyển liên tục về phía player
         if (!bossNavMeshAgent.hasPath || Vector3.Distance(bossNavMeshAgent.destination, playerTargetTransform.position) > 0.5f)
         {
             bossNavMeshAgent.SetDestination(playerTargetTransform.position);
         }
-
     }
 
     // Hàm bắt đầu trạng thái tấn công của Boss
@@ -207,18 +281,90 @@ public class Boss01 : MonoBehaviour
         isAttacking = false;
 
         bossAnimator.SetBool("isAttacking", false);
-        weaponHitBox.enabled = false;
 
         bossNavMeshAgent.updateRotation = true;
-        //bossNavMeshAgent.updatePosition = true;
         bossNavMeshAgent.isStopped = false;
 
         currentState = Boss01State.FollowingPlayer;
     }
 
+    //Spawn đạn từ animation event
+    public void ShootProjectile()
+    {
+        if (projectilePrefab == null || firePoint == null) return;
+
+        GameObject proj = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
+
+        BossProjectile projectile = proj.GetComponent<BossProjectile>();
+        projectile.Initialize(playerTargetTransform);
+
+    }
+    void UseSkill2()
+    {
+        if (warningZone == null || playerTargetTransform == null) return;
+
+        //
+        bossNavMeshAgent.isStopped = true;
+        //xoay mặt về hướng player
+        Vector3 lookDir = playerTargetTransform.position - transform.position;
+        lookDir.y = 0;
+
+        if (lookDir != Vector3.zero)
+        {
+            transform.rotation = Quaternion.LookRotation(lookDir);
+        }
+        //Spawn vùng cảnh báo quanh player
+        for (int i = 0; i < 8; i++)
+        {
+            Vector3 randomOffset = new Vector3(
+                Random.Range(-60f, 60f),
+                0,
+                Random.Range(-60f, 60f)
+                );
+            Vector3 targetPos = playerTargetTransform.position + randomOffset;
+            Instantiate(warningZone, targetPos, Quaternion.identity);
+            //GameObject ice = icePool.GetObject();
+            //ice.transform.position = targetPos;
+            //ice.transform.rotation = Quaternion.identity;
+        }
+        bossNavMeshAgent.isStopped = false;
+    }
+    void ActivateShield()
+    {
+        isShieldActive = true;
+
+        currentShield = Instantiate(shieldPrefab, transform.position, Quaternion.identity);
+        currentShield.transform.SetParent(transform);
+        currentShield.transform.localPosition = Vector3.zero;
+        //currentShield.transform.localRotation = Quaternion.identity;
+        //currentShield.transform.localScale = Vector3.one;
+
+        shieldCycleTimer = 0f;
+
+        StartCoroutine(ShieldDurationCoroutine());
+
+        Debug.Log("Passive Shield Activated!");
+    }
+    IEnumerator ShieldDurationCoroutine()
+    {
+        yield return new WaitForSeconds(shieldDuration);
+
+        DeactivateShield();
+    }
+    void DeactivateShield()
+    {
+        isShieldActive = false;
+
+        if (currentShield != null)
+            Destroy(currentShield);
+
+        shieldCycleTimer = 0f; // BẮT ĐẦU 30s cooldown từ đây
+
+        Debug.Log("Shield Ended - Cooldown Started");
+    }
     // RETURNING
     void HandleReturning()
-    {
+     {
         // Quay về vị trí ban đầu
         bossNavMeshAgent.SetDestination(spawnpoint);
         // Nếu đã về tới nơi → tiếp tục đi tuần
@@ -227,16 +373,35 @@ public class Boss01 : MonoBehaviour
             currentState = Boss01State.Patrolling;
             SetNewPatrolPoint();
         }
-    }
-    public void EnableWeaponHitBox()
+     }
+    public void TakeDamege(float damage, GameObject attacker)
     {
-        weaponHitBox.enabled = true;
+        currentHP -= damage;
+        Debug.Log("Boss HP: " + currentHP + " / " + maxHP);
+        //Nếu shield đang bật => làm chậm player
+        if (isShieldActive && attacker != null)
+        {
+            PlayerMovement player = attacker.GetComponent<PlayerMovement>();
+            if (player != null)
+            {
+                player.ApplySlow(slowPercent, 2f);
+            }
+            
+        }
+        if (currentHP <= 0)
+        {
+            Die();
+        }
     }
-    public void DisableWeaponHitBox()
+    void Die()
     {
-        weaponHitBox.enabled = false;
-    }
-    // ====== DEBUG ======
+        Debug.Log("Boss Đie");
+        bossNavMeshAgent.isStopped = true;
+
+        if(currentShield != null) Destroy(currentShield);
+
+    }    
+      // ====== DEBUG ======
     void OnDrawGizmosSelected()
     {
         //Bán kính đi tuần
@@ -245,10 +410,11 @@ public class Boss01 : MonoBehaviour
 
         //Khoảng cách phát hiện người chơi
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, chaseRange);
+        Gizmos.DrawWireSphere(transform.position, detectRange);
 
         //Khoảng cách trở về vị trí ban đầu
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, returnRange);
     }
 }
+
