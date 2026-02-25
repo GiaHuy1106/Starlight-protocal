@@ -265,7 +265,7 @@ public class Enemy1 : MonoBehaviour
         {
             enemy1Animator.SetTrigger(Enemy_Constant.Enemy1AttackHash);
             music.PlayOneShot(musicClip[0]);
-            playerTargetTransform.GetComponent<FakePlayerHealth>().TakeDamage(damage);
+            playerTargetTransform.GetComponent<PlayerHealth>().TakeDamage(damage);
             nextAttackTime = Time.time + attackRate;
             Debug.Log("Enemy1 attack...");
         }    
