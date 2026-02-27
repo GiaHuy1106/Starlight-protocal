@@ -9,12 +9,24 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 31e9d37a08f6c8a43856c4d77449588c, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 31e9d37a08f6c8a43856c4d77449588c, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 31e9d37a08f6c8a43856c4d77449588c, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 31e9d37a08f6c8a43856c4d77449588c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.06
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 31e9d37a08f6c8a43856c4d77449588c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.11
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 31e9d37a08f6c8a43856c4d77449588c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -88,10 +100,10 @@ MonoBehaviour:
   rotationSpeed: 85.67
   isFloating: 1
   useEasingForFloating: 1
-  floatHeight: 1.93
+  floatHeight: 0.5
   floatSpeed: 0.4
-  startScale: {x: 1, y: 1, z: 1}
-  endScale: {x: 1.2, y: 1.2, z: 1.2}
+  startScale: {x: 0.1, y: 0.1, z: 0.1}
+  endScale: {x: 0.2, y: 0.2, z: 0.2}
   isScaling: 1
   useEasingForScaling: 1
   scaleLerpSpeed: 1.11

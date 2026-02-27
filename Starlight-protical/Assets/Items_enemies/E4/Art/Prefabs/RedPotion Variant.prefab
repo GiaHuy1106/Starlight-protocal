@@ -8,17 +8,57 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6068898674178869563, guid: 1242a88922ac6d34da67517f4c97626b, type: 3}
+      propertyPath: endScale.x
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6068898674178869563, guid: 1242a88922ac6d34da67517f4c97626b, type: 3}
+      propertyPath: endScale.y
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6068898674178869563, guid: 1242a88922ac6d34da67517f4c97626b, type: 3}
+      propertyPath: endScale.z
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6068898674178869563, guid: 1242a88922ac6d34da67517f4c97626b, type: 3}
+      propertyPath: floatHeight
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6068898674178869563, guid: 1242a88922ac6d34da67517f4c97626b, type: 3}
+      propertyPath: startScale.x
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6068898674178869563, guid: 1242a88922ac6d34da67517f4c97626b, type: 3}
+      propertyPath: startScale.y
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6068898674178869563, guid: 1242a88922ac6d34da67517f4c97626b, type: 3}
+      propertyPath: startScale.z
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 7215856734752065869, guid: 1242a88922ac6d34da67517f4c97626b, type: 3}
       propertyPath: m_Name
       value: RedPotion Variant
       objectReference: {fileID: 0}
     - target: {fileID: 8027683741339063287, guid: 1242a88922ac6d34da67517f4c97626b, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8027683741339063287, guid: 1242a88922ac6d34da67517f4c97626b, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8027683741339063287, guid: 1242a88922ac6d34da67517f4c97626b, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8027683741339063287, guid: 1242a88922ac6d34da67517f4c97626b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.06
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8027683741339063287, guid: 1242a88922ac6d34da67517f4c97626b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 8.08
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8027683741339063287, guid: 1242a88922ac6d34da67517f4c97626b, type: 3}
       propertyPath: m_LocalPosition.z
