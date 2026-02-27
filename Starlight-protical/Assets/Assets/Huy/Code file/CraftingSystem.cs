@@ -7,6 +7,7 @@ public class CraftingSystem : MonoBehaviour
 {
     public static CraftingSystem instance { get; private set; }
 
+
     public List<CraftingRec> craftingRecipes; //Danh sách các công thức chế tạo, có thể được khởi tạo từ các ScriptableObject CraftingRec
     public Transform craftingGrid;
     public GameObject craftingBTN;
@@ -99,5 +100,11 @@ public class CraftingSystem : MonoBehaviour
         }
 
         return true; //Nếu đã kiểm tra tất cả nguyên liệu và đều đủ số lượng cần thiết thì có thể chế tạo được
+    }
+
+    public void updateCraftingRecipes(List<CraftingRec> newRecipes)
+    {
+        craftingRecipes = newRecipes; //Cập nhật danh sách công thức chế tạo mới
+        populateCraftingGrid(); //Cập nhật lại crafting grid để hiển thị các công thức mới
     }
 }
