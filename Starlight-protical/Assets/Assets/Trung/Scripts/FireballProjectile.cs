@@ -48,12 +48,17 @@ public class FireballProjectile : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         if (exploded) return;
-        
         if (other.CompareTag("Player")) return;
 
-        // Kiểm tra layer có phải Enemy không
         if (((1 << other.gameObject.layer) & enemyLayer) != 0)
         {
+            Enemy1 enemy = other.GetComponent<Enemy1>();
+
+            if (enemy != null)
+            {
+                enemy.TakeDamage(damage);
+            }
+
             Explode();
         }
     }

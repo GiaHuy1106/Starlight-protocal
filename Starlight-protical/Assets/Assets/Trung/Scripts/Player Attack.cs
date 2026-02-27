@@ -1,10 +1,12 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+
 public class PlayerAttack : MonoBehaviour
 {
     public PlayerInput playerInput;
     public Animator playerAnimator;
     public PlayerSkill playerSkill;
+
     private int attackHash;
     private int specialHash;
     private bool isAttacking;
@@ -18,10 +20,11 @@ public class PlayerAttack : MonoBehaviour
     void Update()
     {
         if (EventSystem.current.IsPointerOverGameObject())
-        return; // Khóa input khi trên con trỏ chuột
-        if (playerInput.IsInputLocked) return; 
+            return;
+
+        if (playerInput.IsInputLocked) return;
         if (playerSkill.IsAiming) return;
-        if (Time.timeScale == 0f) return; 
+        if (Time.timeScale == 0f) return;
         if (isAttacking) return;
 
         HandleAttackInput();
@@ -41,7 +44,7 @@ public class PlayerAttack : MonoBehaviour
     {
         isAttacking = true;
 
-        playerInput.SetInputLock(true);
+        playerInput.SetAttackLock(true);   // ✅ sửa
 
         playerAnimator.SetTrigger(hash);
     }
@@ -49,14 +52,27 @@ public class PlayerAttack : MonoBehaviour
     public void EndAttack()
     {
         isAttacking = false;
-        playerInput.SetInputLock(false);
+        playerInput.SetAttackLock(false);  // ✅ sửa
     }
+
     public void StartSpecialAttack()
     {
         isAttacking = true;
 
-        playerInput.SetInputLock(true);
+        playerInput.SetAttackLock(true);   // ✅ sửa
 
         playerAnimator.SetTrigger(specialHash);
+    }
+
+    public void EndSpecialAttack()
+    {
+        isAttacking = false;
+        playerInput.SetAttackLock(false);  // ✅ sửa
+    }
+
+    public void ForceStopAttack()
+    {
+        isAttacking = false;
+        playerInput.SetAttackLock(false);  // ✅ sửa
     }
 }

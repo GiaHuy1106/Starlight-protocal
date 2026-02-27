@@ -2,38 +2,42 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 public class ProfilePanelToggle : MonoBehaviour
-{
-    public PlayerInput playerInput;
+{public PlayerInput playerInput;
+
     [Header("Panel cần đóng/mở")]
     public GameObject profilePanel;
-    
+
     bool isOpen = false;
-    
+
     void Start()
     {
-        profilePanel.SetActive(false); // ẩn lúc đầu
+        profilePanel.SetActive(false);
     }
 
-   public void TogglePanlel()
+    public void TogglePanel()
     {
-        isOpen = !isOpen;
-        profilePanel.SetActive(isOpen);
+        if (isOpen) Close();
+        else Open();
     }
+
     public void Open()
     {
         isOpen = true;
-        playerInput.SetInputLock(true);
-        profilePanel.SetActive(true);
-        Time.timeScale = 0f; // Dừng game
-        
 
+        playerInput.SetUILock(true);   // ✅ sửa
+
+        profilePanel.SetActive(true);
+        Time.timeScale = 0f;
     }
+
     public void Close()
     {
         isOpen = false;
+
         profilePanel.SetActive(false);
 
-        playerInput.SetInputLock(false);
-        Time.timeScale = 1f; // chạy game
+        playerInput.SetUILock(false);  // ✅ sửa
+
+        Time.timeScale = 1f;
     }
 }

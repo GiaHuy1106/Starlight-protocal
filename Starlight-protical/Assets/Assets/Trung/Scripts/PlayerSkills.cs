@@ -90,9 +90,6 @@ public class PlayerSkill : MonoBehaviour
         if (dir != Vector3.zero)
             transform.rotation = Quaternion.LookRotation(dir);
 
-        // khóa input trong lúc cast
-        playerInput.SetInputLock(true);
-
         playerAttack.StartSpecialAttack();
     }
         public void SpawnSpecial()
@@ -104,6 +101,7 @@ public class PlayerSkill : MonoBehaviour
         Instantiate(specialPrefab, spawnPos, Quaternion.identity);
 
         cooldownTimer = specialCooldown;
+        
 
         StopAim();
     }
@@ -232,7 +230,7 @@ public class PlayerSkill : MonoBehaviour
             return;
         }
         isAimingSkill = true;
-        playerInput.SetInputLock(true);
+        
         rangeCircle = Instantiate(rangeCirclePrefab, transform.position, Quaternion.Euler(90f, 0f, 0f));
         rangeCircle.transform.localScale = Vector3.one * meteorRange * rangeCircleScaleFactor;
 
@@ -240,9 +238,10 @@ public class PlayerSkill : MonoBehaviour
     }
 
     // bật indicator ở đây nếu có
-    void StopAim()
+    public void StopAim()
     {
-        isAimingSkill = false;
+        isAimingSkill = false; 
+        
         if (rangeCircle) Destroy(rangeCircle);
         if (targetIndicator) Destroy(targetIndicator);
     }
