@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 431264}
   - component: {fileID: 3325936}
   - component: {fileID: 2325022}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: wand01_blue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
