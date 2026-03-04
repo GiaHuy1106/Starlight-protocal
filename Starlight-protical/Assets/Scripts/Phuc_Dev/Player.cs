@@ -11,7 +11,12 @@ public class Player : MonoBehaviour
     bool canMove;
     Vector2 Velocity;
     Vector2 moveInput;  
+   
 
+    private void Start()
+    {
+       
+    }
     private void Update()
     {
         isGrounded = controller.isGrounded;
