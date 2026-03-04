@@ -29,8 +29,8 @@ public class WeatherManager: MonoBehaviour
     private void Start()
     {
         CurMaterial = mor_noon;
-        nextToggleTimeRain = Random.Range(1f, 5f);
-        nextToggleTimeLightning = Random.Range(2f, 8f);
+        nextToggleTimeRain = Random.Range(0.1f, 0.35f);
+        nextToggleTimeLightning = Random.Range(0.2f, 0.6f);
 
     }
     private void Update()
@@ -80,17 +80,19 @@ public class WeatherManager: MonoBehaviour
         float timeOfDay = TimeManager.Instance.GetTimeOfDay();
 
         // Bật/tắt mưa
-        if (Time.time >= nextToggleTimeRain)
+        if (timeOfDay >= nextToggleTimeRain)
         {
             ToggleParticle(rainSystem);
-            nextToggleTimeRain = Time.time + Random.Range(5f, 15f);
+            nextToggleTimeRain = timeOfDay + Random.Range(0.05f, 0.2f);
+            if(nextToggleTimeRain > 1f) nextToggleTimeRain -= 1f;
         }
 
         // Bật/tắt sét
-        if (Time.time >= nextToggleTimeLightning)
+        if (timeOfDay >= nextToggleTimeLightning)
         {
             ToggleParticle(lightningSystem);
-            nextToggleTimeLightning = Time.time + Random.Range(10f, 30f);
+            nextToggleTimeLightning =timeOfDay + Random.Range(0.1f, 0.3f);
+            if(nextToggleTimeLightning > 1f) nextToggleTimeLightning -= 1f;
         }
         if (onlyDayWeather)
         {
