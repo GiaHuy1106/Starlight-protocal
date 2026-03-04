@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class WeatherManager: MonoBehaviour
 {
@@ -9,6 +9,14 @@ public class WeatherManager: MonoBehaviour
     public Material night_mor;
 
     Material curMaterial;
+
+
+    [Header("WeatherControll")]
+    public ParticleSystem rainSystem;
+    public ParticleSystem lightningSystem;
+    private float nextToggleTimeRain;
+    private float nextToggleTimeLightning;
+    [SerializeField] bool onlyDayWeather = true;
 
     public Material CurMaterial { get => curMaterial; set {
             if(curMaterial != value)
@@ -21,6 +29,9 @@ public class WeatherManager: MonoBehaviour
     private void Start()
     {
         CurMaterial = mor_noon;
+        nextToggleTimeRain = Random.Range(1f, 5f);
+        nextToggleTimeLightning = Random.Range(2f, 8f);
+
     }
     private void Update()
     {
@@ -50,7 +61,8 @@ public class WeatherManager: MonoBehaviour
             CurMaterial = evening_night;
             SetBlendMaterial(5/6f, 1f, timeOfDay);
         }
-         
+
+        WeatherControll();
     }
 
 
@@ -60,6 +72,44 @@ public class WeatherManager: MonoBehaviour
     {
         float t = Mathf.InverseLerp(a, b, value);
         curMaterial.SetFloat("_Blend", t);
+    }
+
+
+    void WeatherControll()
+    {
+        float timeOfDay = TimeManager.Instance.GetTimeOfDay();
+
+        // Bật/tắt mưa
+        if (Time.time >= nextToggleTimeRain)
+        {
+            ToggleParticle(rainSystem);
+            nextToggleTimeRain = Time.time + Random.Range(5f, 15f);
+        }
+
+        // Bật/tắt sét
+        if (Time.time >= nextToggleTimeLightning)
+        {
+            ToggleParticle(lightningSystem);
+            nextToggleTimeLightning = Time.time + Random.Range(10f, 30f);
+        }
+        if (onlyDayWeather)
+        {
+            // Ví dụ: chỉ cho phép hiệu ứng xảy ra ban ngày (0.25 -> 0.75 ~ 6h–18h)
+            if (timeOfDay < 0.25f || timeOfDay > 0.75f)
+            {
+                if (rainSystem.isPlaying) rainSystem.Stop();
+                if (lightningSystem.isPlaying) lightningSystem.Stop();
+            }
+        }
+
+    }
+
+    void ToggleParticle(ParticleSystem ps)
+    {
+        if (ps.isPlaying)
+            ps.Stop();
+        else
+            ps.Play();
     }
 
 

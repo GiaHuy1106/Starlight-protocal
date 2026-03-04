@@ -421,6 +421,9 @@ MonoBehaviour:
   aftnoon_evening: {fileID: 2100000, guid: 6f5da99224889ad4fbc7182bee8c387a, type: 2}
   evening_night: {fileID: 2100000, guid: c03a2b6d2d3b0524284709a497f1440f, type: 2}
   night_mor: {fileID: 2100000, guid: 0da74de5c3fc021419da60c26e61d91a, type: 2}
+  rainSystem: {fileID: 1891916594}
+  lightningSystem: {fileID: 1326786154}
+  onlyDayWeather: 1
 --- !u!1001 &333149449
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1171,15 +1174,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: lightingVFX
       objectReference: {fileID: 0}
-    - target: {fileID: 5472266544186354961, guid: 582dccf1b8de4a8479b2ad252743d989, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 582dccf1b8de4a8479b2ad252743d989, type: 3}
+--- !u!198 &1326786154 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 3966503014142392684, guid: 582dccf1b8de4a8479b2ad252743d989, type: 3}
+  m_PrefabInstance: {fileID: 1326786153}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1413231522
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2204,15 +2208,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rain_VFX
       objectReference: {fileID: 0}
-    - target: {fileID: 5664208047435650767, guid: 1d4a2dec4a3de7c429a539827636e8a7, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d4a2dec4a3de7c429a539827636e8a7, type: 3}
+--- !u!198 &1891916594 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 9164181952147861034, guid: 1d4a2dec4a3de7c429a539827636e8a7, type: 3}
+  m_PrefabInstance: {fileID: 1891916593}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2092571622
 GameObject:
   m_ObjectHideFlags: 0
