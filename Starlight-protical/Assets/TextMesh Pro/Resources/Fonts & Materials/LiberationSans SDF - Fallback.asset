@@ -2,35 +2,26 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2180264
 Material:
-<<<<<<< HEAD
   serializedVersion: 8
-=======
   serializedVersion: 6
->>>>>>> PhucDev_duphong(Huy_tao_de_test_merge)
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: LiberationSans SDF Material
   m_Shader: {fileID: 4800000, guid: fe393ace9b354375a9cb14cdbbc28be4, type: 3}
-<<<<<<< HEAD
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
-=======
   m_ShaderKeywords: 
->>>>>>> PhucDev_duphong(Huy_tao_de_test_merge)
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
-<<<<<<< HEAD
   m_LockedProperties: 
-=======
->>>>>>> PhucDev_duphong(Huy_tao_de_test_merge)
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -82,10 +73,7 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-<<<<<<< HEAD
     m_Ints: []
-=======
->>>>>>> PhucDev_duphong(Huy_tao_de_test_merge)
     m_Floats:
     - _Ambient: 0.5
     - _Bevel: 0.5
@@ -167,11 +155,8 @@ Material:
     - _ReflectOutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
     - _UnderlayColor: {r: 0, g: 0, b: 0, a: 0.5}
-<<<<<<< HEAD
   m_BuildTextureStacks: []
   m_AllowLocking: 1
-=======
->>>>>>> PhucDev_duphong(Huy_tao_de_test_merge)
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -185,17 +170,11 @@ MonoBehaviour:
   m_Name: LiberationSans SDF - Fallback
   m_EditorClassIdentifier: 
   m_Version: 1.1.0
-<<<<<<< HEAD
-=======
   m_Material: {fileID: 2180264}
-  m_SourceFontFileGUID: e3265ab4bf004d28a9537516768c1c75
-  m_SourceFontFile: {fileID: 12800000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
   m_AtlasPopulationMode: 1
   InternalDynamicOS: 0
->>>>>>> PhucDev_duphong(Huy_tao_de_test_merge)
   m_FaceInfo:
     m_FaceIndex: 0
-    m_FamilyName: Liberation Sans
     m_StyleName: Regular
     m_PointSize: 86
     m_Scale: 1
@@ -215,10 +194,8 @@ MonoBehaviour:
     m_StrikethroughOffset: 18
     m_StrikethroughThickness: 6.298828
     m_TabWidth: 24
-<<<<<<< HEAD
   m_Material: {fileID: 2180264}
   m_SourceFontFileGUID: e3265ab4bf004d28a9537516768c1c75
-=======
   m_GlyphTable: []
   m_CharacterTable: []
   m_AtlasTextures:
@@ -290,7 +267,6 @@ MonoBehaviour:
     fontStyleModifier: 0
     renderMode: 4169
     includeFontFeatures: 1
-<<<<<<< HEAD
   m_SourceFontFile: {fileID: 12800000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
   m_SourceFontFilePath: 
   m_AtlasPopulationMode: 1
@@ -321,8 +297,6 @@ MonoBehaviour:
     m_MarkToMarkAdjustmentRecords: []
   m_ShouldReimportFontFeatures: 0
   m_FallbackFontAssetTable: []
-=======
->>>>>>> PhucDev_duphong(Huy_tao_de_test_merge)
   m_FontWeightTable:
   - regularTypeface: {fileID: 0}
     italicTypeface: {fileID: 0}
@@ -371,7 +345,6 @@ MonoBehaviour:
   boldSpacing: 7
   italicStyle: 35
   tabSize: 10
-<<<<<<< HEAD
   m_fontInfo:
     Name: Liberation Sans
     PointSize: 86
@@ -399,8 +372,6 @@ MonoBehaviour:
     kerningPairs: []
   fallbackFontAssets: []
   atlas: {fileID: 0}
-=======
->>>>>>> PhucDev_duphong(Huy_tao_de_test_merge)
 --- !u!28 &28268798066460806
 Texture2D:
   m_ObjectHideFlags: 0
@@ -411,7 +382,6 @@ Texture2D:
   m_ImageContentsHash:
     serializedVersion: 2
     Hash: 00000000000000000000000000000000
-<<<<<<< HEAD
   m_IsAlphaChannelOptional: 0
   serializedVersion: 3
   m_Width: 1
@@ -427,7 +397,6 @@ Texture2D:
   m_StreamingMipmaps: 0
   m_StreamingMipmapsPriority: 0
   m_VTOnly: 0
-=======
   m_ForcedFallbackFormat: 4
   m_DownscaleFallback: 0
   serializedVersion: 2
@@ -439,7 +408,6 @@ Texture2D:
   m_IsReadable: 1
   m_StreamingMipmaps: 0
   m_StreamingMipmapsPriority: 0
->>>>>>> PhucDev_duphong(Huy_tao_de_test_merge)
   m_AlphaIsTransparency: 0
   m_ImageCount: 1
   m_TextureDimension: 2
@@ -453,17 +421,14 @@ Texture2D:
     m_WrapW: 0
   m_LightmapFormat: 0
   m_ColorSpace: 0
-<<<<<<< HEAD
   m_PlatformBlob: 
   image data: 1
   _typelessdata: 00
   m_StreamData:
     serializedVersion: 2
-=======
   image data: 0
   _typelessdata: 
   m_StreamData:
->>>>>>> PhucDev_duphong(Huy_tao_de_test_merge)
     offset: 0
     size: 0
     path: 

@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class P_Move : MonoBehaviour
 {
     [Header("Movement")]
     public float moveSpeed = 4f; // Tốc độ nhân vật di chuyển
