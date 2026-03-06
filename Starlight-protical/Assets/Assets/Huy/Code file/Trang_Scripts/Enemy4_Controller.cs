@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
@@ -76,6 +78,10 @@ public class Enemy4_Controller : MonoBehaviour
     //rớt đồ 
     [Header("Loot System")]
     public List<LootItem4> lootTable = new List<LootItem4>();
+    bool isDrop = false;
+
+    //hiện máu bị trừ
+    public TextMeshProUGUI takeDamageText;
     private void Start()
     {
         //vị trí ban đầu
@@ -99,6 +105,7 @@ public class Enemy4_Controller : MonoBehaviour
         slime4NavMeshAgent.stoppingDistance = 0f;
         //tắt panel 
         miniProfilePanel.SetActive(false);
+        takeDamageText.text = null;
     }
     private void Update()
     {
@@ -306,6 +313,7 @@ public class Enemy4_Controller : MonoBehaviour
         if (amount > def)
         {
             amount -= def;
+            StartCoroutine(TakeDamageTextAppear(amount));
             currentHP -= amount;
         }
         else
@@ -336,17 +344,20 @@ public class Enemy4_Controller : MonoBehaviour
         //Tắt profile
         miniProfilePanel.SetActive(false);
         //Rớt đồ
-        foreach (LootItem4 loot in lootTable)
+        if (!isDrop && lootTable != null && lootTable.Count > 0)
         {
-            // Tạo tọa độ ngẫu nhiên lệch đi một chút để các món đồ không rớt đè chặt lên nhau
-            Vector3 dropPos = transform.position + new Vector3(
-                Random.Range(-2f, 2f),
-                0f,
-                Random.Range(-2f, 2f)
-            );
-            // Đẻ đồ ra
-            GameObject droppedItem = Instantiate(loot.itemData.worldPrefab, dropPos, Quaternion.identity);
-
+            //lấy vị trí ngẫu nhiên trong danh sách lootTable
+            int randomIndex = Random.Range(0, lootTable.Count);
+            //random 1 trong các vật phẩm 
+            LootItem4 randomLoot = lootTable[randomIndex];
+            //chọn vị trí rơi 
+            Vector3 dropPos = transform.position + new Vector3(1, 1, 1);
+            //nếu như prefab khác null thì rơi ra 
+            if (randomLoot.itemData.worldPrefab != null)
+            {
+                Instantiate(randomLoot.itemData.worldPrefab, dropPos, Quaternion.identity);
+                isDrop = true; //đánh dấu đã rớt đồ 
+            }
         }
         //Biến mất
         StartCoroutine(WaitAndDisable(3f));
@@ -358,6 +369,11 @@ public class Enemy4_Controller : MonoBehaviour
 
         gameObject.SetActive(false);
     }
-
+    IEnumerator TakeDamageTextAppear(float amount)
+    {
+        takeDamageText.text = "- " + amount.ToString();
+        yield return new WaitForSeconds(1f);
+        takeDamageText.text = "";
+    }
 }
 
