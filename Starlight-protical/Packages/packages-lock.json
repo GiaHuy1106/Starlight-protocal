@@ -19,6 +19,7 @@
       },
       "url": "https://packages.unity.com"
     },
+<<<<<<< HEAD
     "com.unity.cinemachine": {
       "version": "2.10.5",
       "depth": 0,
@@ -28,6 +29,8 @@
       },
       "url": "https://packages.unity.com"
     },
+=======
+>>>>>>> PhucDev_duphong(Huy_tao_de_test_merge)
     "com.unity.collections": {
       "version": "2.6.2",
       "depth": 2,
