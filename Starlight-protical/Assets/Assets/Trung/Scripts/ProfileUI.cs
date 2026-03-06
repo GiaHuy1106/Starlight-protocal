@@ -17,9 +17,9 @@ public class ProfileUI : MonoBehaviour
     // Update is called once per frame
     void Refresh()
     {
-        hpText.text = playerStats.maxHP.ToString();
-        manaText.text = playerStats.maxMana.ToString();
-        atkText.text = playerStats.attack.ToString();
-        defText.text = playerStats.defense.ToString();
+        hpText.text   = $"HP: {playerStats.maxHP}";
+        manaText.text = $"Mana: {playerStats.maxMana}";
+        atkText.text  = $"ATK: {playerStats.attack}";
+        defText.text  = $"DEF: {playerStats.defense}";
     }
 }
