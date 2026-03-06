@@ -104,6 +104,10 @@ public class Enemy1 : MonoBehaviour
     }
     private void Update()
     {
+        if(currentHP <= 0)
+        {
+            return; // Nếu đã chết thì không làm gì nữa
+        }
         var distanceToPlayer = Vector3.Distance(
             transform.position,
             playerTargetTransform.position);
@@ -323,6 +327,7 @@ public class Enemy1 : MonoBehaviour
 
         //Tắt profile
         miniProfilePanel.SetActive(false);
+
         //Rớt đồ
         if (!isDrop && lootTable != null && lootTable.Count > 0)
         {

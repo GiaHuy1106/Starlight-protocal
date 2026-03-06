@@ -106,6 +106,8 @@ public class Enemy3_Controller : MonoBehaviour
     }
     private void Update()
     {
+        if (currentHP <= 0)
+            return;
         
         var distanceToPlayer = Vector3.Distance(
             transform.position,
