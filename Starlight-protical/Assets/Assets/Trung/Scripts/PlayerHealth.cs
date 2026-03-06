@@ -17,15 +17,21 @@ public class PlayerHealth : MonoBehaviour
 
     void Awake()
     {
-        playerInput = GetComponent<PlayerInput>();
-    }
+         playerInput = GetComponent<PlayerInput>();
+
+        if (playerInput == null)
+            playerInput = GetComponentInChildren<PlayerInput>();
+
+        if (playerInput == null)
+            playerInput = GetComponentInParent<PlayerInput>();
+        }
 
     void Start()
     {
         playerStats.OnDamaged += PlayHurt;
         playerStats.OnDead += Die;
     }
-
+    // hàm nhận sát thương từ các nguồn khác (enemy, trap, v.v.)
     public void TakeDamage(float damage)
     {
         if (isDead) return;
@@ -35,15 +41,37 @@ public class PlayerHealth : MonoBehaviour
 
         lastHurtTime = Time.time;
 
-        playerStats.TakeDamage((int)damage);
+        // ⭐ thêm đoạn này
+        PlayerAttack attack = GetComponent<PlayerAttack>();
+        if (attack != null)
+            attack.ForceStopAttack();
+
+        playerInput.SetAttackLock(false);
+
+        float finalDamage = damage - playerStats.defense;
+        if (finalDamage < 1) finalDamage = 1;
+
+        playerStats.TakeDamage((int)finalDamage);
     }
 
     void PlayHurt(int dmg)
-    {
-        if (isDead) return;
-        GetComponent<PlayerAttack>().ForceStopAttack();
+    { if (isDead) return;
 
+        PlayerAttack attack = GetComponent<PlayerAttack>();
+        if (attack != null)
+            attack.ForceStopAttack();
+
+        playerInput.SetAttackLock(false);
+        playerInput.SetAimLock(false);
+
+        // ⭐ QUAN TRỌNG: reset hurt lock trước
+        playerInput.SetHurtLock(false);
+
+        playerAnimator.ResetTrigger(Constant.AttackHash);
+        playerAnimator.ResetTrigger(Constant.FireballHash);
+        playerAnimator.ResetTrigger(Constant.SkillHash);
         playerAnimator.ResetTrigger(Constant.HurtHash);
+
         playerAnimator.SetTrigger(Constant.HurtHash);
 
         if (hurtCoroutine != null)
@@ -54,15 +82,13 @@ public class PlayerHealth : MonoBehaviour
 
     IEnumerator HurtLockCoroutine()
     {
-        
-        playerInput.SetHurtLock(true);   // ✅ đổi
+         playerInput.SetHurtLock(true);
 
-        yield return new WaitForSeconds(hurtLockDuration);
+            yield return new WaitForSeconds(hurtLockDuration);
 
-        if (!isDead)
-            playerInput.SetHurtLock(false);  // ✅ đổi
+            playerInput.SetHurtLock(false);
 
-        hurtCoroutine = null;
+            hurtCoroutine = null;
     }
 
     void Die()
@@ -78,4 +104,5 @@ public class PlayerHealth : MonoBehaviour
 
         GetComponent<PlayerMovement>().enabled = false;
     }
+
 }

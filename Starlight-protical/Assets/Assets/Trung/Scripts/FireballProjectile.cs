@@ -53,6 +53,7 @@ public class FireballProjectile : MonoBehaviour
         if (((1 << other.gameObject.layer) & enemyLayer) != 0)
         {
             Enemy1 enemy = other.GetComponent<Enemy1>();
+            
 
             if (enemy != null)
             {

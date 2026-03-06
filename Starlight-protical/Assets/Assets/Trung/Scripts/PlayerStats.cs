@@ -12,6 +12,7 @@ public class PlayerStats : MonoBehaviour, IDamageable
     public int maxHP = 100;
     public int maxMana = 200;
     public int attack = 20;
+    public int defense = 20;
     [Header("Skill Scaling")]
     public float basicMultiplier = 1.0f; // Hệ số nhân sát thương kỹ năng cơ bản
     public float specialMultiplier = 2.5f; // Hệ số nhân sát thương kỹ năng đặc biệt
@@ -60,6 +61,7 @@ public class PlayerStats : MonoBehaviour, IDamageable
         CurrentHP = Mathf.Min(maxHP, CurrentHP);
         OnStatChanged?.Invoke();
     }
+    // hàm
     public void TakeDamage(int dmg)
     {
         CurrentHP -= dmg;

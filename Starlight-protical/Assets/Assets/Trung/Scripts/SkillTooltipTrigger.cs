@@ -29,7 +29,7 @@ public class SkillTooltipTrigger : MonoBehaviour, IPointerEnterHandler, IPointer
         {
             damage = playerStats.GetBasicDamage();
             mana = 0;
-            cooldown = playerSkill.basicCooldown;
+            cooldown = playerSkill.fireballCooldown;
         }
         tooltipUI.Show(skillTitle, description, damage, mana, cooldown);
     }

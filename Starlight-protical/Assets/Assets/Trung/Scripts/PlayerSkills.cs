@@ -25,25 +25,27 @@ public class PlayerSkill : MonoBehaviour
     [Header("Glow")]
     public WandGlow wandGlow;
 
-    [Header("Basic Cooldown")]
-    public float basicCooldown = 1f;
-    float basicCooldownTimer;
-    public bool IsBasicReady => basicCooldownTimer <= 0f;
+    [Header("Fireball Cooldown")]
+    public float fireballCooldown = 5f;
+    float fireballCooldownTimer;
+    public bool IsFireBallReady => fireballCooldownTimer <= 0f;
 
     [Header("Special Cooldown")]
-    public float specialCooldown = 5f;
-    float cooldownTimer;
-    public bool IsSpecialReady => cooldownTimer <= 0f;
+    public float specialCooldown = 10f;
+    float SpecialCooldownTimer;
+    public bool IsSpecialReady => SpecialCooldownTimer <= 0f;
 
     [Header("UI")]
     public Image specialcooldownMask;
-    public Image basicCooldownMask;
+    public Image fireballCooldownMask;
 
     [Header("Mana Cost")]
+    public int fireballManaCost = 10;
     public int specialManaCost = 40;
 
     [Header("Skill Icon")]
     public Image specialIcon;
+    public Image fireballIcon;
     public float disableAlpha = 0.3f; // 
     [Header("Meteor Range")]
     public float meteorRange = 8f;
@@ -61,15 +63,16 @@ public class PlayerSkill : MonoBehaviour
     }
     void Update()
     {
-        UpdateBasicCooldown();
+        UpdateFireballCooldown();
         UpdateSpecialCooldownUI();
-        UpdateBasicCooldownUI();
+        UpdateFireballCooldownUI();
+        UpdateFireballIConState();
         UpdateSpecialIconState();
         HandleSkillInput();
     }
     public void CastSpecial()
     {
-         if (!isAimingSkill) return;
+        if (!isAimingSkill) return;
         if (targetIndicator == null) return;
 
         if (!IsSpecialReady) return;
@@ -100,17 +103,27 @@ public class PlayerSkill : MonoBehaviour
 
         Instantiate(specialPrefab, spawnPos, Quaternion.identity);
 
-        cooldownTimer = specialCooldown;
+        SpecialCooldownTimer = specialCooldown;
         
 
         StopAim();
+    }
+
+    void UpdateFireballIConState()
+    {
+        bool notEnoughMana = playerStats.CurrentMana < fireballManaCost;
+        bool onCooldown = fireballCooldownTimer > 0f;
+        float alpha = (notEnoughMana || onCooldown) ? disableAlpha : 1f;
+        Color color = fireballIcon.color;
+        color.a = alpha;
+        fireballIcon.color = color;
     }
 
     // Cập nhật trạng thái icon kỹ năng đặc biệt
     void UpdateSpecialIconState()
     {
         bool notEnoughMana = playerStats.CurrentMana < specialManaCost;
-        bool onCooldown = cooldownTimer > 0f;
+        bool onCooldown = SpecialCooldownTimer > 0f;
 
         float alpha = (notEnoughMana || onCooldown) ? disableAlpha : 1f;
         
@@ -134,7 +147,12 @@ public class PlayerSkill : MonoBehaviour
     public void ShootFireball()
     {
         if (Time.timeScale == 0f) return;
-        if (!IsBasicReady) return;
+        if (!IsFireBallReady) return;
+        if (playerStats.CurrentMana < fireballManaCost)
+        {
+            UIMessage.Instance.Show("Not enough mana");
+            return;
+        }
 
         Vector3 dir;
 
@@ -158,6 +176,8 @@ public class PlayerSkill : MonoBehaviour
         // Xoay player theo hướng chuột
         if (dir != Vector3.zero)
             transform.rotation = Quaternion.LookRotation(dir);
+        // Trừ mana trước khi bắn
+        playerStats.UseMana(fireballManaCost);
 
         // Spawn đạn
         GameObject go = Instantiate(fireballPrefab, firePoint.position, Quaternion.identity);
@@ -166,33 +186,33 @@ public class PlayerSkill : MonoBehaviour
         projectile.damage = playerStats.GetBasicDamage();
         projectile.SetDirection(dir);
 
-        basicCooldownTimer = basicCooldown;
+        fireballCooldownTimer = fireballCooldown;
     }
 
 
-    void UpdateBasicCooldown()
+    void UpdateFireballCooldown()
     {
-        if (basicCooldownTimer > 0f)
-            basicCooldownTimer -= Time.deltaTime;
+        if (fireballCooldownTimer > 0f)
+            fireballCooldownTimer -= Time.deltaTime;
     }
-    void UpdateBasicCooldownUI()
+    void UpdateFireballCooldownUI()
     {
-        if (basicCooldownTimer > 0f)
+        if (fireballCooldownTimer > 0f)
         {
-            basicCooldownMask.fillAmount = basicCooldownTimer / basicCooldown;
+            fireballCooldownMask.fillAmount = fireballCooldownTimer / fireballCooldown;
         }
         else
         {
-            basicCooldownMask.fillAmount = 0f;
+            fireballCooldownMask.fillAmount = 0f;
         }
     }
 
     void UpdateSpecialCooldownUI()
     {
-        if (cooldownTimer > 0f)
+        if (SpecialCooldownTimer > 0f)
         {
-            cooldownTimer -= Time.deltaTime;
-            specialcooldownMask.fillAmount = cooldownTimer / specialCooldown;
+            SpecialCooldownTimer -= Time.deltaTime;
+            specialcooldownMask.fillAmount = SpecialCooldownTimer / specialCooldown;
         }
         else
         {

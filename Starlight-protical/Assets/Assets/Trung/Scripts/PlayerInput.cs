@@ -37,6 +37,10 @@ public class PlayerInput : MonoBehaviour
     {
         if (IsInputLocked)
         {
+            Debug.Log("LOCK STATE -> Aim:" + lockByAim +
+              " Attack:" + lockByAttack +
+              " Hurt:" + lockByHurt +
+              " UI:" + lockByUI);
             horizontalInput = 0;
             verticalInput = 0;
             return;
@@ -64,14 +68,18 @@ public class PlayerInput : MonoBehaviour
         return new Vector2(Input.GetAxisRaw("Horizontal"),
                            Input.GetAxisRaw("Vertical"));
     }
-
+    public bool IsAttackBasics()
+    {
+        if (IsInputLocked) return false;
+        return Input.GetMouseButtonDown(0);
+    }
     public bool IsAltHolding() => Input.GetKey(KeyCode.LeftAlt);
 
-    public bool IsAttacking(bool block = false)
+    public bool IsAttackFireball(bool block = false)
     {
         if (IsInputLocked) return false;
         if (block) return false;
-        return Input.GetMouseButtonDown(0);
+        return Input.GetKeyDown(KeyCode.E);
     }
 
     public bool IsAimSkill()
