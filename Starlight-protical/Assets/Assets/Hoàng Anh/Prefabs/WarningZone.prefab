@@ -29,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 20, y: 0.01, z: 20}
+  m_LocalScale: {x: 3, y: 0.01, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3908601993973852040}
@@ -106,8 +106,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 20, y: 0.1, z: 20}
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+  m_Size: {x: 1.0300133, y: 0.1, z: 1.0349071}
+  m_Center: {x: -0.00023100774, y: 0, z: -0.004454891}
 --- !u!1 &4243851080777561751
 GameObject:
   m_ObjectHideFlags: 0
@@ -136,7 +136,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 10, y: 0.01, z: 10}
+  m_LocalScale: {x: 1, y: 0.005, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3908601993973852040}
@@ -241,7 +241,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   warningTime: 2
-  spawnHeight: 60
+  spawnHeight: 50
   iceFallingPrefab: {fileID: 5370883666413489655, guid: 0a79a87c942e58c4e932f3714f96e855, type: 3}
   groundLayer:
     serializedVersion: 2

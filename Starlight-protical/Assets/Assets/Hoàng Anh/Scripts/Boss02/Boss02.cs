@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.AI;
 
 public enum Boss02State
@@ -8,13 +9,14 @@ public enum Boss02State
     Attacking,          // Tấn công người chơi
     Returning           // Trở về vị trí ban đầu sau khi mất dấu người chơi
 }
-public class Boss02 : MonoBehaviour
+public class Boss02 : MonoBehaviour, IShieldable
 {
     [Header("References")]
     public Transform playerTargetTransform;
     public NavMeshAgent bossNavMeshAgent;
     public Animator bossAnimator;
     public Collider weaponHitBox;
+    public Collider kickHitBox;
 
     [Header("Patrol Settings")]
     public float patrolRadius = 10f;    // Bán kính đi tuần quanh vị trí ban đầu
@@ -28,6 +30,15 @@ public class Boss02 : MonoBehaviour
     [Header("Attack Settings")]
     public float attackRange = 2f;     // Khoảng cách tấn công
     public float attackCooldown = 2f;  // Thời gian giữa các lần tấn công
+
+    [Header("Shield Settings")]
+    public GameObject shieldPrefab;
+    public float shieldDuration = 5f;      // Thời gian tồn tại của shield
+    public bool isShieldActive;
+
+    private Coroutine shieldCoroutine;        // Tham chiếu đến coroutine để có thể dừng khi cần
+    private GameObject currentShield;        // Tham chiếu đến shield hiện tại nếu đang tồn tại
+    
 
     private float attackTimer;         // Bộ đếm thời gian giữa các lần tấn công
     private bool isAttacking;        // Trạng thái tấn công
@@ -49,6 +60,7 @@ public class Boss02 : MonoBehaviour
         SetNewPatrolPoint();
 
         weaponHitBox.enabled = false;
+        kickHitBox.enabled = false;
 
         bossNavMeshAgent.stoppingDistance = attackRange;     
         bossNavMeshAgent.angularSpeed = 360f;
@@ -172,7 +184,15 @@ public class Boss02 : MonoBehaviour
         lookDir.y = 0;
         transform.rotation = Quaternion.LookRotation(lookDir);
 
-        bossAnimator.SetBool("isAttacking", true);
+        int attackTyp = Random.Range(0, 2);
+        if(attackTyp ==0)
+        {
+            bossAnimator.SetBool("isAttacking", true);
+        }
+        else
+        {
+            bossAnimator.SetTrigger("JumpKick");
+        }
 
         currentState = Boss02State.Attacking;
     }
@@ -208,6 +228,7 @@ public class Boss02 : MonoBehaviour
 
         bossAnimator.SetBool("isAttacking", false);
         weaponHitBox.enabled = false;
+        kickHitBox.enabled = false;
 
         bossNavMeshAgent.updateRotation = true;
         //bossNavMeshAgent.updatePosition = true;
@@ -235,6 +256,56 @@ public class Boss02 : MonoBehaviour
     public void DisableWeaponHitBox()
     {
         weaponHitBox.enabled = false;
+    }
+    public void EnableKickHitBox()
+    {
+        kickHitBox.enabled = true;
+    }
+    public void DisableKickHitBox()
+    {
+        kickHitBox.enabled = false;
+    }
+    public void InternalActivateShield()
+    {
+        if (shieldPrefab == null) return;
+        if(isShieldActive) return;
+
+        isShieldActive = true;
+
+        currentShield = Instantiate(shieldPrefab, transform);
+        currentShield.transform.localPosition = Vector3.zero;
+        currentShield.transform.localRotation = Quaternion.identity;
+
+        shieldCoroutine = StartCoroutine(ShieldDurationCoroutine());
+        Debug.Log(name + " Shield Activated");
+        
+    }
+    IEnumerator ShieldDurationCoroutine()
+    {
+        yield return new WaitForSeconds(shieldDuration);
+        ForceDeactivateShield();
+    }
+
+    public void ForceDeactivateShield()
+    {
+        if(!isShieldActive) return;
+
+        isShieldActive = false;
+
+        if(shieldCoroutine != null)
+        {
+            StopCoroutine(shieldCoroutine);
+            shieldCoroutine = null;
+        }
+
+        if (currentShield != null)
+        {
+            Destroy(currentShield);
+            currentShield = null;
+        }
+        Boss01.ResetGlobalShield();
+        Debug.Log(name + " Shield Force Deactivated");
+        
     }
     // ====== DEBUG ======
     void OnDrawGizmosSelected()

@@ -75,17 +75,13 @@ public class PlayerMovement : MonoBehaviour
     }
     void TryAttack()
     {
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position + Vector3.up, transform.forward, out hit, 3f))
+        Boss01 boss = FindAnyObjectByType<Boss01>();
+      
+        if (boss != null)
         {
-            Boss01 boss = hit.collider.GetComponentInParent<Boss01>();
-
-            if (boss != null)
-            {
-                boss.TakeDamege(25f, gameObject);
-                Debug.Log("Hit Boss!");
-            }
-        }
+            boss.TakeDamegeByPlayer(25f, gameObject);
+            Debug.Log("Hit Boss!");
+        }       
     }    
     // HÀM APPLY SLOW
     public void ApplySlow(float slowPercent, float duration)

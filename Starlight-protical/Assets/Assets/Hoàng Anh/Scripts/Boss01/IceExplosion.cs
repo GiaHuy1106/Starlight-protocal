@@ -6,8 +6,28 @@ public class IceExplosion : MonoBehaviour
     public int damage = 40;
     public LayerMask playerLayer;
 
+    [Header("Audio Settings")]
+    public AudioClip explosionSound;
+    private AudioSource audioSource;
+
     void Start()
     {
+        //Setup audio source
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+        if(explosionSound != null)
+        {
+            audioSource.spatialBlend = 1f; // 3D sound
+            audioSource.minDistance = 3f;
+            audioSource.maxDistance = 30f;
+            audioSource.dopplerLevel = 0f;
+
+            audioSource.pitch = Random.Range(0.9f, 1.8f); // Thêm chút ngẫu nhiên cho âm thanh
+            audioSource.PlayOneShot(explosionSound);
+        }
         DealDamage();
         float lifetime = GetComponent<ParticleSystem>().main.duration
                    + GetComponent<ParticleSystem>().main.startLifetime.constantMax;
