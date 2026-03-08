@@ -1,12 +1,20 @@
 ﻿using UnityEngine;
 
-public class FreeCamera : MonoBehaviour{
+public class FreeCamera : MonoBehaviour
+{
 
 	public float movementSpeed = 5.0f;
+	
 
-	void FixedUpdate()
-	{
-		var horizontalAxis = Input.GetAxis("Horizontal") * Time.fixedDeltaTime * movementSpeed;
+    private void Awake()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+   
+
+    void FixedUpdate()
+	{	
+		var horizontalAxis = Input.GetAxis("Horizontal") * Time.fixedDeltaTime * movementSpeed ;
 		var verticalAxis = Input.GetAxis("Vertical") * Time.fixedDeltaTime * movementSpeed;
 		var lookX = Input.GetAxis ("Mouse X");
 		var lookY = Input.GetAxis ("Mouse Y");

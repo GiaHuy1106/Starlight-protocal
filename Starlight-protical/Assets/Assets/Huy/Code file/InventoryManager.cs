@@ -45,7 +45,7 @@ public class InventoryManager : MonoBehaviour
     {
         inventoryMenu.SetActive(true);
         isInventoryOpen = true;
-        craftingMenu.SetActive(false);
+        CloseCraftingMenuVisual();
         //gamePaused.SetPauseState(true);
     }
 
@@ -53,7 +53,7 @@ public class InventoryManager : MonoBehaviour
     {
         inventoryMenu.SetActive(false);
         isInventoryOpen = false;
-        craftingMenu.SetActive(false);
+        CloseCraftingMenuVisual();
         //gamePaused.SetPauseState(false);
     }
 
@@ -67,9 +67,26 @@ public class InventoryManager : MonoBehaviour
 
     public void CloseCraftingMenu()
     {
-        craftingMenu.SetActive(false);
+        CloseCraftingMenuVisual();
         isCraftingMenuOpen = false;
         inventoryMenu.SetActive(false);
         //gamePaused.SetPauseState(false);
+    }
+
+    private void CloseCraftingMenuVisual()
+    {
+        if (craftingMenu == null || !craftingMenu.activeSelf)
+        {
+            return;
+        }
+
+        craftingUI craftingUiComponent = craftingMenu.GetComponent<craftingUI>();
+        if (craftingUiComponent != null)
+        {
+            craftingUiComponent.CloseWithAnimation();
+            return;
+        }
+
+        craftingMenu.SetActive(false);
     }
 }
