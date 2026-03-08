@@ -75,13 +75,20 @@ public class PlayerMovement : MonoBehaviour
     }
     void TryAttack()
     {
-        Boss01 boss = FindAnyObjectByType<Boss01>();
-      
-        if (boss != null)
-        {
-            boss.TakeDamegeByPlayer(25f, gameObject);
+        
+        //Boss01 boss = FindAnyObjectByType<Boss01>();
+        Boss01Health bossHealth = FindAnyObjectByType<Boss01Health>();
+        if (bossHealth != null)
+        {                  
             Debug.Log("Hit Boss!");
-        }       
+        }
+        bossHealth.TakeDamage(25f, gameObject);
+        Boss02Health boss02Health = FindAnyObjectByType<Boss02Health>();
+        if(boss02Health != null)
+        {
+            Debug.Log("Hit Boss02!");
+        }
+        boss02Health.TakeDamage(25f, gameObject);
     }    
     // HÀM APPLY SLOW
     public void ApplySlow(float slowPercent, float duration)

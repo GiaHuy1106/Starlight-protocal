@@ -48,7 +48,7 @@ public class Boss02 : MonoBehaviour, IShieldable
     private Vector3 spawnpoint;                             // Vị trí boss sinh ra ban đầu
     private Vector3 patrolTarget;                           // Điểm đi tuần hiện tại
     private float waitTimer;                               // Bộ đếm thời gian chờ
-
+    private bool isDead = false;                                  // Trạng thái đã chết
     void Start()
     {
         //bossNavMeshAgent.SetDestination(playerTargetTransform.position);
@@ -68,6 +68,7 @@ public class Boss02 : MonoBehaviour, IShieldable
     }
     void Update()
     {
+        if(isDead) return;
         if (playerTargetTransform == null) return;
 
         float distanceToPlayer = Vector3.Distance(transform.position, playerTargetTransform.position);
@@ -306,6 +307,48 @@ public class Boss02 : MonoBehaviour, IShieldable
         Boss01.ResetGlobalShield();
         Debug.Log(name + " Shield Force Deactivated");
         
+    }
+    public bool IsShieldActive()
+    {
+        return isShieldActive;
+    }
+    //Hàm này để gọi animation GetHit từ script health khi boss bị đánh trúng
+    public void PlayerGetHit()
+    {
+        if(isAttacking) return; //chặn animation GetHit nếu đang tấn công
+        if(isDead) return; //chặn animation GetHit nếu đã chết
+        if(bossAnimator != null)
+        {
+            bossAnimator.SetTrigger("GetHit");
+        }         
+    }
+    //Hàm làm cho boss bị knockback khi dính đamege
+    public void KnockBack(Vector3 attackerPostion, float force)
+    {
+        if(isDead) return;
+        Vector3 direction = (transform.position - attackerPostion).normalized;
+        transform.position += direction * force;
+    }    
+    // Hàm làm cho Boss die
+    public void Die()
+    {
+        if (isDead) return;
+        isDead = true;
+        Debug.Log("Boss Đie");
+        StopAllCoroutines();
+        if (bossNavMeshAgent != null)
+        {
+            bossNavMeshAgent.isStopped = true;
+            bossNavMeshAgent.enabled = false;
+        }
+
+        //Xoá lá chắn nếu còn tồn tại
+        if (currentShield != null) Destroy(currentShield);
+        //Phát hiệu ứng chết
+        bossAnimator.SetBool("isAttacking", false);
+        bossAnimator.SetBool("isDead", true);
+
+        Destroy(gameObject, 5f);
     }
     // ====== DEBUG ======
     void OnDrawGizmosSelected()

@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
-
 public enum Boss01State
 {
     Patrolling,         // Đi tuần tra trong bán kính khu vực
@@ -12,15 +11,10 @@ public enum Boss01State
 public class Boss01 : MonoBehaviour, IShieldable
 {
     private static bool globalShieldActive = false; // Biến tĩnh để theo dõi trạng thái lá chắn chung
-    [Header("Health Settings")]
-    public float maxHP = 300f;
-    private float currentHP;
-
     [Header("Audio Settings")]
     public AudioClip iceShootSound; 
     public AudioClip shieldSpawnSound;
     private AudioSource audioSource;
-
 
     [Header("References")]
     public Transform playerTargetTransform;
@@ -75,14 +69,10 @@ public class Boss01 : MonoBehaviour, IShieldable
     private Vector3 spawnpoint;                             // Vị trí boss sinh ra ban đầu
     private Vector3 patrolTarget;                           // Điểm đi tuần hiện tại
     private float waitTimer;                               // Bộ đếm thời gian chờ
-
+    public bool isDead = false;                                // Trạng thái chết
 
     void Start()
-    {
-        //bossNavMeshAgent.SetDestination(playerTargetTransform.position);
-        //bossSpeedHash = Constants.speedBoss;
-        currentHP = maxHP;
-        // Lưu vị trí ban đầu để làm mốc đi tuần & quay về
+    {       
         spawnpoint = transform.position;
         // Chọn điểm đi tuần đầu tiên
         SetNewPatrolPoint();
@@ -99,13 +89,12 @@ public class Boss01 : MonoBehaviour, IShieldable
     }
     void Update()
     {
+        if (isDead) return;
         if (playerTargetTransform == null) return;
 
         float distanceToPlayer = Vector3.Distance(transform.position, playerTargetTransform.position);
         HandleDetection(distanceToPlayer);
        
-
-
         float distanceToHome = Vector3.Distance(transform.position, spawnpoint);
 
         float speed = bossNavMeshAgent.velocity.magnitude;
@@ -172,7 +161,6 @@ public class Boss01 : MonoBehaviour, IShieldable
                 currentState = Boss01State.Returning;
                 Debug.Log("Boss Lost Player!");
             }
-
         }
     }
 
@@ -184,11 +172,7 @@ public class Boss01 : MonoBehaviour, IShieldable
         {
             bossNavMeshAgent.isStopped = false;
         }
-        
-        //if (!bossNavMeshAgent.hasPath)
-        //{
-         //   SetNewPatrolPoint();
-        //}
+               
         if (!bossNavMeshAgent.pathPending && bossNavMeshAgent.remainingDistance <= bossNavMeshAgent.stoppingDistance)
         {
             // Đứng chờ 1 chút cho tự nhiên
@@ -224,8 +208,7 @@ public class Boss01 : MonoBehaviour, IShieldable
         bossNavMeshAgent.stoppingDistance = attackRange;
         // Nếu player trong tầm đánh
         bossNavMeshAgent.isStopped = false;
-
-        //
+       
         if (hasDetectedPlayer && skill2Timer >= skill2Cooldown)
         {
             UseSkill2();
@@ -284,10 +267,7 @@ public class Boss01 : MonoBehaviour, IShieldable
 
         Vector3 lookDir = playerTargetTransform.position - transform.position;
         lookDir.y = 0;
-
-        //Quaternion targetRotation = Quaternion.LookRotation(lookDir);
-        //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 8f);
-        //transform.rotation = Quaternion.LookRotation(lookDir);
+      
         if (lookDir != Vector3.zero)
         {
             Quaternion targetRotation = Quaternion.LookRotation(lookDir);
@@ -414,7 +394,6 @@ public class Boss01 : MonoBehaviour, IShieldable
 
         Debug.Log(name + " Shield Activated!");
     }
-
     public void ForceDeactivateShield()
     {
         isShieldActive = false;
@@ -422,13 +401,17 @@ public class Boss01 : MonoBehaviour, IShieldable
         if (currentShield != null)
             Destroy(currentShield);
     }
+    public bool IsShieldActive()
+    {
+        return isShieldActive;
+    }
     public static void ResetGlobalShield()
     {
         globalShieldActive = false;
     }
     // RETURNING
     void HandleReturning()
-     {
+    {
         bossNavMeshAgent.stoppingDistance = 0.2f;
         if (bossNavMeshAgent.isStopped)
             bossNavMeshAgent.isStopped = false;
@@ -440,32 +423,43 @@ public class Boss01 : MonoBehaviour, IShieldable
             currentState = Boss01State.Patrolling;
             SetNewPatrolPoint();
         }
-     }
-    public void TakeDamegeByPlayer(float damage, GameObject attacker)
-    {
-        currentHP -= damage;
-        Debug.Log("Boss HP: " + currentHP + " / " + maxHP);
-        //Nếu shield đang bật => làm chậm player
-        if (isShieldActive)
-        {
-            PlayerMovement player = FindAnyObjectByType<PlayerMovement>();
-            if (player != null)
-            {
-                player.ApplySlow(slowPercent, slowDuration);
-            }
-            
-        }
-        if (currentHP <= 0)
-        {
-            Die();
-        }
     }
-    void Die()
+    //Hàm này để gọi animation GetHit từ script health khi boss bị đánh trúng
+    public void PlayerGetHit()
     {
+        if(isAttacking) return;
+        if(isDead) return;
+        if (bossAnimator != null)
+        {
+            bossAnimator.SetTrigger("GetHit");
+        }
+    }    
+    //Hàm làm cho boss bị knockback khi dính đamege
+    public void KnockBack(Vector3 attackerPosition, float force)
+    {
+        if (isDead) return;
+        Vector3 direction = (transform.position - attackerPosition).normalized;
+        transform.position += direction * force;
+    }
+    public void Die()
+    {
+        if(isDead) return;
+        isDead = true;
         Debug.Log("Boss Đie");
-        bossNavMeshAgent.isStopped = true;
+        StopAllCoroutines();
+        if (bossNavMeshAgent != null)
+        {
+            bossNavMeshAgent.isStopped = true;
+            bossNavMeshAgent.enabled = false;
+        }
+    
+        //Xoá lá chắn nếu còn tồn tại
+        if (currentShield != null) Destroy(currentShield);
+        //Phát hiệu ứng chết
+        bossAnimator.SetBool("isAttacking", false);
+        bossAnimator.SetBool("isDead",true);
 
-        if(currentShield != null) Destroy(currentShield);
+        Destroy(gameObject, 5f);
 
     }    
       // ====== DEBUG ======

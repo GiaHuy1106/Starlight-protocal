@@ -12,7 +12,6 @@ public class PlayerInput : MonoBehaviour
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
 
-        attackInput = Input.GetKeyDown(KeyCode.F);
-        comboInput = Input.GetKeyDown(KeyCode.C);
+        attackInput = Input.GetKeyDown(KeyCode.F);       
     }
 }
