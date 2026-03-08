@@ -12,7 +12,8 @@ public enum Enemy1State
     Patrolling,
     FollowingPlayer,
     ReturningHome,
-    Attacking
+    Attacking,
+    Die
 }
 [System.Serializable]
 public class LootItem
@@ -104,10 +105,6 @@ public class Enemy1 : MonoBehaviour
     }
     private void Update()
     {
-        if(currentHP <= 0)
-        {
-            return; // Nếu đã chết thì không làm gì nữa
-        }
         var distanceToPlayer = Vector3.Distance(
             transform.position,
             playerTargetTransform.position);
@@ -131,6 +128,9 @@ public class Enemy1 : MonoBehaviour
                 break;
             case Enemy1State.Attacking:
                 HandleAttacking(distanceToPlayer);
+                break;
+            case Enemy1State.Die:
+                Die();
                 break;
             default:
                 break;
@@ -310,7 +310,7 @@ public class Enemy1 : MonoBehaviour
         Debug.Log("Enemy bị đánh! HP còn " +  currentHP);
         if(currentHP <= 0)
         {
-            Die();
+            currentState = Enemy1State.Die;
         }    
     }    
     void Die()
@@ -347,6 +347,7 @@ public class Enemy1 : MonoBehaviour
         //Biến mất
         StartCoroutine(WaitAndDisable(2f));
 
+
     }
     IEnumerator WaitAndDisable(float delayTime)
     {
@@ -359,5 +360,6 @@ public class Enemy1 : MonoBehaviour
         takeDamageText.text = "- " + amount.ToString();
         yield return new WaitForSeconds(1f);
         takeDamageText.text = "";
-    }    
+    }
+
 }

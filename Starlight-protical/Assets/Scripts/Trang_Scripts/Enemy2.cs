@@ -14,7 +14,8 @@ public enum Enemy2State
     FollowingPlayer,
     ReturningHome,
     Defending,
-    Attacking
+    Attacking,
+    Die
 }
 [System.Serializable]
 public class LootItem2
@@ -120,7 +121,7 @@ public class Enemy2 : MonoBehaviour
     private void Update()
     {
         // Nếu đang bận đỡ đòn hoặc đã chết thì không tính toán AI nữa
-        if (isDefending || currentHP <= 0) return;
+        if (isDefending) return;
         var distanceToPlayer = Vector3.Distance(
             transform.position,
             playerTargetTransform.position);
@@ -144,6 +145,9 @@ public class Enemy2 : MonoBehaviour
                 break;
             case Enemy2State.Attacking:
                 HandleAttacking(distanceToPlayer);
+                break;
+            case Enemy2State.Die:
+                Die();
                 break;
             default:
                 break;
@@ -346,7 +350,7 @@ public class Enemy2 : MonoBehaviour
         Debug.Log("Enemy bị đánh! HP còn " + currentHP);
         if (currentHP <= 0)
         {
-            Die();
+            currentState = Enemy2State.Die;
         }
     }
     void Die()

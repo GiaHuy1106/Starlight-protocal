@@ -12,7 +12,8 @@ public enum Enemy4State
     Patrolling,
     FollowingPlayer,
     ReturningHome,
-    Attacking
+    Attacking,
+    Die
 }
 [System.Serializable]
 public class LootItem4
@@ -109,8 +110,6 @@ public class Enemy4_Controller : MonoBehaviour
     }
     private void Update()
     {
-        if (currentHP <= 0)
-            return;
         var distanceToPlayer = Vector3.Distance(
             transform.position,
             playerTargetTransform.position);
@@ -134,6 +133,9 @@ public class Enemy4_Controller : MonoBehaviour
                 break;
             case Enemy4State.Attacking:
                 HandleAttacking(distanceToPlayer);
+                break;
+            case Enemy4State.Die:
+                Die();
                 break;
             default:
                 break;
@@ -328,7 +330,7 @@ public class Enemy4_Controller : MonoBehaviour
         Debug.Log("Enemy bị đánh! HP còn " + currentHP);
         if (currentHP <= 0)
         {
-            Die();
+            currentState = Enemy4State.Die;
         }
     }
     void Die()

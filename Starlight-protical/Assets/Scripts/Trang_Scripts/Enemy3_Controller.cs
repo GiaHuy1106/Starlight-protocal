@@ -12,7 +12,8 @@ public enum Enemy3State
     Patrolling,
     FollowingPlayer,
     ReturningHome,
-    Attacking
+    Attacking,
+    Die
 }
 [System.Serializable]
 public class LootItem3
@@ -132,6 +133,9 @@ public class Enemy3_Controller : MonoBehaviour
                 break;
             case Enemy3State.Attacking:
                 HandleAttacking(distanceToPlayer);
+                break;
+            case Enemy3State.Die:
+                Die();
                 break;
             default:
                 break;
@@ -334,7 +338,7 @@ public class Enemy3_Controller : MonoBehaviour
         Debug.Log("Enemy bị đánh! HP còn " + currentHP);
         if (currentHP <= 0)
         {
-            Die();
+            currentState = Enemy3State.Die;
         }
     }
     void Die()
