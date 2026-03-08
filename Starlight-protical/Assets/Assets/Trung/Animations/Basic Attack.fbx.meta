@@ -55,14 +55,14 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.016568378
+      - time: 0.017048132
         functionName: GlowOn
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.05442953
+      - time: 0.05482718
         functionName: SpawnOrb
         data: 
         objectReferenceParameter: {instanceID: 0}

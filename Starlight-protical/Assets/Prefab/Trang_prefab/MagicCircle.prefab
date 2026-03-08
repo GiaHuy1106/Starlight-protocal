@@ -39260,8 +39260,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6729e6f71bc96404589d0c5bc8e79cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 20
-  delayTime: 1.5
+  damage: 40
+  delayTime: 1
   radius: 3
 --- !u!1 &6867060936981019400
 GameObject:

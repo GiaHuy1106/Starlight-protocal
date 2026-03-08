@@ -29503,7 +29503,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_BoundingSphereOverride: {x: 2.720083e+23, y: 2.720083e+23, z: 2.720083e+23, w: 2.720083e+23}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ForceVisible: 0
@@ -34723,7 +34723,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.4
+      scalar: 1
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -39376,11 +39376,11 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.5
+  m_Radius: 4.32
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &8624255413711619294
 MonoBehaviour:
@@ -39394,5 +39394,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad2129853a79d8a4f94dfd209932fe4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 50
-  lifetime: 5
+  damage: 200
+  lifetime: 3.5
+  tickInterval: 0.15
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  fallSFX: {fileID: 8300000, guid: 434a45a7c23a5cb4fb81fb03d065c9c9, type: 3}
+  hitSFX: {fileID: 8300000, guid: fb027f9b31ce05c4f936b90609d1a490, type: 3}
+  fallVolume: 1
+  hitVolume: 0.433
+  sfxSource: {fileID: 0}

@@ -99,8 +99,8 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.114012085, g: 0.2051844, b: 0.90188676, a: 0.61960787}
-      key1: {r: 0.34217867, g: 0.38518292, b: 0.96981126, a: 0}
+      key0: {r: 0.94716984, g: 0.13403334, b: 0.91539896, a: 0.61960787}
+      key1: {r: 0.9245283, g: 0, b: 0.84775436, a: 0}
       key2: {r: 0, g: 0, b: 0, a: 1}
       key3: {r: 0, g: 0, b: 0, a: 1}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -362,7 +362,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.035948712, g: 0.036595207, b: 0.19245279, a: 1}
+      maxColor: {r: 0.24695356, g: 0.035777826, b: 0.2528302, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -5254,7 +5254,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.054076135, g: 0.10005692, b: 0.9245283, a: 1}
+      maxColor: {r: 0.83552015, g: 0.079309314, b: 0.89433956, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -10209,8 +10209,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.22
-      minScalar: 0.01
+      scalar: 0.78
+      minScalar: 0.17
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -11240,7 +11240,7 @@ ParticleSystem:
       maxGradient:
         serializedVersion: 2
         key0: {r: 0.98490566, g: 0.98490566, b: 0.98490566, a: 0.61960787}
-        key1: {r: 0.29844782, g: 0.329922, b: 0.94716984, a: 0}
+        key1: {r: 0.82641506, g: 0.035863202, b: 0.81658345, a: 0}
         key2: {r: 0, g: 0, b: 0, a: 1}
         key3: {r: 0, g: 0, b: 0, a: 1}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -11264,7 +11264,7 @@ ParticleSystem:
         atime6: 0
         atime7: 0
         m_Mode: 0
-        m_ColorSpace: 0
+        m_ColorSpace: -1
         m_NumColorKeys: 2
         m_NumAlphaKeys: 5
       minGradient:
@@ -14839,16 +14839,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 4252543257995965755}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1a9160442549524b8be13aff59aef88, type: 3}
+  m_Script: {fileID: 11500000, guid: 89877dedd26df5344adaa3408871235c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   explosionPrefab: {fileID: 8116870460198516324, guid: 315a8e17ddbb246458e1d9749f96ca23, type: 3}
-  maxDistance: 20
-  speed: 10
+  maxDistance: 30
+  speed: 30
   damage: 200
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
+  explosionSFX: {fileID: 8300000, guid: df6696c3c5ed97548b947035c51c7951, type: 3}
+  explosionVolume: 1
+  sfxSource: {fileID: 0}
 --- !u!135 &965090807081829516
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -14868,7 +14871,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.31
+  m_Radius: 0.37
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7254896623661050251
 GameObject:

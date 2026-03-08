@@ -210,7 +210,7 @@ public class InventorySystem : MonoBehaviour
 
     private void Pickup()
     {
-        if (lookedAtItemRenderer != null && Input.GetKeyDown(KeyCode.E))
+        if (lookedAtItemRenderer != null && Input.GetKeyDown(KeyCode.P))
         {
             Item item = lookedAtItemRenderer.GetComponent<Item>();
             if (item != null)
@@ -244,7 +244,9 @@ public class InventorySystem : MonoBehaviour
                     lookedAtItemRenderer = renderer; //Lưu renderer của item đang nhìn thấy để có thể khôi phục sau này nếu cần
                 }
             }
+            Debug.Log("Item detected: " + item.name);
         }
+        Debug.Log("No item detected");
     }
 
     private void UpdateItemDescrip()

@@ -4852,6 +4852,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damagePercent: 10
   tickRate: 1
+  poisonDebuffPrefab: {fileID: 6126188424833946103, guid: 430db97c1b4d1e3438c7de4cabcfd1df, type: 3}
 --- !u!65 &1485553838850240178
 BoxCollider:
   m_ObjectHideFlags: 0
