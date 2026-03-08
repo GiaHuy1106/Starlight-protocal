@@ -17,25 +17,16 @@ public class PoisonArea : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-         if (!other.CompareTag("Player")) return;
+        if (!other.CompareTag("Player")) return;
 
         firstHit = true;
 
-        Transform vfxPoint = other.GetComponentInChildren<Transform>(true);
-
-        foreach (Transform t in other.GetComponentsInChildren<Transform>(true))
+        // spawn debuff effect trên đầu player
+        if (poisonDebuffPrefab != null && currentDebuff == null)
         {
-            if (t.name == "VFX_Point")
-            {
-                vfxPoint = t;
-                break;
-            }
-        }
-
-        if (poisonDebuffPrefab != null && currentDebuff == null && vfxPoint != null)
-        {
-            currentDebuff = Instantiate(poisonDebuffPrefab, vfxPoint);
-            currentDebuff.transform.localPosition = Vector3.zero;
+            Transform head = other.transform;
+            currentDebuff = Instantiate(poisonDebuffPrefab, head);
+            currentDebuff.transform.localPosition = new Vector3(0, 2f, 0);
         }
     }
 
@@ -45,7 +36,7 @@ public class PoisonArea : MonoBehaviour
 
         if (Time.time >= nextDamageTime)
         {
-            PlayerHealth playerHP = other.GetComponentInParent<PlayerHealth>();
+            PlayerHealth playerHP = other.GetComponent<PlayerHealth>();
 
             if (playerHP != null)
             {
