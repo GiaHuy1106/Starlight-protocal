@@ -15,11 +15,8 @@ LightingSettings:
   m_AlbedoBoost: 1
   m_IndirectOutputScale: 1
   m_UsingShadowmask: 1
-<<<<<<< HEAD:Starlight-protical/Assets/Assets/Phuc/BK_AlchemistHouse/Scenes/Scene_ItemsSettings.lighting
   m_BakeBackend: 2
-=======
   m_BakeBackend: 1
->>>>>>> PhucDev_duphong(Huy_tao_de_test_merge):Starlight-protical/Assets/Assets/Phúc/BK_AlchemistHouse/Scenes/Scene_ItemsSettings.lighting
   m_LightmapMaxSize: 1024
   m_LightmapSizeFixed: 0
   m_UseMipmapLimits: 1

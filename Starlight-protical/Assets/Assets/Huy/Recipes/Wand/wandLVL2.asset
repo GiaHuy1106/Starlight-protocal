@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 87af97dc15f769c4eb9de625e0ff26af, type: 3}
-  m_Name: HealthPotion
+  m_Name: wandLVL2
   m_EditorClassIdentifier: 
-  itemName: 
+  itemName: wand level 2
   description: 
-  requiredLevel: 0
-  icon: {fileID: 0}
-  worldPrefab: {fileID: 0}
-  itemType: 0
-  rarity: 0
+  requiredLevel: 1
+  icon: {fileID: 21300000, guid: f2612560389d64920bf1cf12ae57d424, type: 3}
+  worldPrefab: {fileID: 115338, guid: d9a3ec0dc2aae4e43af8b98e0eeb7662, type: 3}
+  itemType: 1
+  rarity: 1
   stackable: 1
-  maxStack: 1000
-  sellPrice: 0
-  attackBonus: 0
+  maxStack: 1
+  sellPrice: 1000
+  attackBonus: 20
   healAmount: 0
-  dropChance: 0.25
+  dropChance: 0

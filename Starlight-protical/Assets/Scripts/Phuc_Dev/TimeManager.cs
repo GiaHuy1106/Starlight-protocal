@@ -20,7 +20,7 @@ public class TimeManager : MonoBehaviour
     private int hours;
     private int minutes;
     private int seconds;
-    [SerializeField] TextMeshProUGUI timeText;
+    [SerializeField] private TextMeshProUGUI timeText;
 
     private void Awake()
     {

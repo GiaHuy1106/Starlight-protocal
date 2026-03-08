@@ -10,6 +10,10 @@ public class InventorySystem : MonoBehaviour
 {
     public static InventorySystem Instance { get; private set;}
 
+    //Test item
+    public ItemObject BigBluePotion;
+    public ItemObject BlueGem;
+
     //Inventory
     public GameObject inventorySlotsParent; //Panel chứa các slot trong inventory
     public Image IconDrag;
@@ -46,7 +50,7 @@ public class InventorySystem : MonoBehaviour
     void Update()
     {
         //Test item 
-        //testItem();
+        testItem();
         
         DetecLookAtItem();
         Pickup();
@@ -56,6 +60,18 @@ public class InventorySystem : MonoBehaviour
         EndDrag();
 
         UpdateItemDescrip();
+    }
+
+    public void testItem()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha0))
+        {
+            Additem(BigBluePotion, 1);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            Additem(BlueGem, 1);
+        }
     }
 
 
@@ -81,7 +97,7 @@ public class InventorySystem : MonoBehaviour
 
                     if(remainingAmount <= 0)
                     {
-                        CraftingSystem.instance.populateCraftingGrid();
+                        NotifyCraftingUIChanged();
                         return; //Nếu đã thêm đủ số lượng cần thiết vào inventory thì dừng việc tìm kiếm và thêm vào các slot khác
                     }
                 }
@@ -99,7 +115,7 @@ public class InventorySystem : MonoBehaviour
 
                 if(remainingAmount <= 0)
                 {
-                    CraftingSystem.instance.populateCraftingGrid();
+                    NotifyCraftingUIChanged();
                     return; //Nếu đã thêm đủ số lượng cần thiết vào inventory thì dừng việc tìm kiếm và thêm vào các slot khác
                 }
             }
@@ -110,7 +126,7 @@ public class InventorySystem : MonoBehaviour
         {
             Debug.LogWarning("Not enough space in inventory to add all items. Remaining amount: " + remainingAmount + " of " + ItemToAdd.name);
         }
-        CraftingSystem.instance.populateCraftingGrid();
+        NotifyCraftingUIChanged();
     }
 
     public void StartDrag() //Bắt đầu kéo item khi nhấn chuột trái vào slot có item, sẽ được gọi trong sự kiện OnMouseDown của slot
@@ -179,7 +195,7 @@ public class InventorySystem : MonoBehaviour
                 fromOldSlots.SetItem(fromOldSlots.GetItem(), fromOldSlots.GetAmount() - move);
 
                 if (fromOldSlots.GetAmount() <= 0) fromOldSlots.ClearSlots();
-
+                NotifyCraftingUIChanged();
                 return;
             }
         }
@@ -192,12 +208,14 @@ public class InventorySystem : MonoBehaviour
 
             toNewSlots.SetItem(fromOldSlots.GetItem(), fromOldSlots.GetAmount()); //Đặt item từ slot gốc sang slot mới
             fromOldSlots.SetItem(tempItem, tempAmount);
+            NotifyCraftingUIChanged();
             return;
         }
 
         //empty slot
         toNewSlots.SetItem(fromOldSlots.GetItem(), fromOldSlots.GetAmount()); //Đặt item từ slot gốc sang slot mới
         fromOldSlots.ClearSlots(); //Xóa item khỏi slot gốc
+        NotifyCraftingUIChanged();
     }
 
     public void UpdateItemDragPos()
@@ -263,6 +281,14 @@ public class InventorySystem : MonoBehaviour
                 return;
             }
             itemDesciptionParent.SetActive(false);
+        }
+    }
+
+    private void NotifyCraftingUIChanged()
+    {
+        if (craftingUI.Instance != null)
+        {
+            craftingUI.Instance.RefreshCurrentUI();
         }
     }
 }
