@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87af97dc15f769c4eb9de625e0ff26af, type: 3}
+  m_Name: wandLVL3
+  m_EditorClassIdentifier: 
+  itemName: wand level 3
+  description: 
+  requiredLevel: 2
+  icon: {fileID: 21300000, guid: f2612560389d64920bf1cf12ae57d424, type: 3}
+  worldPrefab: {fileID: 117502, guid: 2b46cc393735f634f89cb88a9e97aaa7, type: 3}
+  itemType: 1
+  rarity: 2
+  stackable: 1
+  maxStack: 1
+  sellPrice: 2000
+  attackBonus: 30
+  healAmount: 0
+  dropChance: 0

@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87af97dc15f769c4eb9de625e0ff26af, type: 3}
   m_Name: GreenPotionS
   m_EditorClassIdentifier: 
-  itemId: 
   itemName: Small green potion
   description: Small green potion get max 50% upgrade to wands level 2
-  icon: {fileID: 0}
+  requiredLevel: 0
+  icon: {fileID: 21300000, guid: 15dc2e65ce14732439a2ac3c9288109d, type: 3}
   worldPrefab: {fileID: 1814698468835409731, guid: cfb59e3be844f1040986af76c36858fc, type: 3}
   itemType: 1
   rarity: 1
@@ -24,4 +24,4 @@ MonoBehaviour:
   sellPrice: 15
   attackBonus: 50
   healAmount: 0
-  dropChance: 0.25
+  dropChance: 0.4
