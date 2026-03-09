@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 411128}
   - component: {fileID: 3309972}
   - component: {fileID: 2302796}
-  m_Layer: 0
-  m_Name: wand03_green
+  m_Layer: 12
+  m_Name: MagicWand LV3 Preview
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26,8 +26,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 117502}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.000000115202326, y: 0.7071068, z: 0.7071068, w: -0.000000115202326}
-  m_LocalPosition: {x: 0.022971466, y: 0, z: -0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0}
   m_LocalScale: {x: 1, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children: []

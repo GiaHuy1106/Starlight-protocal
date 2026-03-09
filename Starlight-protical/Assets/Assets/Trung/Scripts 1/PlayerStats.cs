@@ -76,4 +76,8 @@ public class PlayerStats : MonoBehaviour
             OnDead?.Invoke();
         }
     }
+    public void RefreshStats()
+    {
+        OnStatChanged?.Invoke();
+    }
 }
