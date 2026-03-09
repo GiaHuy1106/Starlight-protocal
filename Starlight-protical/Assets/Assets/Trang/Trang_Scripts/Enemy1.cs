@@ -72,6 +72,7 @@ public class Enemy1 : MonoBehaviour
     //hiện panel profile
     public GameObject miniProfilePanel;
     public Slider hpSlider;
+    private bool isDead = false;
 
     //rớt đồ 
     [Header("Loot System")]
@@ -294,6 +295,7 @@ public class Enemy1 : MonoBehaviour
     }
     public void TakeDamage(float amount)
     {
+        if (isDead) return;   // 🔴 chặn damage sau khi chết
         if (amount > def)
         {
             amount -= def;
@@ -317,6 +319,9 @@ public class Enemy1 : MonoBehaviour
     }    
     void Die()
     {
+        
+        if (isDead) return;   // nếu đã chết rồi thì thoát
+        isDead = true;        // đánh dấu đã chết
         //Ngừng di chuyển
         slime1NavMeshAgent.isStopped = true;
         slime1NavMeshAgent.velocity = Vector3.zero;
