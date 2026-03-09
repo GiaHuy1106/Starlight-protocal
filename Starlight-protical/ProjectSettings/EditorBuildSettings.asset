@@ -9,19 +9,19 @@ EditorBuildSettings:
     path: Assets/Assets/Huy/Scenes/Inventory.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
-    path: Assets/Scenes/MainMenu.unity
+    path: Assets/Assets/Huy/Scenes/MainMenu.unity
     guid: 81f4eea15428d3b4a9e004e9886be8f5
   - enabled: 1
-    path: Assets/Scenes/Enemy1.unity
+    path: Assets/Assets/Huy/Scenes/Enemy1.unity
     guid: 4478b911a61a3e746af3bb19bbb0c016
   - enabled: 1
-    path: Assets/Scenes/Enemy2.unity
+    path: Assets/Assets/Huy/Scenes/Enemy2.unity
     guid: 5eca38b399712794e9d9cd63e6d4cf46
   - enabled: 1
-    path: Assets/Scenes/Enemy3.unity
+    path: Assets/Assets/Huy/Scenes/Enemy3.unity
     guid: 67a79f6c11fd74041bdd9b6a72af5425
   - enabled: 1
-    path: Assets/Scenes/Enemy4.unity
+    path: Assets/Assets/Huy/Scenes/Enemy4.unity
     guid: 59d56307b0751314595d3e69e8101000
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
