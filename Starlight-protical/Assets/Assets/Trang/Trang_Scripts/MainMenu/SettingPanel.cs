@@ -15,20 +15,19 @@ public class SettingPanel : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        sound.value = 1f;
         settingPanel.SetActive(false);
-        sound.onValueChanged.AddListener(UpdateVolumeUI);
-        UpdateVolumeUI(sound.value);
-        float savedVolume = PlayerPrefs.GetFloat("volume", 1f);
-        sound.value = savedVolume;
-        UpdateVolumeUI(savedVolume);
 
-        sfx.value = 1f;
-        sfx.onValueChanged.AddListener(UpdateSFXUI);
-        UpdateSFXUI(sfx.value);
+        float savedVolume = PlayerPrefs.GetFloat("volume", 1f);
         float savedSFX = PlayerPrefs.GetFloat("sfxVolume", 1f);
+
+        sound.value = savedVolume;
         sfx.value = savedSFX;
+
+        UpdateVolumeUI(savedVolume);
         UpdateSFXUI(savedSFX);
+
+        sound.onValueChanged.AddListener(UpdateVolumeUI);
+        sfx.onValueChanged.AddListener(UpdateSFXUI);
     }
     void UpdateVolumeUI(float value)
     {
@@ -38,6 +37,7 @@ public class SettingPanel : MonoBehaviour
         mute[1].gameObject.SetActive(volume != 0f);
         MusicManager.Instance.SetVolume(volume);
         PlayerPrefs.SetFloat("volume", volume);
+        PlayerPrefs.Save();
     }
     void UpdateSFXUI(float value)
     {
@@ -47,6 +47,7 @@ public class SettingPanel : MonoBehaviour
         mute[3].gameObject.SetActive(sfxVolume != 0f);
         MusicManager.Instance.SetSFXVolume(sfxVolume);
         PlayerPrefs.SetFloat("sfxVolume", sfxVolume);
+        PlayerPrefs.Save();
     }
     // Update is called once per frame
     void Update()
@@ -58,6 +59,14 @@ public class SettingPanel : MonoBehaviour
         if (settingPanel != null)
         {
             settingPanel.SetActive(!settingPanel.activeSelf);
+            if(settingPanel.activeSelf)
+            {
+                MainMenuManager.instance.PauseGame();
+            }
+            else
+            {
+                MainMenuManager.instance.ResumeGame();
+            }
         }
     }
     public void MuteSound()

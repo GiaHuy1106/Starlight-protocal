@@ -48,6 +48,10 @@ public class Enemy1 : MonoBehaviour
     public float attackRate = 1.5f; // thời gian giữa các lần tấn công
     private float nextAttackTime = 0f;
 
+    //Âm thanh
+    public AudioSource music;
+    public AudioClip[] musicClip;
+
     //Thêm thông số  
     [Header("Speed Settings")]
     public float patrolSpeed = 3.5f; //tốc độ bình thường
@@ -60,9 +64,7 @@ public class Enemy1 : MonoBehaviour
     public float damage = 10f;
     public float def = 10f; 
 
-    //Âm thanh
-    public AudioSource music;
-    public AudioClip[] musicClip; //thứ tự như sau: 0.fight 1.patrolling  2.Stop 3.Hurt 4.die
+    
     //khoảng cách giữa 2 tiếng nhảy 
     private float stepTimer = 0f;
     public float stepInterval = 0.7f;
@@ -295,7 +297,7 @@ public class Enemy1 : MonoBehaviour
     }
     public void TakeDamage(float amount)
     {
-        if (isDead) return;   // 🔴 chặn damage sau khi chết
+        if (isDead) return;  
         if (amount > def)
         {
             amount -= def;
@@ -308,7 +310,7 @@ public class Enemy1 : MonoBehaviour
         }    
         hpSlider.value = currentHP;
         enemy1Animator.SetTrigger(Enemy_Constant.Enemy1GetHurtHash);
-        music.PlayOneShot(musicClip[3]);
+        music.PlayOneShot(musicClip[3]); 
         Debug.Log("Enemy bị đánh! HP còn " +  currentHP);
         if(currentHP <= 0)
         {
@@ -325,7 +327,7 @@ public class Enemy1 : MonoBehaviour
         //Ngừng di chuyển
         slime1NavMeshAgent.isStopped = true;
         slime1NavMeshAgent.velocity = Vector3.zero;
-        
+
         //âm thanh
         music.PlayOneShot(musicClip[4]);
 
