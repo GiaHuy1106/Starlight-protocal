@@ -69,15 +69,15 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.9794298
-        functionName: GlowOff
+      - time: 0.9723784
+        functionName: EndFireballAttack
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.9816091
-        functionName: EndFireballAttack
+      - time: 0.9794298
+        functionName: GlowOff
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0

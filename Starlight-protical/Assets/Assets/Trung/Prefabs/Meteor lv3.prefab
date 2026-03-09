@@ -29503,7 +29503,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 2.720083e+23, y: 2.720083e+23, z: 2.720083e+23, w: 2.720083e+23}
+  m_BoundingSphereOverride: {x: 0, y: -0, z: -0, w: -0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ForceVisible: 0
@@ -29758,7 +29758,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.5471698, g: 0.27767447, b: 0.16260235, a: 1}
+      maxColor: {r: 0.1607843, g: 0.54901963, b: 0.3771281, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -34441,7 +34441,7 @@ GameObject:
   - component: {fileID: -2496369714200445495}
   - component: {fileID: 8624255413711619294}
   m_Layer: 0
-  m_Name: Meteors AOE
+  m_Name: Meteor lv3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34659,7 +34659,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.3018868, g: 0.2107524, b: 0.17799929, a: 1}
+      maxColor: {r: 0, g: 0.96862745, b: 0.017621322, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -34723,7 +34723,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 1.3
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -38639,7 +38639,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.7169812, g: 0.39249834, b: 0.18600929, a: 1}
+      maxColor: {r: 0.21568628, g: 0.9019608, b: 0.52565795, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -39394,7 +39394,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad2129853a79d8a4f94dfd209932fe4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 200
+  damage: 130
   lifetime: 3.5
   tickInterval: 0.15
   enemyLayer:

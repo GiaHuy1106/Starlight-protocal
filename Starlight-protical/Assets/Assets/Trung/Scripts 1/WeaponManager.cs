@@ -12,7 +12,7 @@ public class WeaponManager : MonoBehaviour
 
     [Header("Weapons")]
     public WeaponData[] weapons;
-    
+    public PlayerSkill playerSkill;
     GameObject currentPreviewHandWeapon;
     GameObject currentWeapon;
     GameObject currentPreview;
@@ -38,36 +38,59 @@ public class WeaponManager : MonoBehaviour
 
         WeaponData weapon = weapons[index];
 
-        // xoá vũ khí cũ
         if (currentWeapon != null)
             Destroy(currentWeapon);
-        // xóa vũ khí cũ trong profile panel
+
         if (currentPreview != null)
             Destroy(currentPreview);
-        // xóa vũ khí cũ của player trong profile panel
-        if (currentPreviewHandWeapon != null)
-        Destroy(currentPreviewHandWeapon);
 
-        // spawn vũ khí trên tay
+        if (currentPreviewHandWeapon != null)
+            Destroy(currentPreviewHandWeapon);
+
+        // weapon on player hand
         currentWeapon = Instantiate(weapon.weaponPrefab, handPoint);
         currentWeapon.transform.localPosition = Vector3.zero;
         currentWeapon.transform.localRotation = Quaternion.identity;
 
-        // spawn preview
+        // weapon preview panel
         currentPreview = Instantiate(weapon.previewPrefab, previewPoint);
         currentPreview.transform.localPosition = Vector3.zero;
         currentPreview.transform.localRotation = Quaternion.identity;
 
-        // ⭐ spawn weapon on avatar preview hand
+        // weapon on avatar preview hand
         currentPreviewHandWeapon = Instantiate(weapon.weaponPrefab, previewHandPoint);
         currentPreviewHandWeapon.transform.localPosition = Vector3.zero;
         currentPreviewHandWeapon.transform.localRotation = Quaternion.identity;
 
+        // cập nhật wand glow
 
-        // update stats
-        playerStats.attack = weapon.attack;
-        playerStats.defense = weapon.defense;
+        WandGlow glow = currentWeapon.GetComponentInChildren<WandGlow>();
+        if (playerSkill != null)
+        playerSkill.wandGlow = glow;
 
-        playerStats.RefreshStats();
+        // update player stats
+        playerStats.SetStats(
+            weapon.maxHP,
+            weapon.maxMana,
+            weapon.attack,
+            weapon.defense
+        );
+        ApplyWeaponSkills(weapon);
+    }
+    void ApplyWeaponSkills(WeaponData weapon)
+    {
+        if (playerSkill == null) return;
+
+        playerSkill.fireballPrefab = weapon.fireballPrefab;
+        playerSkill.specialPrefab = weapon.meteorPrefab;
+
+        playerSkill.fireballManaCost = weapon.fireballManaCost;
+        playerSkill.specialManaCost = weapon.meteorManaCost;
+
+        playerSkill.fireballSkillDamage = weapon.fireballDamage;
+        playerSkill.specialSkillDamage = weapon.meteorDamage;
+
+        playerSkill.fireballCooldown = weapon.fireballCooldown;
+        playerSkill.specialCooldown = weapon.meteorCooldown;
     }
 }

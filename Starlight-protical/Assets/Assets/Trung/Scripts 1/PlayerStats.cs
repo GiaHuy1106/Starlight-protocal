@@ -80,4 +80,16 @@ public class PlayerStats : MonoBehaviour
     {
         OnStatChanged?.Invoke();
     }
+    public void SetStats(int hp, int mana, int atk, int def)
+    {
+        maxHP = hp;
+        maxMana = mana;
+        attack = atk;
+        defense = def;
+
+        CurrentHP = maxHP;
+        CurrentMana = maxMana;
+
+        RefreshStats();
+    }
 }

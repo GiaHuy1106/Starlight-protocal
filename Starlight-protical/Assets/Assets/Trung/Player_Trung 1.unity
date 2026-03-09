@@ -2952,7 +2952,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
-  field of view: 45
+  field of view: 50
   orthographic: 0
   orthographic size: 10
   m_Depth: -1
@@ -5385,7 +5385,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
-    FieldOfView: 45
+    FieldOfView: 50
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
@@ -5705,26 +5705,77 @@ MonoBehaviour:
     previewPrefab: {fileID: 4295318710035710429, guid: c01084963384a33479b9233ce1ab1918, type: 3}
     attack: 50
     defense: 50
+    maxHP: 200
+    maxMana: 200
+    fireballPrefab: {fileID: 4252543257995965755, guid: e7cfe56cf1c966c468d1d1b93492e22e, type: 3}
+    fireballManaCost: 10
+    fireballDamage: 20
+    fireballCooldown: 7
+    meteorPrefab: {fileID: 9020393680873406411, guid: 1fa999c572717314e9cdd22bddc8de3c, type: 3}
+    meteorManaCost: 30
+    meteorDamage: 40
+    meteorCooldown: 10
   - weaponName: MagicWand Lv1
     weaponPrefab: {fileID: 105532, guid: 7bb0c626165e59d4499c29d4eb657ba8, type: 3}
     previewPrefab: {fileID: 105532, guid: 9b59a1c73117d3c4d9963c5321829b6e, type: 3}
     attack: 100
-    defense: 100
+    defense: 60
+    maxHP: 400
+    maxMana: 400
+    fireballPrefab: {fileID: 4252543257995965755, guid: d3e59c27dbc34654fb97dff36e55bdff, type: 3}
+    fireballManaCost: 20
+    fireballDamage: 30
+    fireballCooldown: 6
+    meteorPrefab: {fileID: 9020393680873406411, guid: 00d5edfe9905a694cb4c4b14769d5685, type: 3}
+    meteorManaCost: 60
+    meteorDamage: 80
+    meteorCooldown: 9
   - weaponName: MagicWand Lv2
     weaponPrefab: {fileID: 115338, guid: e870dadd376d8d045947a987f1345bef, type: 3}
     previewPrefab: {fileID: 115338, guid: fa3ab0aee4c9af1439e9715f514ea34e, type: 3}
     attack: 150
-    defense: 150
+    defense: 80
+    maxHP: 500
+    maxMana: 600
+    fireballPrefab: {fileID: 4252543257995965755, guid: 642074aaffa59a045a2a6e2a197d5ea6, type: 3}
+    fireballManaCost: 40
+    fireballDamage: 100
+    fireballCooldown: 5
+    meteorPrefab: {fileID: 9020393680873406411, guid: c8254de122eea5b40b49e04b1d167d8d, type: 3}
+    meteorManaCost: 100
+    meteorDamage: 120
+    meteorCooldown: 7
   - weaponName: MagicWand Lv3
     weaponPrefab: {fileID: 117502, guid: dac28a1ed287fda4fb3d15ef795f7e15, type: 3}
     previewPrefab: {fileID: 117502, guid: a2b8c4c4a5b4c3a40ba8dd37bd3584e5, type: 3}
     attack: 200
-    defense: 200
+    defense: 100
+    maxHP: 700
+    maxMana: 800
+    fireballPrefab: {fileID: 4252543257995965755, guid: 1b02326de209fe948b476f4fb561976f, type: 3}
+    fireballManaCost: 50
+    fireballDamage: 130
+    fireballCooldown: 4
+    meteorPrefab: {fileID: 9020393680873406411, guid: a4bb563f747d31e46a148df5caf71820, type: 3}
+    meteorManaCost: 150
+    meteorDamage: 160
+    meteorCooldown: 6
   - weaponName: MagicWand Lv4
     weaponPrefab: {fileID: 164894, guid: 95d9ca442f1756d43b6320f6c93aead4, type: 3}
     previewPrefab: {fileID: 164894, guid: 8e1a630d61aa1e5469013812cf1f9445, type: 3}
-    attack: 250
-    defense: 250
+    attack: 300
+    defense: 120
+    maxHP: 1300
+    maxMana: 1100
+    fireballPrefab: {fileID: 4252543257995965755, guid: c55dcdc86b3fee6478749d606ec340d9, type: 3}
+    fireballManaCost: 70
+    fireballDamage: 150
+    fireballCooldown: 3
+    meteorPrefab: {fileID: 9020393680873406411, guid: ac6c2e5435282eb499a3c40c9bca66fc, type: 3}
+    meteorManaCost: 180
+    meteorDamage: 230
+    meteorCooldown: 5
+  playerSkill: {fileID: 1688588350}
 --- !u!1 &294939607
 GameObject:
   m_ObjectHideFlags: 0
@@ -9959,7 +10010,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
-    FieldOfView: 45
+    FieldOfView: 50
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
@@ -19204,7 +19255,7 @@ MonoBehaviour:
   m_Follow: {fileID: 1668885164}
   m_CommonLens: 1
   m_Lens:
-    FieldOfView: 45
+    FieldOfView: 50
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
@@ -27013,7 +27064,7 @@ MonoBehaviour:
   playerInput: {fileID: 1668885166}
   specialDistance: 5
   fireballPrefab: {fileID: 4252543257995965755, guid: e7cfe56cf1c966c468d1d1b93492e22e, type: 3}
-  specialPrefab: {fileID: 9020393680873406411, guid: 1fa999c572717314e9cdd22bddc8de3c, type: 3}
+  specialPrefab: {fileID: 9020393680873406411, guid: ac6c2e5435282eb499a3c40c9bca66fc, type: 3}
   firePoint: {fileID: 329787924}
   wandGlow: {fileID: 0}
   fireballCooldown: 5
@@ -32012,7 +32063,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
-    FieldOfView: 45
+    FieldOfView: 50
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
@@ -32038,7 +32089,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2092428704}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.1248199, y: 0, z: 0, w: 0.99217945}
+  m_LocalRotation: {x: 0.10605199, y: 0, z: 0, w: 0.9943606}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
