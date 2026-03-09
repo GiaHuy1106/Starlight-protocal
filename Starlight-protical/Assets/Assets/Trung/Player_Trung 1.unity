@@ -8693,8 +8693,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -175, y: 434.46}
-  m_SizeDelta: {x: 243.77, y: 86.9267}
+  m_AnchoredPosition: {x: -165.396, y: 434.46}
+  m_SizeDelta: {x: 262.978, y: 86.9267}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &414163416
 MonoBehaviour:
@@ -8716,7 +8716,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Profile Witch
+  m_text: Profile Stellar
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f8802cdf5316acb45b71a160083153ee, type: 2}
   m_sharedMaterial: {fileID: -6269700506862428983, guid: f8802cdf5316acb45b71a160083153ee, type: 2}
@@ -27434,7 +27434,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "M\u1ED9t ph\xF9 th\u1EE7y nh\u1ECF nh\xFAt nh\xE1t v\u1EDBi c\xE2y tr\u01B0\u1EE3ng
+  m_text: "M\u1ED9t ph\xF9 th\u1EE7y nh\u1ECF t\u1EADp s\u1EF1 v\u1EDBi c\xE2y tr\u01B0\u1EE3ng
     g\u1ED7 \u0111\u01A1n s\u01A1. Ph\xE9p thu\u1EADt c\u1EE7a c\xF4 c\xF2n nh\u1ECF
     b\xE9, nh\u01B0ng h\xE0nh tr\xECnh ma ph\xE1p ch\u1EC9 m\u1EDBi b\u1EAFt \u0111\u1EA7u."
   m_isRightToLeft: 0
