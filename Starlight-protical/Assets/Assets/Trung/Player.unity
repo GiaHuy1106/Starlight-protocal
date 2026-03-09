@@ -7891,10 +7891,10 @@ PrefabInstance:
       addedObject: {fileID: 1688588350}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d172c22791a73d64ab9cfd99ee72de93, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1688588352}
+      addedObject: {fileID: 1688588353}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d172c22791a73d64ab9cfd99ee72de93, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1688588353}
+      addedObject: {fileID: 1688588354}
   m_SourcePrefab: {fileID: 100100000, guid: d172c22791a73d64ab9cfd99ee72de93, type: 3}
 --- !u!1 &392423477
 GameObject:
@@ -9252,7 +9252,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &475387244
 Transform:
   m_ObjectHideFlags: 0
@@ -9489,7 +9489,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 491187572}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.28486064, y: 0, z: 0, w: 0.958569}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -9685,9 +9685,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   craftingRecipes: []
-  craftingGrid: {fileID: 853681322}
-  craftingBTN: {fileID: 1868577750}
-  itemNeededUIPrefab: {fileID: 653515124}
 --- !u!114 &510010213
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10020,8 +10017,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 458110309}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -10254,8 +10251,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1598349730}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -11094,6 +11091,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9efdf9a264b48443851b0597d8a7461, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BigBluePotion: {fileID: 0}
+  BlueGem: {fileID: 0}
   inventorySlotsParent: {fileID: 653753356}
   IconDrag: {fileID: 2131267201}
   pickupRange: 3
@@ -16596,7 +16595,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1114980818
 Transform:
   m_ObjectHideFlags: 0
@@ -24810,16 +24809,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdc07148ff64e3948a982461794e7ba7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
-  runMultiplier: 3
+  moveSpeed: 4
+  runMultiplier: 1.8
   acceleration: 6
   deceleration: 8
   gravity: -9.81
   characterController: {fileID: 1668885168}
   playerInput: {fileID: 1668885166}
   _movementVelocity: {x: 0, y: 0, z: 0}
-  jumpForce: 1
-  dodgeForce: 30
+  jumpForce: 6
+  dodgeForce: 6
   footstepSource: {fileID: 1668885178}
   grassFootsteps:
   - {fileID: 8300000, guid: fd79c40e499279b46aece7ccdb5db7cb, type: 3}
@@ -25520,18 +25519,6 @@ MonoBehaviour:
   meteorVoice: {fileID: 8300000, guid: 16391bec378e55048a02d7e19b785902, type: 3}
   voiceVolume: 1
   sfxSource: {fileID: 191788205}
---- !u!114 &1688588352
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1688588347}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56b3f03934da56a4ea23cfd57cd6e254, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!82 &1688588353
 AudioSource:
   m_ObjectHideFlags: 0
@@ -25629,6 +25616,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1688588354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1688588347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56b3f03934da56a4ea23cfd57cd6e254, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1692823945
 GameObject:
   m_ObjectHideFlags: 0
@@ -30274,7 +30273,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2092428704}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.10605199, y: 0, z: 0, w: 0.9943606}
+  m_LocalRotation: {x: 0.10605199, y: 0.00000002963426, z: -0.000000003160596, w: 0.9943606}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

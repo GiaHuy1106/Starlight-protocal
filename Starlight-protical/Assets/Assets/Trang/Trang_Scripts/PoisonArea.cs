@@ -50,6 +50,7 @@ public class PoisonArea : MonoBehaviour
             }
         }
     }
+    
 
     void OnTriggerExit(Collider other)
     {
@@ -63,5 +64,16 @@ public class PoisonArea : MonoBehaviour
             Destroy(currentDebuff);
             currentDebuff = null;
         }
+    }
+
+    void OnDisable()
+    {
+        // khi poison area bị tắt hoặc enemy chết
+        if (currentDebuff != null)
+        {
+            Destroy(currentDebuff);
+            currentDebuff = null;
+        }
+        firstHit = true;
     }
 }

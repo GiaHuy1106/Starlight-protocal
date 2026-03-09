@@ -92,6 +92,7 @@ public class Enemy2 : MonoBehaviour
 
     //hiện máu bị trừ
     public TextMeshProUGUI takeDamageText;
+    private bool isDead = false;
 
     private void Start()
     {
@@ -323,6 +324,7 @@ public class Enemy2 : MonoBehaviour
     }
     public void TakeDamage(float amount)
     {
+        if (isDead) return;   // 🔴 chặn damage sau khi chết
         if (currentHP <= 0 || isDefending) return; // Chết rồi hoặc đang đỡ thì thôi
         // Tính toán xác suất đỡ đòn
         float randomValue = Random.Range(0f, 100f);
@@ -355,6 +357,9 @@ public class Enemy2 : MonoBehaviour
     }
     void Die()
     {
+        
+        if (isDead) return;   // nếu đã chết rồi thì thoát
+        isDead = true;        // đánh dấu đã chết
         //Ngừng di chuyển
         slime2NavMeshAgent.isStopped = true;
         slime2NavMeshAgent.velocity = Vector3.zero;

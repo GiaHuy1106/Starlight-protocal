@@ -83,6 +83,7 @@ public class Enemy4_Controller : MonoBehaviour
 
     //hiện máu bị trừ
     public TextMeshProUGUI takeDamageText;
+    private bool isDead = false;
     private void Start()
     {
         //vị trí ban đầu
@@ -314,6 +315,7 @@ public class Enemy4_Controller : MonoBehaviour
     }
     public void TakeDamage(float amount)
     {
+        if (isDead) return;   // 🔴 chặn damage sau khi chết
         if (amount > def)
         {
             amount -= def;
@@ -335,6 +337,8 @@ public class Enemy4_Controller : MonoBehaviour
     }
     void Die()
     {
+        if (isDead) return;   // nếu đã chết rồi thì thoát
+        isDead = true;        // đánh dấu đã chết
         //Ngừng di chuyển
         slime4NavMeshAgent.isStopped = true;
         slime4NavMeshAgent.velocity = Vector3.zero;
