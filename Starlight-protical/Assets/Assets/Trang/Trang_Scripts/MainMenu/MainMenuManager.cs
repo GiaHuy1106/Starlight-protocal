@@ -19,7 +19,7 @@ public class MainMenuManager : MonoBehaviour
     }
     public void PlayNew()
     {
-        SceneManager.LoadScene("Player_Trung");
+        SceneManager.LoadScene("Player_Trung 1");
 
     }
     public void QuitGame()

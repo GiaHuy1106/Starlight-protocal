@@ -57405,6 +57405,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdc07148ff64e3948a982461794e7ba7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveSpeed: 4
+  runMultiplier: 1.8
+  acceleration: 6
+  deceleration: 8
+  gravity: -9.81
+  characterController: {fileID: 0}
+  playerInput: {fileID: 0}
+  _movementVelocity: {x: 0, y: 0, z: 0}
+  jumpForce: 6
+  dodgeForce: 6
+  footstepSource: {fileID: 0}
+  grassFootsteps: []
+  playerAnimator: {fileID: 0}
+  moveXHash: 0
+  moveZHash: 0
+  attackHash: 0
+  dieHash: 0
+  playerModel: {fileID: 0}
 --- !u!114 &1668885170
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63957,7 +63975,6 @@ GameObject:
   - component: {fileID: 1726479929}
   - component: {fileID: 1726479928}
   - component: {fileID: 1726479932}
-  - component: {fileID: 1726479933}
   m_Layer: 5
   m_Name: SettingMenu
   m_TagString: Untagged
@@ -64071,18 +64088,6 @@ MonoBehaviour:
   - {fileID: 1373536004}
   - {fileID: 94222385}
   - {fileID: 2115677176}
---- !u!114 &1726479933
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1726479927}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0f5ca68f5406214bbab0ef2e473f4f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1760237575
 GameObject:
   m_ObjectHideFlags: 0
@@ -69799,7 +69804,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1726479933}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: BackToMainMenu, Assembly-CSharp
         m_MethodName: OnClickBackToMenu
         m_Mode: 1
@@ -78637,6 +78642,12 @@ MonoBehaviour:
   waitTimeAtPoint: 3
   attackRange: 2
   attackRate: 1.5
+  patrolSpeed: 3.5
+  chaseSpeed: 6
+  rotationSpeed: 10
+  maxHP: 100
+  damage: 10
+  def: 10
   music: {fileID: 2489544172398374905}
   musicClip:
   - {fileID: 8300000, guid: de21b7b0d36918a4ebe2a6eeeb9001d3, type: 3}
@@ -78644,12 +78655,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: cc5df81dea3644d49a66706f84fe3c8b, type: 3}
   - {fileID: 8300000, guid: 8c1012c8126cdaa4281c0cbaafd9ea3f, type: 3}
   - {fileID: 8300000, guid: 3b5a3629b64d17f4daf9f2a81750b044, type: 3}
-  patrolSpeed: 3.5
-  chaseSpeed: 6
-  rotationSpeed: 10
-  maxHP: 100
-  damage: 10
-  def: 10
   stepInterval: 0.7
   miniProfilePanel: {fileID: 540415048}
   hpSlider: {fileID: 452890528}
@@ -78948,13 +78953,6 @@ MonoBehaviour:
   waitTimeAtPoint: 3
   attackRange: 10
   attackRate: 2.5
-  music: {fileID: 6139506197610295303}
-  musicClip:
-  - {fileID: 8300000, guid: 4adcdc8928026bb4bbfc42f6685755f6, type: 3}
-  - {fileID: 8300000, guid: 0a6f15c9e5bdaaf4f80f160cabf7ed77, type: 3}
-  - {fileID: 8300000, guid: b4bdb9ce16efda54d84a4d76591752b3, type: 3}
-  - {fileID: 8300000, guid: 1baf1f62b11f02e498faee83d3ded80c, type: 3}
-  - {fileID: 8300000, guid: fcac259e9f8959949b624180a1c776f0, type: 3}
   patrolSpeed: 3.5
   chaseSpeed: 6
   rotationSpeed: 10
@@ -78962,6 +78960,13 @@ MonoBehaviour:
   damage: 40
   def: 10
   magicCirclePrefab: {fileID: 5290409587486050772, guid: 1e0b844001872e14bbf5a3ad8fb9b369, type: 3}
+  music: {fileID: 6139506197610295303}
+  musicClip:
+  - {fileID: 8300000, guid: 4adcdc8928026bb4bbfc42f6685755f6, type: 3}
+  - {fileID: 8300000, guid: 0a6f15c9e5bdaaf4f80f160cabf7ed77, type: 3}
+  - {fileID: 8300000, guid: b4bdb9ce16efda54d84a4d76591752b3, type: 3}
+  - {fileID: 8300000, guid: 1baf1f62b11f02e498faee83d3ded80c, type: 3}
+  - {fileID: 8300000, guid: fcac259e9f8959949b624180a1c776f0, type: 3}
   stepInterval: 0.7
   miniProfilePanel: {fileID: 1326045927}
   hpSlider: {fileID: 667499264}
@@ -79267,14 +79272,6 @@ MonoBehaviour:
   waitTimeAtPoint: 3
   attackRange: 5
   attackRate: 1.5
-  music: {fileID: 6794324321731138267}
-  musicClip:
-  - {fileID: 8300000, guid: 7dae57fe57519a242b0e1018b26a8f45, type: 3}
-  - {fileID: 8300000, guid: b2985dfbb31c6ad44bc6eddef7a84d87, type: 3}
-  - {fileID: 8300000, guid: 2f437aecba674fc41941d2dfb32e1263, type: 3}
-  - {fileID: 8300000, guid: e42862f6c729d4848985e2377343f594, type: 3}
-  - {fileID: 8300000, guid: d52a4d848ed8da642952329e5dce2af9, type: 3}
-  - {fileID: 8300000, guid: 68bd76feb00b6c049abd25c1f7ab39ae, type: 3}
   patrolSpeed: 3.5
   chaseSpeed: 6
   rotationSpeed: 10
@@ -79285,6 +79282,14 @@ MonoBehaviour:
   firePoint: {fileID: 1808326591}
   defendChance: 30
   defendDuration: 1.5
+  music: {fileID: 6794324321731138267}
+  musicClip:
+  - {fileID: 8300000, guid: 7dae57fe57519a242b0e1018b26a8f45, type: 3}
+  - {fileID: 8300000, guid: b2985dfbb31c6ad44bc6eddef7a84d87, type: 3}
+  - {fileID: 8300000, guid: 2f437aecba674fc41941d2dfb32e1263, type: 3}
+  - {fileID: 8300000, guid: e42862f6c729d4848985e2377343f594, type: 3}
+  - {fileID: 8300000, guid: d52a4d848ed8da642952329e5dce2af9, type: 3}
+  - {fileID: 8300000, guid: 68bd76feb00b6c049abd25c1f7ab39ae, type: 3}
   stepInterval: 0.7
   miniProfilePanel: {fileID: 472939475}
   hpSlider: {fileID: 1960759971}
@@ -79589,13 +79594,6 @@ MonoBehaviour:
   waitTimeAtPoint: 3
   attackRange: 15
   attackRate: 13
-  music: {fileID: 7318122754995852558}
-  musicClip:
-  - {fileID: 8300000, guid: bfaa38661c82d2e46bfc92c19ef50166, type: 3}
-  - {fileID: 8300000, guid: 43a032bf37c4c8b408c12dc7d6b7dcb0, type: 3}
-  - {fileID: 8300000, guid: 50c3def4517d8f14990b9cce297bef65, type: 3}
-  - {fileID: 8300000, guid: f66e7aeb109799540b0f66061df98ce9, type: 3}
-  - {fileID: 8300000, guid: 716c996c02b33c546869e551f81e7c0c, type: 3}
   patrolSpeed: 3.5
   chaseSpeed: 8
   rotationSpeed: 10
@@ -79603,6 +79601,13 @@ MonoBehaviour:
   def: 80
   PoisonArea: {fileID: 1351512281}
   poisonDuration: 10
+  music: {fileID: 7318122754995852558}
+  musicClip:
+  - {fileID: 8300000, guid: bfaa38661c82d2e46bfc92c19ef50166, type: 3}
+  - {fileID: 8300000, guid: 43a032bf37c4c8b408c12dc7d6b7dcb0, type: 3}
+  - {fileID: 8300000, guid: 50c3def4517d8f14990b9cce297bef65, type: 3}
+  - {fileID: 8300000, guid: f66e7aeb109799540b0f66061df98ce9, type: 3}
+  - {fileID: 8300000, guid: 716c996c02b33c546869e551f81e7c0c, type: 3}
   stepInterval: 0.7
   miniProfilePanel: {fileID: 275701781}
   hpSlider: {fileID: 1119407222}
