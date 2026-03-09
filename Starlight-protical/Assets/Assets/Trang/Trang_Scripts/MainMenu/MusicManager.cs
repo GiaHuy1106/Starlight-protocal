@@ -1,13 +1,10 @@
 using UnityEngine;
-using UnityEngine.Audio;
 
 public class MusicManager : MonoBehaviour
 {
     public AudioSource musicSource, sfxSource;
     public AudioClip[] musicClips, sfxClips;
     public static MusicManager Instance;
-
-    public AudioMixer myMixer;
     private void Awake()
     {
         if (Instance == null)
@@ -27,7 +24,6 @@ public class MusicManager : MonoBehaviour
         SetVolume(savedVolume);
         float savedSFX = PlayerPrefs.GetFloat("sfxVolume", 1f);
         SetSFXVolume(savedSFX);
-
     }
 
     // Update is called once per frame
@@ -37,29 +33,12 @@ public class MusicManager : MonoBehaviour
     }
     public void SetVolume(float value)
     {
-        if (value <= 0.001f)
-        {
-            myMixer.SetFloat("MusicVol", -80f); 
-        }
-        else
-        {
-            myMixer.SetFloat("MusicVol", Mathf.Log10(value) * 20f);
-        }
-
+        musicSource.volume = value;
         PlayerPrefs.SetFloat("volume", value);
     }
-
     public void SetSFXVolume(float value)
     {
-        if (value <= 0.001f)
-        {
-            myMixer.SetFloat("SFXVol", -80f);
-        }
-        else
-        {
-            myMixer.SetFloat("SFXVol", Mathf.Log10(value) * 20f);
-        }
-
+        sfxSource.volume = value;
         PlayerPrefs.SetFloat("sfxVolume", value);
     }
     public void PlayMusic(string name)

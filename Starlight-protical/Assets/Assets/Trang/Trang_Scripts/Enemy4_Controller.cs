@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
@@ -46,9 +47,7 @@ public class Enemy4_Controller : MonoBehaviour
     public float attackRange = 15f; // khoảng cách tấn công
     public float attackRate = 13f; // thời gian giữa các lần tấn công
     private float nextAttackTime = 0f;
-    //Âm thanh
-    public AudioSource music;
-    public AudioClip[] musicClip; //thứ tự như sau: 0.fight 1.patrolling  2.Stop 3.Hurt 4.die
+
     //Thêm thông số  
     [Header("Speed Settings")]
     public float patrolSpeed = 3.5f; //tốc độ bình thường
@@ -64,7 +63,9 @@ public class Enemy4_Controller : MonoBehaviour
     public GameObject PoisonArea;
     public float poisonDuration = 10f; // Vòng độc hiện 10s rồi tắt
 
-   
+    //Âm thanh
+    public AudioSource music;
+    public AudioClip[] musicClip; //thứ tự như sau: 0.fight 1.patrolling  2.Stop 3.Hurt 4.die
     //khoảng cách giữa 2 tiếng nhảy 
     private float stepTimer = 0f;
     public float stepInterval = 0.7f;
@@ -341,7 +342,7 @@ public class Enemy4_Controller : MonoBehaviour
         //Ngừng di chuyển
         slime4NavMeshAgent.isStopped = true;
         slime4NavMeshAgent.velocity = Vector3.zero;
-        PoisonArea.SetActive(false);
+
         //âm thanh
         music.PlayOneShot(musicClip[4]);
 
