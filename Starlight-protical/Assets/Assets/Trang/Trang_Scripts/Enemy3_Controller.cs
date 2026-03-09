@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
@@ -47,7 +46,9 @@ public class Enemy3_Controller : MonoBehaviour
     public float attackRange = 10f; // khoảng cách tấn công
     public float attackRate = 2.5f; // thời gian giữa các lần tấn công
     private float nextAttackTime = 0f;
-
+    //Âm thanh
+    public AudioSource music;
+    public AudioClip[] musicClip; //thứ tự như sau: 0.fight 1.patrolling  2.Stop 3.Hurt 4.die
     //Thêm thông số  
     [Header("Speed Settings")]
     public float patrolSpeed = 3.5f; //tốc độ bình thường
@@ -62,9 +63,6 @@ public class Enemy3_Controller : MonoBehaviour
     [Header("Circle Attack Settings")] 
     public GameObject magicCirclePrefab;
 
-    //Âm thanh
-    public AudioSource music;
-    public AudioClip[] musicClip; //thứ tự như sau: 0.fight 1.patrolling  2.Stop 3.Hurt 4.die
     //khoảng cách giữa 2 tiếng nhảy 
     private float stepTimer = 0f;
     public float stepInterval = 0.7f;
