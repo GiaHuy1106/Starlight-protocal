@@ -13010,6 +13010,10 @@ PrefabInstance:
       propertyPath: m_RenderMode
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 589792103794770488, guid: b964c37591ae8dd4c9aba3dacc4ce3de, type: 3}
+      propertyPath: m_SortingOrder
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 2218766115045792774, guid: b964c37591ae8dd4c9aba3dacc4ce3de, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -19704,7 +19708,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2092428704}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.106052, y: 0, z: 0, w: 0.9943606}
+  m_LocalRotation: {x: 0.10605199, y: 0, z: 0, w: 0.9943606}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
