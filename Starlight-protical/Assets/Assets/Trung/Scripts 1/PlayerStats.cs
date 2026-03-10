@@ -49,7 +49,7 @@ public class PlayerStats : MonoBehaviour
     {
         return (float)CurrentMana / maxMana;
     }
-    public void UseMana (int mana)
+    public void UseMana(int mana)
     {
         CurrentMana -= mana;
         CurrentMana = Mathf.Max(0, CurrentMana);
@@ -75,5 +75,21 @@ public class PlayerStats : MonoBehaviour
         {
             OnDead?.Invoke();
         }
+    }
+    public void RefreshStats()
+    {
+        OnStatChanged?.Invoke();
+    }
+    public void SetStats(int hp, int mana, int atk, int def)
+    {
+        maxHP = hp;
+        maxMana = mana;
+        attack = atk;
+        defense = def;
+
+        CurrentHP = maxHP;
+        CurrentMana = maxMana;
+
+        RefreshStats();
     }
 }
