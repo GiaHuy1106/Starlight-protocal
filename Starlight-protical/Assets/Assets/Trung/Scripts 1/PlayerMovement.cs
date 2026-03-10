@@ -207,24 +207,34 @@ public class PlayerMovement : MonoBehaviour
     {
             if (isDodging) return;
             if (!playerInput.IsDodging()) return;
-            Vector2 raw = playerInput.GetRawInputDir();
-            Vector3 dir = new Vector3(raw.x, 0, raw.y);
+            Transform cam = Camera.main.transform;
+            Vector3 camRight = cam.right;
+            camRight.y = 0;
+            camRight.Normalize();
 
-            if (dir.sqrMagnitude < 0.1f)
-            dir = playerModel.transform.forward;
+            float horizontal = playerInput.horizontalInput;
 
-            dir.Normalize();
+            Vector3 dir;
 
-            StartCoroutine(DodgeRoutine(dir, raw.x));
+            if (horizontal > 0.1f)
+                dir = camRight;        // roll phải
+            else if (horizontal < -0.1f)
+                dir = -camRight;       // roll trái
+            else
+                dir = -camRight;       // đứng yên → roll trái
+
+            StartCoroutine(DodgeRoutine(dir, horizontal));
     }
     IEnumerator DodgeRoutine(Vector3 dir, float horizontal)
     {
         isDodging = true;
 
-        float dodgeTime = 0.25f; // thời gian dash
+        playerInput.SetAttackLock(true);
+        playerInput.SetAimLock(true);
+
+        float dodgeTime = 0.25f;
         float timer = 0f;
 
-        // chọn animation theo trái phải
         if (horizontal > 0f)
             playerAnimator.SetTrigger(Constant.DodgeRightHash);
         else
@@ -232,14 +242,14 @@ public class PlayerMovement : MonoBehaviour
 
         while (timer < dodgeTime)
         {
-            _movementVelocity.x = dir.x * dodgeForce;
-            _movementVelocity.z = dir.z * dodgeForce;
+            characterController.Move(dir * dodgeForce * Time.deltaTime);
 
             timer += Time.deltaTime;
             yield return null;
         }
-        _movementVelocity.x = 0;
-        _movementVelocity.z = 0;
+
+        playerInput.SetAttackLock(false);
+        playerInput.SetAimLock(false);
 
         isDodging = false;
     }

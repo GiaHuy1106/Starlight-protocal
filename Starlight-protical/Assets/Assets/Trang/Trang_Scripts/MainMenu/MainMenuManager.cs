@@ -21,7 +21,7 @@ public class MainMenuManager : MonoBehaviour
     {
         isPaused = false;
         Time.timeScale = 1f;
-        SceneManager.LoadScene("Player");
+        SceneManager.LoadScene("Player_Trung 1");
 
     }
     public void BackMainMenu()
