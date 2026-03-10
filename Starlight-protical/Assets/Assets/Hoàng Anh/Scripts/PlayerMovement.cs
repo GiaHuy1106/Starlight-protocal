@@ -10,7 +10,9 @@ public class PlayerMovement : MonoBehaviour
 
     public CharacterController controller;
     public PlayerInput playerInput;
+    public float knockbackDamping = 6f;
 
+    private Vector3 knockbackVelocity;
     private Vector3 movement;
     private float verticalVelocity;
     private float originalSpeed;
@@ -58,9 +60,16 @@ public class PlayerMovement : MonoBehaviour
     void Move()
     {
         Vector3 velocity = movement;
+
+        // cộng lực knockback
+        velocity += knockbackVelocity;
+
         velocity.y = verticalVelocity;
 
         controller.Move(velocity * Time.deltaTime);
+
+        // giảm lực knockback theo thời gian
+        knockbackVelocity = Vector3.Lerp(knockbackVelocity, Vector3.zero, knockbackDamping * Time.deltaTime);
     }
    
     // XOAY HƯỚNG
@@ -110,5 +119,9 @@ public class PlayerMovement : MonoBehaviour
         moveSpeed = originalSpeed;
 
         isSlowed = false;
+    }
+    public void ApplyKnockBack(Vector3 force)
+    {
+        knockbackVelocity = force;
     }
 }

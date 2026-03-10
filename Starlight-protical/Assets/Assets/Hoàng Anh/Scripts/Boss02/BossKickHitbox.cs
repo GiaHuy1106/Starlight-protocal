@@ -4,6 +4,11 @@ public class BossKickHitbox : MonoBehaviour
 {
     public int damageAmount = 30;
     bool hasHit = false; // Tránh va chạm nhiều lần
+    public void ResetHit()
+    {
+        hasHit = false; // Reset mỗi lần hitbox được bật
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (hasHit) return;

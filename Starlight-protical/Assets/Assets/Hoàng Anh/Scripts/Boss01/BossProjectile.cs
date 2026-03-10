@@ -11,7 +11,7 @@ public class BossProjectile : MonoBehaviour
     private bool hasHit = false; // Tránh va chạm nhiều lần
 
     public void Initialize(Transform target)
-    {
+    {       
         // Lấy hướng bay
         moveDirection = (target.position - transform.position).normalized;
         //Xoay đạn theo hướng bay
@@ -22,7 +22,7 @@ public class BossProjectile : MonoBehaviour
 
     void Update()
     {          
-        transform.position += moveDirection * speed * Time.deltaTime;       
+        transform.position += moveDirection * speed * Time.deltaTime;        
     }
 
     void OnTriggerEnter(Collider other)

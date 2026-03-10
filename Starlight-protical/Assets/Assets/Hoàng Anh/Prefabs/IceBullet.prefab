@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8142036036242813257}
   - component: {fileID: 6908077058492165653}
   - component: {fileID: 8258011805590456856}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Glow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4915,9 +4915,9 @@ GameObject:
   - component: {fileID: 73557094826385323}
   - component: {fileID: 5644396453145492929}
   - component: {fileID: 211352391990673222}
-  - component: {fileID: 2740891783349178512}
   - component: {fileID: 6412626176746409471}
-  m_Layer: 0
+  - component: {fileID: -4811131620281057526}
+  m_Layer: 10
   m_Name: IceBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9827,22 +9827,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &2740891783349178512
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5370883666413489655}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53f54cce69ca1754594882fcee404e5b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 70
-  damage: 10
-  lifeTime: 5
-  hitVFX: {fileID: 7596101033132151578, guid: 1e60a7fecbbc14e4c97a5cd6dfd0680a, type: 3}
 --- !u!135 &6412626176746409471
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -9864,6 +9848,22 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.29
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-4811131620281057526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5370883666413489655}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53f54cce69ca1754594882fcee404e5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 60
+  damage: 10
+  lifeTime: 5
+  hitVFX: {fileID: 7596101033132151578, guid: 1e60a7fecbbc14e4c97a5cd6dfd0680a, type: 3}
 --- !u!1 &5988278107813080198
 GameObject:
   m_ObjectHideFlags: 0
@@ -9875,7 +9875,7 @@ GameObject:
   - component: {fileID: 1767592429089162672}
   - component: {fileID: 9007914924449451935}
   - component: {fileID: 8314351441561985868}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Sparks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14715,7 +14715,7 @@ GameObject:
   - component: {fileID: 1353735760143002582}
   - component: {fileID: 2050709222235385643}
   - component: {fileID: 8185838617470450340}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Flares
   m_TagString: Untagged
   m_Icon: {fileID: 0}

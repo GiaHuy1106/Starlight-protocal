@@ -293,15 +293,23 @@ public class Boss01 : MonoBehaviour, IShieldable
     //Spawn đạn từ animation event
     public void ShootProjectile()
     {
-        if (projectilePrefab == null || firePoint == null) return;
-
+        Debug.Log("BOSS SHOOT");
+        if (projectilePrefab == null || firePoint == null)
+        {
+            Debug.Log("ProjectilePrefab or FirePoint NULL");
+            return;
+        }
         GameObject proj = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
-
+        Debug.Log("Projectile Spawned");
         BossProjectile projectile = proj.GetComponent<BossProjectile>();
-        projectile.Initialize(playerTargetTransform);
+        if (projectile != null)
+        {
 
+            projectile.Initialize(playerTargetTransform);
+            Debug.Log("Projectile Initialized");
+        }
         //Phát âm thanh tấn công
-        if(iceShootSound != null)
+        if(iceShootSound != null && audioSource != null)
         {
             audioSource.PlayOneShot(iceShootSound);
         }
