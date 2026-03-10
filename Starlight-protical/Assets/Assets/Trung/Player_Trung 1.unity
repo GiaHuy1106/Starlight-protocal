@@ -17122,7 +17122,7 @@ MonoBehaviour:
   fireballVoice: {fileID: 8300000, guid: d8ca572caf25ee74fa3736e9f6b94416, type: 3}
   meteorVoice: {fileID: 8300000, guid: 16391bec378e55048a02d7e19b785902, type: 3}
   voiceVolume: 1
-  sfxSource: {fileID: 191788205}
+  sfxSource: {fileID: 1668885178}
 --- !u!82 &1688588353
 AudioSource:
   m_ObjectHideFlags: 0
