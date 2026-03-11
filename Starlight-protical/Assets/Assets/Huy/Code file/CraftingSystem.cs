@@ -10,25 +10,49 @@ public class CraftingSystem : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
     }
 
+    // =========================
     // CRAFT ITEM
+    // =========================
     public void CraftItem(CraftingRec recipe)
     {
-        if (recipe == null || !CanCraft(recipe))
+        if (recipe == null)
+        {
+            Debug.LogWarning("Recipe is null");
             return;
+        }
 
+        if (!CanCraft(recipe))
+        {
+            Debug.Log("Không đủ nguyên liệu");
+            return;
+        }
+
+        // trừ nguyên liệu
         ConsumeIngredients(recipe);
 
+        // thêm item kết quả
         InventorySystem.Instance.Additem(recipe.resultItem, recipe.resultAmount);
 
-        // thông báo cho UI item đã được craft
-        int index = craftingUI.Instance.GetCurrentIndex();
-        craftingUI.Instance.SetCrafted(index);
+        // cập nhật inventory UI
+        InventorySystem.Instance.UpdateUI();
+
+        // cập nhật crafting UI
+        if (craftingUI.Instance != null)
+        {
+            int index = craftingUI.Instance.GetCurrentIndex();
+            craftingUI.Instance.SetCrafted(index);
+        }
     }
 
+    // =========================
     // TRỪ NGUYÊN LIỆU
+    // =========================
     void ConsumeIngredients(CraftingRec recipe)
     {
         foreach (Ingredient ingredient in recipe.requiredItems)
@@ -37,8 +61,11 @@ public class CraftingSystem : MonoBehaviour
 
             foreach (Slots slot in InventorySystem.Instance.inventorySlots)
             {
-                if (!slot.HasItem()) continue;
-                if (slot.GetItem() != ingredient.item) continue;
+                if (!slot.HasItem())
+                    continue;
+
+                if (slot.GetItem() != ingredient.item)
+                    continue;
 
                 int take = Mathf.Min(slot.GetAmount(), remaining);
 
@@ -55,19 +82,25 @@ public class CraftingSystem : MonoBehaviour
         }
     }
 
-    // KIỂM TRA CÓ ĐỦ NGUYÊN LIỆU KHÔNG
+    // =========================
+    // KIỂM TRA NGUYÊN LIỆU
+    // =========================
     public bool CanCraft(CraftingRec recipe)
     {
+        if (recipe == null)
+            return false;
+
         foreach (Ingredient ingredient in recipe.requiredItems)
         {
             int totalFound = 0;
 
             foreach (Slots slot in InventorySystem.Instance.inventorySlots)
             {
-                if (slot.HasItem() && slot.GetItem() == ingredient.item)
-                {
+                if (!slot.HasItem())
+                    continue;
+
+                if (slot.GetItem() == ingredient.item)
                     totalFound += slot.GetAmount();
-                }
             }
 
             if (totalFound < ingredient.amount)
@@ -77,9 +110,14 @@ public class CraftingSystem : MonoBehaviour
         return true;
     }
 
-    // UPDATE DANH SÁCH RECIPE
+    // =========================
+    // UPDATE RECIPE LIST
+    // =========================
     public void UpdateCraftingRecipes(List<CraftingRec> newRecipes)
     {
         craftingRecipes = newRecipes;
+
+        if (craftingUI.Instance != null)
+            craftingUI.Instance.RefreshUI();
     }
 }

@@ -112,7 +112,7 @@ public class craftingUI : MonoBehaviour
         }
     }
 
-    void RefreshUI()
+    public void RefreshUI()
     {
         for (int i = 0; i < itemIcons.Count; i++)
         {
@@ -184,28 +184,17 @@ public class craftingUI : MonoBehaviour
 
     void UpdateRequiredDisplay()
     {
-        if (currentIndex < 0)
-            return;
-
-        if (CraftingSystem.Instance == null)
-            return;
-
-        if (currentIndex >= CraftingSystem.Instance.craftingRecipes.Count)
-            return;
-
-        if (currentIndex >= itemPanels.Count)
-            return;
+        if (currentIndex < 0) return;
+        if (CraftingSystem.Instance == null) return;
+        if (currentIndex >= CraftingSystem.Instance.craftingRecipes.Count) return;
 
         CraftingRec recipe = CraftingSystem.Instance.craftingRecipes[currentIndex];
-
-        if (recipe == null)
-            return;
 
         Transform requiredRoot = itemPanels[currentIndex].transform.Find("Crafting Required/Required");
 
         if (requiredRoot == null)
         {
-            Debug.LogWarning("Required slot root not found.");
+            Debug.LogWarning("Required slot root not found");
             return;
         }
 
@@ -214,7 +203,7 @@ public class craftingUI : MonoBehaviour
             Transform slot = requiredRoot.GetChild(i);
 
             Image icon = slot.Find("Icon")?.GetComponent<Image>();
-            TextMeshProUGUI txt = slot.Find("AmountTXT")?.GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI txt = slot.Find("AmountTxt")?.GetComponent<TextMeshProUGUI>();
 
             if (i < recipe.requiredItems.Count)
             {
@@ -231,16 +220,17 @@ public class craftingUI : MonoBehaviour
                 if (txt != null)
                 {
                     txt.text = owned + "/" + ingredient.amount;
-                    txt.color = owned >= ingredient.amount ? Color.green : Color.red;
+
+                    if (owned >= ingredient.amount)
+                        txt.color = Color.green;
+                    else
+                        txt.color = Color.red;
                 }
             }
             else
             {
-                if (icon != null)
-                    icon.enabled = false;
-
-                if (txt != null)
-                    txt.text = "";
+                if (icon != null) icon.enabled = false;
+                if (txt != null) txt.text = "";
             }
         }
     }
