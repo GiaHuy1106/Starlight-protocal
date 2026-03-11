@@ -20,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Jump")]
     public float jumpForce = 6f;
     [Header("Dodge")]
-    public float dodgeForce = 12f;
+    public float dodgeForce = 6f;
     private bool isDodging;
     [Header("Footstep")]
     public AudioSource footstepSource;
@@ -68,11 +68,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         ApplyGravity();
-        if (!isDodging)
-        {
-            characterController.Move(_movementVelocity * Time.deltaTime);
-        }
-
+        characterController.Move(_movementVelocity * Time.deltaTime); 
         HandleLanding();
         UpdateAnimanator();
 
@@ -209,27 +205,25 @@ public class PlayerMovement : MonoBehaviour
     // hàm để nhân vật né
     void HandleDogde()
     {
-        if (isDodging) return;
-        if (!playerInput.IsDodging()) return;
+            if (isDodging) return;
+            if (!playerInput.IsDodging()) return;
+            Transform cam = Camera.main.transform;
+            Vector3 camRight = cam.right;
+            camRight.y = 0;
+            camRight.Normalize();
 
-        Transform cam = Camera.main.transform;
+            float horizontal = playerInput.horizontalInput;
 
-        Vector3 camRight = cam.right;
-        camRight.y = 0;
-        camRight.Normalize();
+            Vector3 dir;
 
-        float horizontal = playerInput.horizontalInput;
+            if (horizontal > 0.1f)
+                dir = camRight;        // roll phải
+            else if (horizontal < -0.1f)
+                dir = -camRight;       // roll trái
+            else
+                dir = -camRight;       // đứng yên → roll trái
 
-        Vector3 dir;
-
-        if (horizontal > 0.1f)
-            dir = camRight;      // roll phải
-        else if (horizontal < -0.1f)
-            dir = -camRight;     // roll trái
-        else
-            dir = -camRight;     // đứng yên → mặc định roll trái
-
-        StartCoroutine(DodgeRoutine(dir, horizontal));
+            StartCoroutine(DodgeRoutine(dir, horizontal));
     }
     IEnumerator DodgeRoutine(Vector3 dir, float horizontal)
     {
@@ -238,7 +232,7 @@ public class PlayerMovement : MonoBehaviour
         playerInput.SetAttackLock(true);
         playerInput.SetAimLock(true);
 
-        float dodgeTime = 0.35f;
+        float dodgeTime = 0.25f;
         float timer = 0f;
 
         if (horizontal > 0f)
@@ -253,9 +247,6 @@ public class PlayerMovement : MonoBehaviour
             timer += Time.deltaTime;
             yield return null;
         }
-
-        _movementVelocity.x = 0;
-        _movementVelocity.z = 0;
 
         playerInput.SetAttackLock(false);
         playerInput.SetAimLock(false);

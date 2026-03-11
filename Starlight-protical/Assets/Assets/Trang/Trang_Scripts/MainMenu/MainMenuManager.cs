@@ -19,9 +19,17 @@ public class MainMenuManager : MonoBehaviour
     }
     public void PlayNew()
     {
+        isPaused = false;
+        Time.timeScale = 1f;
         SceneManager.LoadScene("Player_Trung 1");
 
     }
+    public void BackMainMenu()
+    {
+        isPaused = false;
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("MainMenu");
+    }    
     public void QuitGame()
     {
         Debug.Log("Quitting game...");
