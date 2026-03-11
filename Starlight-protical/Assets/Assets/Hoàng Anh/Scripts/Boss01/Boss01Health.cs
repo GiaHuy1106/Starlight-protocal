@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,10 @@ public class Boss01Health : MonoBehaviour
     [Header("RegenerateHealth")]
     public float regenSpeed = 5f; // máu hồi mỗi giây
     private Coroutine regenCoroutine;
+
+    [Header("Defense Setting")]
+    [Range(0f, 100)]
+    public float defensePercent = 20f;
 
     private float currentHP;
     private float lerpSpeed = 0.05f;
@@ -46,7 +51,9 @@ public class Boss01Health : MonoBehaviour
     public void TakeDamage(float damage, GameObject attacker)
     {
         if (isDead) return; //chặn animation GetHit nếu boss đã chết
-        currentHP -= damage;       
+        //Trừ máu theo % damage gây ra
+        float finalDamage = damage * (1 - defensePercent / 100f);  
+        currentHP -= finalDamage;
         Debug.Log("Boss HP: " + currentHP + " / " + maxHP);
         if(boss != null)
         {

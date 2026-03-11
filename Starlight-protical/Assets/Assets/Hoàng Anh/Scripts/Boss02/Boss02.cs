@@ -53,6 +53,8 @@ public class Boss02 : MonoBehaviour, IShieldable
     public GameObject shieldPrefab;
     public float shieldDuration = 5f;      // Thời gian tồn tại của shield
     public bool isShieldActive;
+    public float slowDuration = 2f;       // Thời gian làm chậm player khi tấn công trúng lá chắn
+    public float slowPercent = 0.5f;       // Phần trăm giảm tốc của lá chắn
 
     private Coroutine shieldCoroutine;        // Tham chiếu đến coroutine để có thể dừng khi cần
     private GameObject currentShield;        // Tham chiếu đến shield hiện tại nếu đang tồn tại

@@ -285,7 +285,7 @@ public class Boss01 : MonoBehaviour, IShieldable
         bossAnimator.SetBool("isAttacking", false);
 
         bossNavMeshAgent.updateRotation = true;
-        bossNavMeshAgent.isStopped = false;
+        //bossNavMeshAgent.isStopped = false;
 
         currentState = Boss01State.FollowingPlayer;
     }

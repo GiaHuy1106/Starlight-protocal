@@ -83,9 +83,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
     void TryAttack()
-    {
-        
-        //Boss01 boss = FindAnyObjectByType<Boss01>();
+    {             
         Boss01Health bossHealth = FindAnyObjectByType<Boss01Health>();
         if (bossHealth != null)
         {                  

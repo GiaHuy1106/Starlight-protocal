@@ -60,7 +60,7 @@ public class Boss02Health : MonoBehaviour
             PlayerMovement player = attacker.GetComponent<PlayerMovement>();
             if (player != null)
             {
-                player.ApplySlow(0.5f, 5f);
+                player.ApplySlow(boss.slowPercent, boss.slowDuration);
             }
         }
         if (currentHP <= 0)
