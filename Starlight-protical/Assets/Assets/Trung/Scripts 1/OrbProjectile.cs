@@ -13,6 +13,7 @@ public class OrbProjectile : MonoBehaviour
     public int damage; // damage nhận từ player
     public float maxDistance = 10f;
     public LayerMask enemyLayer;
+    public LayerMask groundLayer;
     Rigidbody rb;
     Vector3 startPos;
     Vector3 direction;
@@ -72,37 +73,45 @@ public class OrbProjectile : MonoBehaviour
     }
     void OnTriggerEnter(Collider other)
     {
-         Debug.Log("Hit: " + other.name);
         if (exploded) return;
+        int layerMask = 1 << other.gameObject.layer;
 
-        
-        if (((1 << other.gameObject.layer) & enemyLayer) != 0)
+        if ((layerMask & enemyLayer) != 0)
         {
             Enemy1 enemy = other.GetComponent<Enemy1>();
             if (enemy != null)
             {
-                float finalDamage = damage * 100f / (100f + enemy.def); // công thức tính damage có phòng thủ của enemy
+                float finalDamage = damage * 100f / (100f + enemy.def);
                 enemy.TakeDamage((int)finalDamage);
             }
+
             Enemy2 enemy2 = other.GetComponent<Enemy2>();
-            
             if (enemy2 != null)
             {
                 float finalDamage = damage * 100f / (100f + enemy2.def);
                 enemy2.TakeDamage((int)finalDamage);
             }
+
             Enemy3_Controller enemy3 = other.GetComponent<Enemy3_Controller>();
             if (enemy3 != null)
             {
                 float finalDamage = damage * 100f / (100f + enemy3.def);
                 enemy3.TakeDamage((int)finalDamage);
             }
+
             Enemy4_Controller enemy4 = other.GetComponent<Enemy4_Controller>();
             if (enemy4 != null)
             {
                 float finalDamage = damage * 100f / (100f + enemy4.def);
                 enemy4.TakeDamage((int)finalDamage);
             }
+
+            Explode();
+        }
+
+        // HIT GROUND
+        if ((layerMask & groundLayer) != 0)
+        {
             Explode();
         }
     }

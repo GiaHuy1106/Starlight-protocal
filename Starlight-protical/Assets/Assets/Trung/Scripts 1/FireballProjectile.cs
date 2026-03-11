@@ -10,6 +10,7 @@ public class FireballProjectile : MonoBehaviour
     public float speed = 10f;
     public int damage; // damage nhận từ player
     public LayerMask enemyLayer;
+    public LayerMask groundLayer;
     bool exploded = false;
     
     Rigidbody rb;
@@ -63,33 +64,45 @@ public class FireballProjectile : MonoBehaviour
         if (exploded) return;
         if (other.CompareTag("Player")) return;
 
-        if (((1 << other.gameObject.layer) & enemyLayer) != 0)
+        int layerMask = 1 << other.gameObject.layer;
+
+        // HIT ENEMY
+        if ((layerMask & enemyLayer) != 0)
         {
             Enemy1 enemy1 = other.GetComponent<Enemy1>();
-             if (enemy1 != null)
+            if (enemy1 != null)
             {
                 float finalDamage = damage * 100f / (100f + enemy1.def);
-                enemy1.TakeDamage((int)damage);
+                enemy1.TakeDamage((int)finalDamage);
             }
+
             Enemy2 enemy2 = other.GetComponent<Enemy2>();
-            
             if (enemy2 != null)
             {
                 float finalDamage = damage * 100f / (100f + enemy2.def);
                 enemy2.TakeDamage((int)finalDamage);
             }
+
             Enemy3_Controller enemy3 = other.GetComponent<Enemy3_Controller>();
             if (enemy3 != null)
             {
                 float finalDamage = damage * 100f / (100f + enemy3.def);
                 enemy3.TakeDamage((int)finalDamage);
             }
+
             Enemy4_Controller enemy4 = other.GetComponent<Enemy4_Controller>();
             if (enemy4 != null)
             {
                 float finalDamage = damage * 100f / (100f + enemy4.def);
                 enemy4.TakeDamage((int)finalDamage);
             }
+
+            Explode();
+        }
+
+        // HIT GROUND
+        if ((layerMask & groundLayer) != 0)
+        {
             Explode();
         }
     }
