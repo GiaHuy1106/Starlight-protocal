@@ -17,12 +17,13 @@ public class InventoryManager : MonoBehaviour
         craftingMenu.SetActive(false);
     }
 
-    // Update is called once per frame
+        // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Tab) && !isInventoryOpen)
         {
             OpenInventory();
+            Debug.Log("open");
             //Cursor.lockState = Cursor.lockState == CursorLockMode.Locked ? CursorLockMode.None : CursorLockMode.Locked; //Mở khóa con trỏ chuột khi mở inventory, khóa lại khi đóng inventory
         }
         else if (Input.GetKeyDown(KeyCode.Tab) && isInventoryOpen)
