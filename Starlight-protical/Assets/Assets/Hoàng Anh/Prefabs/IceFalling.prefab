@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8142036036242813257}
   - component: {fileID: 6908077058492165653}
   - component: {fileID: 8258011805590456856}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: Glow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4917,7 +4917,7 @@ GameObject:
   - component: {fileID: 5644396453145492929}
   - component: {fileID: 211352391990673222}
   - component: {fileID: 189147870655758918}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: IceFalling
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9873,7 +9873,7 @@ GameObject:
   - component: {fileID: 1767592429089162672}
   - component: {fileID: 9007914924449451935}
   - component: {fileID: 8314351441561985868}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: Sparks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14713,7 +14713,7 @@ GameObject:
   - component: {fileID: 1353735760143002582}
   - component: {fileID: 2050709222235385643}
   - component: {fileID: 8185838617470450340}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: Flares
   m_TagString: Untagged
   m_Icon: {fileID: 0}
