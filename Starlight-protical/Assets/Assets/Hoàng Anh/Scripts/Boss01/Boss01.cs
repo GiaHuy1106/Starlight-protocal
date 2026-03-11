@@ -1,0 +1,489 @@
+﻿using System.Collections;
+using UnityEngine;
+using UnityEngine.AI;
+public enum Boss01State
+{
+    Patrolling,         // Đi tuần tra trong bán kính khu vực
+    FollowingPlayer,    // Đuổi theo người chơi khi phát hiện
+    Attacking,          // Tấn công người chơi
+    Returning           // Trở về vị trí ban đầu sau khi mất dấu người chơi
+}
+public class Boss01 : MonoBehaviour, IShieldable
+{
+    private static bool globalShieldActive = false; // Biến tĩnh để theo dõi trạng thái lá chắn chung
+    [Header("Audio Settings")]
+    public AudioClip iceShootSound; 
+    public AudioClip shieldSpawnSound;
+    private AudioSource audioSource;
+
+    [Header("References")]
+    public Transform playerTargetTransform;
+    public NavMeshAgent bossNavMeshAgent;
+    public Animator bossAnimator;
+
+    [Header("Projectile Settings")]
+    public GameObject projectilePrefab;   // Prefab của đạn bắn ra
+    public Transform firePoint;          // Điểm bắn đạn ra
+
+    [Header("Skill 2 Settings")]
+    //public ObjectPool icePool;   // Pool để spawn vùng cảnh báo
+    public GameObject warningZone;
+    public float skill2Cooldown = 20f;   // Thời gian hồi chiêu kỹ năng 2
+    public float skill2Timer;              // Bộ đếm thời gian hồi chiêu kỹ năng 2
+
+    [Header("Shield Target")]
+    public MonoBehaviour[] shieldTarget;
+
+    [Header("Passive Shield Settings")]
+    public GameObject shieldPrefab;
+    public float shieldDuration = 5f;    // Thời gian tồn tại của lá chắn
+    public float shieldCooldown = 25f;   // Thời gian hồi chiêu lá chắn
+    public float slowDuration = 2f;       // Thời gian làm chậm player khi tấn công trúng lá chắn
+    public float slowPercent = 0.5f;       // Phần trăm giảm tốc của lá chắn
+
+    private GameObject currentShield;        // Tham chiếu đến lá chắn đang hoạt động (nếu có)
+    private float shieldCycleTimer;              // Bộ đếm thời gian hồi chiêu lá chắn
+    private bool isShieldActive;           // Trạng thái lá chắn có đang hoạt động hay không
+
+    [Header("Patrol Settings")]
+    public float patrolRadius = 10f;    // Bán kính đi tuần quanh vị trí ban đầu
+    public float waitTimeAtPoint = 2f;  // Thời gian đứng chờ trước khi đi tiếp
+
+    [Header("Follow / Return  Settings")]
+    public float detectRange = 12f;    // Khoảng cách để boss phát hiện player (có thể lớn hơn chaseRange để tránh tình trạng boss mất dấu player quá nhanh)  
+    public float returnRange = 15f;     // Đi quá xa vị trí ban đầu thì quay về
+    public float attackDuration = 1.2f;    // Thời gian thực hiện 1 đòn tấn công
+
+    [Header("Attack Settings")]
+    public float attackRange = 2f;     // Khoảng cách tấn công
+    public float attackCooldown = 2f;  // Thời gian giữa các lần tấn công
+
+
+    private bool hasDetectedPlayer;     // Đã phát hiện player chưa
+
+    private float attackTimer;         // Bộ đếm thời gian giữa các lần tấn công
+    private bool isAttacking;        // Trạng thái tấn công
+    private float attackStateTimer;    // Bộ đếm thời gian tấn công
+
+    private Boss01State currentState = Boss01State.Patrolling;  // Trạng thái hiện tại
+    private Vector3 spawnpoint;                             // Vị trí boss sinh ra ban đầu
+    private Vector3 patrolTarget;                           // Điểm đi tuần hiện tại
+    private float waitTimer;                               // Bộ đếm thời gian chờ
+    public bool isDead = false;                                // Trạng thái chết
+
+    void Start()
+    {       
+        spawnpoint = transform.position;
+        // Chọn điểm đi tuần đầu tiên
+        SetNewPatrolPoint();
+
+        //bossNavMeshAgent.stoppingDistance = attackRange;
+        bossNavMeshAgent.angularSpeed = 360f;
+        bossNavMeshAgent.autoBraking = true;
+        shieldCycleTimer = shieldCooldown; // Cho phép kích hoạt lá chắn ngay khi bắt đầu
+        audioSource = GetComponent<AudioSource>();
+        if(audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+    }
+    void Update()
+    {
+        if (isDead) return;
+        if (playerTargetTransform == null) return;
+
+        float distanceToPlayer = Vector3.Distance(transform.position, playerTargetTransform.position);
+        HandleDetection(distanceToPlayer);
+       
+        float distanceToHome = Vector3.Distance(transform.position, spawnpoint);
+
+        float speed = bossNavMeshAgent.velocity.magnitude;
+        bossAnimator.SetFloat("Speed", speed, 0.1f, Time.deltaTime);
+
+        attackTimer += Time.deltaTime;
+        if (hasDetectedPlayer)
+        {
+            skill2Timer += Time.deltaTime;
+            shieldCycleTimer += Time.deltaTime;
+        }
+
+        // Kiểm tra điều kiện kích hoạt lá chắn    
+        if (hasDetectedPlayer && !globalShieldActive && shieldCycleTimer >= shieldCooldown)
+        {
+            ActivateShield();
+            //shieldCycleTimer = 0f; // Reset bộ đếm để bắt đầu chu kỳ mới
+        }
+
+        switch (currentState)
+        {
+            case Boss01State.Patrolling:
+                HandlePatrol(distanceToPlayer);
+                break;
+
+            case Boss01State.FollowingPlayer:
+                HandleFollow(distanceToPlayer, distanceToHome);
+                break;
+
+            case Boss01State.Attacking:
+                HandleAttack(distanceToPlayer);
+                break;
+
+            case Boss01State.Returning:
+                HandleReturning();
+                break;
+        }
+    }
+    //Detect player
+    void HandleDetection(float distanceToPlayer)
+    {
+        if (distanceToPlayer <= detectRange)
+        {
+            if (!hasDetectedPlayer)
+            {
+
+                hasDetectedPlayer = true;
+                //Reset coooldown khi vua phat hien player
+                skill2Timer = 0f;
+                shieldCycleTimer = 0f;
+                
+                currentState = Boss01State.FollowingPlayer;
+
+                Debug.Log("Boss Detected Player!");
+            }
+        }
+        else
+        {
+            if (hasDetectedPlayer)
+            {
+                hasDetectedPlayer = false;
+                skill2Timer = 0f;
+                shieldCycleTimer = 0f;
+                currentState = Boss01State.Returning;
+                Debug.Log("Boss Lost Player!");
+            }
+        }
+    }
+
+    // PATROLING
+    void HandlePatrol(float distanceToPlayer)
+    {
+        bossNavMeshAgent.stoppingDistance = 0.2f;
+        if (bossNavMeshAgent.isStopped)
+        {
+            bossNavMeshAgent.isStopped = false;
+        }
+               
+        if (!bossNavMeshAgent.pathPending && bossNavMeshAgent.remainingDistance <= bossNavMeshAgent.stoppingDistance)
+        {
+            // Đứng chờ 1 chút cho tự nhiên
+            waitTimer += Time.deltaTime;
+            // Hết thời gian chờ → chọn điểm mới
+            if (waitTimer >= waitTimeAtPoint)
+            {
+                SetNewPatrolPoint();
+                waitTimer = 0f;
+            }
+        }
+        Debug.Log("Patrolling...");
+    }
+    // Chọn 1 điểm ngẫu nhiên đi tuần trong bán kính
+    void SetNewPatrolPoint()
+    {
+        // Lấy hướng ngẫu nhiên trong phạm vi patrolRadius
+        Vector3 randomDir = Random.insideUnitSphere * patrolRadius;
+        randomDir += spawnpoint;
+
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(randomDir, out hit, patrolRadius, NavMesh.AllAreas))
+        {
+            // Lưu điểm đi tuần mới
+            patrolTarget = hit.position;
+            // Ra lệnh cho boss đi tới điểm đó
+            bossNavMeshAgent.SetDestination(patrolTarget);
+        }
+    }
+    // FOLLOWING PLAYER
+    void HandleFollow(float distanceToPlayer, float distanceToHome)
+    {
+        bossNavMeshAgent.stoppingDistance = attackRange;
+        // Nếu player trong tầm đánh
+        bossNavMeshAgent.isStopped = false;
+       
+        if (hasDetectedPlayer && skill2Timer >= skill2Cooldown)
+        {
+            UseSkill2();
+            skill2Timer = 0f;
+        }
+
+        if (!isAttacking && distanceToPlayer <= attackRange + 0.1f && attackTimer >= attackCooldown)
+        {
+            StartAttack();
+            //currentState = BossState.Attacking;
+            return;
+        }
+        // Nếu boss bị dụ đi quá xa → quay về
+        if (distanceToHome > returnRange)
+        {
+            currentState = Boss01State.Returning;
+            return;
+        }
+        
+        if (!bossNavMeshAgent.hasPath || Vector3.Distance(bossNavMeshAgent.destination, playerTargetTransform.position) > 0.5f)
+        {
+            bossNavMeshAgent.SetDestination(playerTargetTransform.position);
+        }
+    }
+
+    // Hàm bắt đầu trạng thái tấn công của Boss
+    void StartAttack()
+    {
+        isAttacking = true;
+        attackStateTimer = 0f;
+        attackTimer = 0f;
+
+        bossNavMeshAgent.ResetPath();
+        bossNavMeshAgent.isStopped = true;
+        bossNavMeshAgent.velocity = Vector3.zero;
+        bossNavMeshAgent.updateRotation = false;
+        //bossNavMeshAgent.updatePosition = false;
+
+        Vector3 lookDir = playerTargetTransform.position - transform.position;
+        lookDir.y = 0;
+        transform.rotation = Quaternion.LookRotation(lookDir);
+
+        bossAnimator.SetBool("isAttacking", true);
+
+        currentState = Boss01State.Attacking;
+    }
+    // ATTACKING
+    void HandleAttack(float distanceToPlayer)
+    {
+        attackStateTimer += Time.deltaTime;
+        if (distanceToPlayer > attackRange + 1.5f)
+        {
+            EndAttack();
+            return;
+        }
+
+        Vector3 lookDir = playerTargetTransform.position - transform.position;
+        lookDir.y = 0;
+      
+        if (lookDir != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(lookDir);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 8f);
+        }
+        if (attackStateTimer >= attackDuration)
+        {
+            EndAttack();
+        }
+    }
+    public void EndAttack()
+    {
+        isAttacking = false;
+
+        bossAnimator.SetBool("isAttacking", false);
+
+        bossNavMeshAgent.updateRotation = true;
+        bossNavMeshAgent.isStopped = false;
+
+        currentState = Boss01State.FollowingPlayer;
+    }
+
+    //Spawn đạn từ animation event
+    public void ShootProjectile()
+    {
+        Debug.Log("BOSS SHOOT");
+        if (projectilePrefab == null || firePoint == null)
+        {
+            Debug.Log("ProjectilePrefab or FirePoint NULL");
+            return;
+        }
+        GameObject proj = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
+        Debug.Log("Projectile Spawned");
+        BossProjectile projectile = proj.GetComponent<BossProjectile>();
+        if (projectile != null)
+        {
+
+            projectile.Initialize(playerTargetTransform);
+            Debug.Log("Projectile Initialized");
+        }
+        //Phát âm thanh tấn công
+        if(iceShootSound != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(iceShootSound);
+        }
+    }
+    void UseSkill2()
+    {
+        if (warningZone == null || playerTargetTransform == null) return;
+
+        //
+        bossNavMeshAgent.isStopped = true;
+        //xoay mặt về hướng player
+        Vector3 lookDir = playerTargetTransform.position - transform.position;
+        lookDir.y = 0;
+
+        if (lookDir != Vector3.zero)
+        {
+            transform.rotation = Quaternion.LookRotation(lookDir);
+        }
+        //Spawn vùng cảnh báo quanh player
+        for (int i = 0; i < 10; i++)
+        {
+            Vector3 randomOffset = new Vector3(
+                Random.Range(-15f, 15f),
+                0,
+                Random.Range(-15f, 15f)
+                );
+            Vector3 targetPos = playerTargetTransform.position + randomOffset;
+            Instantiate(warningZone, targetPos, Quaternion.identity);
+            
+        }
+        bossNavMeshAgent.isStopped = false;
+    }
+    void ActivateShield()
+    {
+        if(shieldTarget == null || shieldTarget.Length == 0) return;
+
+        //Random chọn 1 boss trong mảng để buff shield
+        int randomIndex = Random.Range(0, shieldTarget.Length);
+        IShieldable targetBoss = shieldTarget[randomIndex] as IShieldable;
+        //Tắt shield của các boss trc
+        foreach (MonoBehaviour mb in shieldTarget)
+        {
+            IShieldable boss = mb as IShieldable;
+            boss?.ForceDeactivateShield();
+        }
+        targetBoss?.InternalActivateShield();
+        globalShieldActive = true; // Đánh dấu lá chắn đang hoạt động
+        shieldCycleTimer = 0f; // Reset bộ đếm để bắt đầu chu kỳ mới
+
+        //Phát âm thanh khi lá chắn xuất hiện
+        if(shieldSpawnSound != null)
+        {
+            audioSource.spatialBlend = 1f; // Âm thanh 3D
+            audioSource.minDistance = 3f;
+            audioSource.maxDistance = 25f;
+            audioSource.dopplerLevel = 0f;
+            audioSource.pitch = Random.Range(0.9f, 1.1f); // Thêm chút biến đổi về pitch để âm thanh không bị lặp lại quá nhàm chán
+            audioSource.PlayOneShot(shieldSpawnSound);
+        }
+
+        Debug.Log("Shield random lên: " + shieldTarget[randomIndex].name);
+    }
+    IEnumerator ShieldDurationCoroutine()
+    {
+        yield return new WaitForSeconds(shieldDuration);
+
+        DeactivateShield();
+    }
+    void DeactivateShield()
+    {
+        isShieldActive = false;
+        globalShieldActive = false; // Đánh dấu lá chắn đã tắt
+
+        if (currentShield != null)
+            Destroy(currentShield);
+
+        //shieldCycleTimer = 0f; // BẮT ĐẦU 30s cooldown từ đây
+
+        Debug.Log("Shield Ended - Cooldown Started");
+    }
+    public void InternalActivateShield()
+    {
+        isShieldActive = true;
+
+        currentShield = Instantiate(shieldPrefab, transform.position, Quaternion.identity);
+        currentShield.transform.SetParent(transform);
+        currentShield.transform.localPosition = Vector3.zero;
+
+        StartCoroutine(ShieldDurationCoroutine());
+
+        Debug.Log(name + " Shield Activated!");
+    }
+    public void ForceDeactivateShield()
+    {
+        isShieldActive = false;
+
+        if (currentShield != null)
+            Destroy(currentShield);
+    }
+    public bool IsShieldActive()
+    {
+        return isShieldActive;
+    }
+    public static void ResetGlobalShield()
+    {
+        globalShieldActive = false;
+    }
+    // RETURNING
+    void HandleReturning()
+    {
+        bossNavMeshAgent.stoppingDistance = 0.2f;
+        if (bossNavMeshAgent.isStopped)
+            bossNavMeshAgent.isStopped = false;
+        // Quay về vị trí ban đầu
+        bossNavMeshAgent.SetDestination(spawnpoint);
+        // Nếu đã về tới nơi → tiếp tục đi tuần
+        if (!bossNavMeshAgent.pathPending && bossNavMeshAgent.remainingDistance <= bossNavMeshAgent.stoppingDistance)
+        {
+            currentState = Boss01State.Patrolling;
+            SetNewPatrolPoint();
+        }
+    }
+    //Hàm này để gọi animation GetHit từ script health khi boss bị đánh trúng
+    public void PlayerGetHit()
+    {
+        if(isAttacking) return;
+        if(isDead) return;
+        if (bossAnimator != null)
+        {
+            bossAnimator.SetTrigger("GetHit");
+        }
+    }    
+    //Hàm làm cho boss bị knockback khi dính đamege
+    public void KnockBack(Vector3 attackerPosition, float force)
+    {
+        if (isDead) return;
+        Vector3 direction = (transform.position - attackerPosition).normalized;
+        transform.position += direction * force;
+    }
+    public void Die()
+    {
+        if(isDead) return;
+        isDead = true;
+        Debug.Log("Boss Đie");
+        StopAllCoroutines();
+        if (bossNavMeshAgent != null)
+        {
+            bossNavMeshAgent.isStopped = true;
+            bossNavMeshAgent.enabled = false;
+        }
+    
+        //Xoá lá chắn nếu còn tồn tại
+        if (currentShield != null) Destroy(currentShield);
+        //Phát hiệu ứng chết
+        bossAnimator.SetBool("isAttacking", false);
+        bossAnimator.SetBool("isDead",true);
+
+        Destroy(gameObject, 5f);
+
+    }    
+      // ====== DEBUG ======
+    void OnDrawGizmosSelected()
+    {
+        //Bán kính đi tuần
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, patrolRadius);
+
+        //Khoảng cách phát hiện người chơi
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, detectRange);
+
+        //Khoảng cách trở về vị trí ban đầu
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, returnRange);
+    }
+}
+

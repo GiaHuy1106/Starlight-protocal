@@ -8,6 +8,10 @@ public class PlayerMovement : MonoBehaviour
     public float runMultiplier = 1.8f; // Hệ số tăng tốc khi nhân vật chạy
     public float acceleration = 6f; // Tốc độ animation speed tăng  IDLE -> RUN, Walk -> Run
     public float deceleration = 8f; // Tốc độ animation speed giảm  IDLE -> Walk, Run -> Walk
+
+    [Header("Slow Effect")]
+    private float slowMultiplier = 1f;
+    private Coroutine slowCoroutine;
     private PlayerCameraController cameraController;
     [Header("Gravity")]
     public float gravity = -9.81f; 
@@ -19,7 +23,7 @@ public class PlayerMovement : MonoBehaviour
     private float _verticalVelocity; 
     [Header("Jump")]
     public float jumpForce = 6f;
-    [Header("Dodge")]
+    [Header("Dogde")]
     public float dodgeForce = 6f;
     private bool isDodging;
     [Header("Footstep")]
@@ -109,7 +113,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         moveDir.Normalize();
-        float speed = moveSpeed;
+        float speed = moveSpeed * slowMultiplier;
         if (playerInput.IsRunning())
         {
             speed *= runMultiplier;
@@ -263,5 +267,45 @@ public class PlayerMovement : MonoBehaviour
         footstepSource.pitch = Random.Range(0.9f, 1.1f);
         footstepSource.PlayOneShot(grassFootsteps[index], 0.8f);
     }
+    public void ApplyKnockBack(Vector3 force)
+    {
+        // reset velocity cũ
+        _movementVelocity.x = 0;
+        _movementVelocity.z = 0;
 
+        // áp lực knockback
+        _movementVelocity += force;
+
+        // khóa input 1 chút cho cảm giác bị hất
+        playerInput.SetAttackLock(true);
+        playerInput.SetAimLock(true);
+
+        StartCoroutine(KnockbackLock());
+    }
+
+    IEnumerator KnockbackLock()
+    {
+        yield return new WaitForSeconds(0.35f);
+
+        playerInput.SetAttackLock(false);
+        playerInput.SetAimLock(false);
+    }
+    public void ApplySlow(float multiplier, float duration)
+    {
+        if (slowCoroutine != null)
+        {
+            StopCoroutine(slowCoroutine);
+        }
+
+        slowCoroutine = StartCoroutine(SlowRoutine(multiplier, duration));
+    }
+
+    IEnumerator SlowRoutine(float multiplier, float duration)
+    {
+        slowMultiplier = multiplier;
+
+        yield return new WaitForSeconds(duration);
+
+        slowMultiplier = 1f;
+    }
 }
