@@ -156,7 +156,9 @@ public class Slots : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoi
         item = newItem;
         amount = newAmount;
 
-        UpdateSlots();
+        //UpdateSlots();
+
+        Debug.Log("Slot received item: " + item.itemName);
     }
 
     // =========================
@@ -205,11 +207,11 @@ public class Slots : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoi
     {
         amount -= amountToRemove;
 
-        if (amount <= 0)
-        {
-            ClearSlots();
-            return 0;
-        }
+        // if (amount <= 0)
+        // {
+        //     ClearSlots();
+        //     return 0;
+        // }
 
         UpdateSlots();
         return amount;

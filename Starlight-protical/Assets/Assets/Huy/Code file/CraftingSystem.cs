@@ -5,6 +5,8 @@ public class CraftingSystem : MonoBehaviour
 {
     public static CraftingSystem Instance { get; private set; }
 
+    public WeaponManager weaponManager;
+
     [Header("Recipes")]
     public List<CraftingRec> craftingRecipes = new List<CraftingRec>();
 
@@ -19,8 +21,41 @@ public class CraftingSystem : MonoBehaviour
     // =========================
     // CRAFT ITEM
     // =========================
+    // public void CraftItem(CraftingRec recipe)
+    // {
+    //     if (recipe == null)
+    //     {
+    //         Debug.LogWarning("Recipe is null");
+    //         return;
+    //     }
+
+    //     if (!CanCraft(recipe))
+    //     {
+    //         Debug.Log("Không đủ nguyên liệu");
+    //         return;
+    //     }
+
+    //     // trừ nguyên liệu
+    //     ConsumeIngredients(recipe);
+
+    //     // thêm item kết quả
+    //     InventorySystem.Instance.Additem(recipe.resultItem, recipe.resultAmount);
+
+    //     // cập nhật inventory UI
+    //     InventorySystem.Instance.UpdateUI();
+
+    //     // cập nhật crafting UI
+    //     if (craftingUI.Instance != null)
+    //     {
+    //         int index = craftingUI.Instance.GetCurrentIndex();
+    //         craftingUI.Instance.SetCrafted(index);
+    //     }
+    // }
+
     public void CraftItem(CraftingRec recipe)
     {
+        Debug.Log("CraftItem called");
+
         if (recipe == null)
         {
             Debug.LogWarning("Recipe is null");
@@ -33,16 +68,35 @@ public class CraftingSystem : MonoBehaviour
             return;
         }
 
-        // trừ nguyên liệu
+        Debug.Log("Crafting: " + recipe.resultItem.name);
+
         ConsumeIngredients(recipe);
 
-        // thêm item kết quả
         InventorySystem.Instance.Additem(recipe.resultItem, recipe.resultAmount);
 
-        // cập nhật inventory UI
         InventorySystem.Instance.UpdateUI();
 
-        // cập nhật crafting UI
+        if (weaponManager != null)
+        {
+            Debug.Log("Checking if crafted item is weapon");
+
+            int weaponIndex = weaponManager.GetWeaponIndexByItem(recipe.resultItem);
+
+            if (weaponIndex != -1)
+            {
+                Debug.Log("Auto equipping crafted weapon");
+                weaponManager.EquipWeapon(weaponIndex);
+            }
+            else
+            {
+                Debug.Log("Crafted item is not weapon");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("WeaponManager not found");
+        }
+
         if (craftingUI.Instance != null)
         {
             int index = craftingUI.Instance.GetCurrentIndex();
@@ -71,8 +125,8 @@ public class CraftingSystem : MonoBehaviour
 
                 slot.SetItem(slot.GetItem(), slot.GetAmount() - take);
 
-                if (slot.GetAmount() <= 0)
-                    slot.ClearSlots();
+                // if (slot.GetAmount() <= 0)
+                //     slot.ClearSlots();
 
                 remaining -= take;
 

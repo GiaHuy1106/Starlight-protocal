@@ -4,6 +4,8 @@ public class WeaponData
 {
 public string weaponName;
 
+
+    public ItemObject ItemObject;
     public GameObject weaponPrefab;
     public GameObject previewPrefab;
 

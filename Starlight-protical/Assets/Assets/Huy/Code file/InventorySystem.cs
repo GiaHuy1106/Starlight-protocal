@@ -27,11 +27,11 @@ public class InventorySystem : MonoBehaviour
     private Renderer lookedAtItemRenderer = null;
 
     //Miêu tả item
-    public GameObject itemDesciptionParent;
+    private GameObject itemDesciptionParent;
     //public GameObject worldItemInfoPrefab;
-    public Image itemDescriptionIcon;
-    public TextMeshProUGUI itemDescriptionName;
-    public TextMeshProUGUI itemDescription;
+    private Image itemDescriptionIcon;
+    private TextMeshProUGUI itemDescriptionName;
+    private TextMeshProUGUI itemDescription;
 
     //Danh sách slot
     public List<Slots> inventorySlots = new List<Slots>(); //Danh sách các slot trong inventory, sẽ được khởi tạo từ các slot con của inventorySlotsPanel
@@ -45,15 +45,12 @@ public class InventorySystem : MonoBehaviour
         Instance = this;
         inventorySlots.AddRange(inventorySlotsParent.GetComponentsInChildren<Slots>()); //Lấy tất cả các slot con của inventorySlotsPanel và thêm vào danh sách inventorySlots
         allSlots.AddRange(inventorySlots); //Thêm tất cả các slot trong inventory vào danh sách allSlots
+        UpdateUI();
     }
 
     void Start()
     {
-        // Spawn Wand Level 1 mặc định
-        if (inventorySlots.Count > 0)
-        {
-            inventorySlots[0].SetItem(WandLevel1, 1);
-        }
+        
     }
 
     // Update is called once per frame
@@ -62,14 +59,14 @@ public class InventorySystem : MonoBehaviour
         //Test item 
         testItem();
         
-        DetecLookAtItem();
-        Pickup();
+        // DetecLookAtItem();
+        // Pickup();
 
         StartDrag();
         UpdateItemDragPos();
         EndDrag();
 
-        UpdateItemDescrip();
+        //UpdateItemDescrip();
     }
 
     public void testItem()
@@ -111,6 +108,7 @@ public class InventorySystem : MonoBehaviour
                     int amountToadd = Mathf.Min(spaceLeft, remainingAmount); //Số lượng có thể thêm vào slot này, không vượt quá spaceLeft và remainingAmount
 
                     slot.SetItem(ItemToAdd, currentAmount + amountToadd); //Cập nhật slot với số lượng mới
+                    UpdateUI();
                     remainingAmount -= amountToadd; //Cập nhật số lượng còn lại cần thêm vào inventory
 
                     if(remainingAmount <= 0)
@@ -129,6 +127,7 @@ public class InventorySystem : MonoBehaviour
             {
                 int amountToPlace = Mathf.Min(ItemToAdd.maxStack, remainingAmount); //Số lượng có thể đặt vào slot này, không vượt quá maxStack và remainingAmount
                 slot.SetItem(ItemToAdd, amountToPlace); //Đặt item vào slot với số lượng đang có
+                UpdateUI();
                 remainingAmount -= amountToPlace; //Cập nhật số lượng còn lại cần thêm vào inventory
 
                 if(remainingAmount <= 0)
@@ -136,6 +135,8 @@ public class InventorySystem : MonoBehaviour
                     NotifyCraftingUIChanged();
                     return; //Nếu đã thêm đủ số lượng cần thiết vào inventory thì dừng việc tìm kiếm và thêm vào các slot khác
                 }
+
+                Debug.Log("Placing item in slot");
             }
         }
         
@@ -145,6 +146,8 @@ public class InventorySystem : MonoBehaviour
             Debug.LogWarning("Not enough space in inventory to add all items. Remaining amount: " + remainingAmount + " of " + ItemToAdd.name);
         }
         NotifyCraftingUIChanged();
+
+        Debug.Log("Adding item: " + ItemToAdd.itemName);
     }
 
     public void StartDrag() //Bắt đầu kéo item khi nhấn chuột trái vào slot có item, sẽ được gọi trong sự kiện OnMouseDown của slot
@@ -225,13 +228,16 @@ public class InventorySystem : MonoBehaviour
             int tempAmount = toNewSlots.GetAmount();
 
             toNewSlots.SetItem(fromOldSlots.GetItem(), fromOldSlots.GetAmount()); //Đặt item từ slot gốc sang slot mới
+            UpdateUI();
             fromOldSlots.SetItem(tempItem, tempAmount);
+            UpdateUI();
             NotifyCraftingUIChanged();
             return;
         }
 
         //empty slot
         toNewSlots.SetItem(fromOldSlots.GetItem(), fromOldSlots.GetAmount()); //Đặt item từ slot gốc sang slot mới
+        UpdateUI();
         fromOldSlots.ClearSlots(); //Xóa item khỏi slot gốc
         NotifyCraftingUIChanged();
     }
@@ -244,65 +250,63 @@ public class InventorySystem : MonoBehaviour
         }
     }
 
-    private void Pickup()
-    {
-        if (lookedAtItemRenderer != null && Input.GetKeyDown(KeyCode.P))
-        {
-            Item item = lookedAtItemRenderer.GetComponent<Item>();
-            if (item != null)
-            {
-                Additem(item.item, item.itemAmount); //Thêm item vào inventory với số lượng được chỉ định trong component Item của item đó
-                Destroy(item.gameObject); //Xóa item khỏi thế giới sau khi nhặt
-            }
-        }
-    }
+    // public void Pickup()
+    // {
+    //     if (lookedAtItemRenderer != null)
+    //     {
+    //         Item item = lookedAtItemRenderer.GetComponent<Item>();
+    //         if (item != null)
+    //         {
+    //             Additem(item.item, item.itemAmount); //Thêm item vào inventory với số lượng được chỉ định trong component Item của item đó
+    //             Destroy(item.gameObject); //Xóa item khỏi thế giới sau khi nhặt
+    //         }
+    //     }
+    // }
 
-    private void DetecLookAtItem()
-    {
-        if (lookedAtItemRenderer != null) //Nếu đang có item được nhìn thấy trước đó, khôi phục vật liệu gốc của item đó
-        {
-            lookedAtItemRenderer.material = originalMaterial; //Khôi phục vật liệu gốc của item trước đó nếu có
-            lookedAtItemRenderer = null;
-            originalMaterial = null;
-        }
+    // private void DetecLookAtItem()
+    // {
+    //     if (lookedAtItemRenderer != null) //Nếu đang có item được nhìn thấy trước đó, khôi phục vật liệu gốc của item đó
+    //     {
+    //         lookedAtItemRenderer.material = originalMaterial; //Khôi phục vật liệu gốc của item trước đó nếu có
+    //         lookedAtItemRenderer = null;
+    //         originalMaterial = null;
+    //     }
 
-        Ray ray = new Ray (Camera.main.transform.position, Camera.main.transform.forward); //Tạo một tia từ vị trí của camera theo hướng mà camera đang nhìn
-        if (Physics.Raycast(ray, out RaycastHit hit, pickupRange))
-        {
-            Item item = hit.collider.GetComponent<Item>(); //Kiểm tra xem tia có va chạm với một collider có component Item hay không
-            if (item != null)
-            {
-                Renderer renderer = item.GetComponent<Renderer>(); //Lưu renderer của item đang nhìn thấy để có thể thay đổi vật liệu khi highlight
-                if (renderer != null)
-                {
-                    originalMaterial = renderer.material; //Lưu vật liệu gốc của item để có thể khôi phục sau khi không còn nhìn thấy nữa
-                    renderer.material = highlightMaterial; //Thay đổi vật liệu của item thành highlight để làm nổi bật khi nhìn thấy
-                    lookedAtItemRenderer = renderer; //Lưu renderer của item đang nhìn thấy để có thể khôi phục sau này nếu cần
-                }
-            }
-            Debug.Log("Item detected: " + item.name);
-        }
-        Debug.Log("No item detected");
-    }
+    //     Ray ray = new Ray (Camera.main.transform.position, Camera.main.transform.forward); //Tạo một tia từ vị trí của camera theo hướng mà camera đang nhìn
+    //     if (Physics.Raycast(ray, out RaycastHit hit, pickupRange))
+    //     {
+    //         Item item = hit.collider.GetComponent<Item>(); //Kiểm tra xem tia có va chạm với một collider có component Item hay không
+    //         if (item != null)
+    //         {
+    //             Renderer renderer = item.GetComponent<Renderer>(); //Lưu renderer của item đang nhìn thấy để có thể thay đổi vật liệu khi highlight
+    //             if (renderer != null)
+    //             {
+    //                 originalMaterial = renderer.material; //Lưu vật liệu gốc của item để có thể khôi phục sau khi không còn nhìn thấy nữa
+    //                 renderer.material = highlightMaterial; //Thay đổi vật liệu của item thành highlight để làm nổi bật khi nhìn thấy
+    //                 lookedAtItemRenderer = renderer; //Lưu renderer của item đang nhìn thấy để có thể khôi phục sau này nếu cần
+    //             }
+    //         }
+    //     }
+    // }
 
-    private void UpdateItemDescrip()
-    {
-        itemDesciptionParent.SetActive(false);
-        Slots hovered = GetHoveredSlot();
-        if (hovered != null)
-        {
-            ItemObject item = hovered.GetItem();
-            if (item != null)
-            {
-                itemDesciptionParent.SetActive(true);
-                itemDescriptionIcon.sprite = item.icon;
-                itemDescriptionName.text = item.itemName;
-                itemDescription.text = item.description;
-                return;
-            }
-            itemDesciptionParent.SetActive(false);
-        }
-    }
+    // private void UpdateItemDescrip()
+    // {
+    //     itemDesciptionParent.SetActive(false);
+    //     Slots hovered = GetHoveredSlot();
+    //     if (hovered != null)
+    //     {
+    //         ItemObject item = hovered.GetItem();
+    //         if (item != null)
+    //         {
+    //             itemDesciptionParent.SetActive(true);
+    //             itemDescriptionIcon.sprite = item.icon;
+    //             itemDescriptionName.text = item.itemName;
+    //             itemDescription.text = item.description;
+    //             return;
+    //         }
+    //         itemDesciptionParent.SetActive(false);
+    //     }
+    // }
 
     private void NotifyCraftingUIChanged()
     {

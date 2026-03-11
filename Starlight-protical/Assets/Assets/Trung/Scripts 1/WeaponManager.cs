@@ -30,54 +30,62 @@ public class WeaponManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.N)) EquipWeapon(3);
         if (Input.GetKeyDown(KeyCode.M)) EquipWeapon(4);
     }
-    void EquipWeapon(int index)
+    public void EquipWeapon(int index)
+{
+    Debug.Log("EquipWeapon called with index: " + index);
+
+    if (index < 0 || index >= weapons.Length)
     {
-        if (index < 0 || index >= weapons.Length) return;
+        Debug.LogWarning("Weapon index out of range");
+        return;
+    }
 
-        currentIndex = index;
+    currentIndex = index;
 
-        WeaponData weapon = weapons[index];
+    WeaponData weapon = weapons[index];
 
-        if (currentWeapon != null)
-            Destroy(currentWeapon);
+    Debug.Log("Equipping weapon: " + weapon.ItemObject);
 
-        if (currentPreview != null)
-            Destroy(currentPreview);
+    if (currentWeapon != null)
+        Destroy(currentWeapon);
 
-        if (currentPreviewHandWeapon != null)
-            Destroy(currentPreviewHandWeapon);
+    if (currentPreview != null)
+        Destroy(currentPreview);
 
-        // weapon on player hand
-        currentWeapon = Instantiate(weapon.weaponPrefab, handPoint);
-        currentWeapon.transform.localPosition = Vector3.zero;
-        currentWeapon.transform.localRotation = Quaternion.identity;
+    if (currentPreviewHandWeapon != null)
+        Destroy(currentPreviewHandWeapon);
 
-        // weapon preview panel
-        currentPreview = Instantiate(weapon.previewPrefab, previewPoint);
-        currentPreview.transform.localPosition = Vector3.zero;
-        currentPreview.transform.localRotation = Quaternion.identity;
+    currentWeapon = Instantiate(weapon.weaponPrefab, handPoint);
+    currentWeapon.transform.localPosition = Vector3.zero;
+    currentWeapon.transform.localRotation = Quaternion.identity;
 
-        // weapon on avatar preview hand
-        currentPreviewHandWeapon = Instantiate(weapon.weaponPrefab, previewHandPoint);
-        currentPreviewHandWeapon.transform.localPosition = Vector3.zero;
-        currentPreviewHandWeapon.transform.localRotation = Quaternion.identity;
+    currentPreview = Instantiate(weapon.previewPrefab, previewPoint);
+    currentPreview.transform.localPosition = Vector3.zero;
+    currentPreview.transform.localRotation = Quaternion.identity;
 
-        // cập nhật wand glow
+    currentPreviewHandWeapon = Instantiate(weapon.weaponPrefab, previewHandPoint);
+    currentPreviewHandWeapon.transform.localPosition = Vector3.zero;
+    currentPreviewHandWeapon.transform.localRotation = Quaternion.identity;
 
-        WandGlow glow = currentWeapon.GetComponentInChildren<WandGlow>();
-        if (playerSkill != null)
+    Debug.Log("Weapon instantiated successfully");
+
+    WandGlow glow = currentWeapon.GetComponentInChildren<WandGlow>();
+
+    if (playerSkill != null)
         playerSkill.wandGlow = glow;
 
-        // update player stats
-        playerStats.SetStats(
-            weapon.maxHP,
-            weapon.maxMana,
-            weapon.attack,
-            weapon.defense
-        );
-        ApplyWeaponSkills(weapon);
-    }
-    void ApplyWeaponSkills(WeaponData weapon)
+    playerStats.SetStats(
+        weapon.maxHP,
+        weapon.maxMana,
+        weapon.attack,
+        weapon.defense
+    );
+
+    ApplyWeaponSkills(weapon);
+
+    Debug.Log("Weapon stats applied");
+}
+    public void ApplyWeaponSkills(WeaponData weapon)
     {
         if (playerSkill == null) return;
 
@@ -93,4 +101,19 @@ public class WeaponManager : MonoBehaviour
         playerSkill.fireballCooldown = weapon.fireballCooldown;
         playerSkill.specialCooldown = weapon.meteorCooldown;
     }
+
+    public int GetWeaponIndexByItem(ItemObject item)
+{
+    for (int i = 0; i < weapons.Length; i++)
+    {
+        if (weapons[i].ItemObject == item)
+        {
+            Debug.Log("Found weapon index: " + i);
+            return i;
+        }
+    }
+
+    Debug.Log("Crafted item is not a weapon");
+    return -1;
+}
 }
