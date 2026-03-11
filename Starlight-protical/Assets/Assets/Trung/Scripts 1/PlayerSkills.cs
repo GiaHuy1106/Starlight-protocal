@@ -60,6 +60,7 @@ public class PlayerSkill : MonoBehaviour
     GameObject rangeCircle;
     GameObject targetIndicator;
     public bool isAimingSkill; // nút nhắm kỹ năng special
+    public GameObject Player;
     
     void Start()
     {
@@ -229,7 +230,7 @@ public class PlayerSkill : MonoBehaviour
         FireballProjectile projectile = go.GetComponent<FireballProjectile>();
         projectile.damage = fireballSkillDamage;
         projectile.SetDirection(dir);
-
+        projectile.SetAttacker(Player); 
         fireballCooldownTimer = fireballCooldown;
     }
 

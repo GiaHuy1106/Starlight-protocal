@@ -160,7 +160,7 @@ public class PlayerAttack : MonoBehaviour
     {
         isAttacking = false;
         playerInput.SetAttackLock(false);  // ✅ sửa
-         playerAnimator.ResetTrigger(Constant.AttackHash);
+        playerAnimator.ResetTrigger(Constant.AttackHash);
         playerAnimator.ResetTrigger(Constant.FireballHash);
         playerAnimator.ResetTrigger(Constant.SkillHash);
 
@@ -184,6 +184,7 @@ public class PlayerAttack : MonoBehaviour
         {
             Vector3 dir = (detector.currentTarget.position - firePoint.position).normalized;
             projectile.SetDirection(dir);
+            projectile.SetAttacker(gameObject); 
             projectile.SetTarget(detector.currentTarget);
         }
         else

@@ -300,8 +300,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Inspector\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 1217.6
-    y: 79.200005
+    x: 1218.6
+    y: 24
     width: 317.40002
     height: 690.8
   m_SerializedDataModeController:
@@ -349,8 +349,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Hierarchy\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 932.8
-    y: 79.200005
+    x: 933.8
+    y: 24
     width: 282.8
     height: 590
   m_SerializedDataModeController:
@@ -367,23 +367,23 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 84b20000
-      m_LastClickedID: 45700
+      m_SelectedIDs: 
+      m_LastClickedID: 0
       m_ExpandedIDs: 02fbffff46af0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
-        m_Name: Canvas
-        m_OriginalName: Canvas
+        m_Name: 
+        m_OriginalName: 
         m_EditFieldRect:
           serializedVersion: 2
           x: 0
           y: 0
           width: 0
           height: 0
-        m_UserData: 44870
+        m_UserData: 0
         m_IsWaitingForDelay: 0
         m_IsRenaming: 0
-        m_OriginalEventType: 0
+        m_OriginalEventType: 11
         m_IsRenamingFilename: 0
         m_TrimLeadingAndTrailingWhitespace: 0
         m_ClientGUIView: {fileID: 2}
@@ -416,7 +416,7 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 79.200005
+    y: 24
     width: 931.8
     height: 590
   m_SerializedDataModeController:
@@ -963,7 +963,7 @@ MonoBehaviour:
   m_AudioPlay: 0
   m_DebugDrawModesUseInteractiveLightBakingData: 0
   m_Position:
-    m_Target: {x: 526.17, y: 1, z: 227.2}
+    m_Target: {x: 233.5999, y: 72.12936, z: -210.21278}
     speed: 2
     m_Value: {x: 526.17, y: 1, z: 227.2}
   m_RenderMode: 0
@@ -1011,13 +1011,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0.0047972216, y: 0.9282129, z: -0.37182724, w: 0.011975275}
+    m_Target: {x: 0.16326006, y: 0.83227766, z: -0.41880777, w: 0.3244392}
     speed: 2
     m_Value: {x: 0.004797222, y: 0.92821294, z: -0.37182724, w: 0.011975275}
   m_Size:
-    m_Target: 63.65956
+    m_Target: 474.4592
     speed: 2
-    m_Value: 60.91824
+    m_Value: 63.65956
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -1117,7 +1117,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 79}
     m_SelectedIDs: acc20000
     m_LastClickedID: 49836
-    m_ExpandedIDs: 00000000a4c90000a6c90000a8c90000aac90000acc90000aec90000b0c90000b2c90000b4c90000b6c90000b8c90000bac90000bcc90000bec90000c0c90000c2c90000c4c90000c6c90000c8c90000cac90000ccc90000cec90000d0c90000d2c90000d4c90000d6c90000d8c90000dac90000dcc90000dec90000e0c90000e2c90000e4c90000e6c90000e8c90000eac90000ecc90000eec90000f0c90000f2c90000f4c90000f6c90000f8c90000fac90000
+    m_ExpandedIDs: 0000000042ce000044ce000046ce000048ce00004ace00004cce00004ece000050ce000052ce000054ce000056ce000058ce00005ace00005cce00005ece000060ce000062ce000064ce000066ce000068ce00006ace00006cce00006ece000070ce000072ce000074ce000076ce000078ce00007ace00007cce00007ece000080ce000082ce000084ce000086ce000088ce00008ace00008cce00008ece000090ce000092ce000094ce000096ce000098ce0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1146,7 +1146,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000a4c90000a6c90000a8c90000aac90000acc90000aec90000b0c90000b2c90000b4c90000b6c90000b8c90000bac90000bcc90000bec90000c0c90000c2c90000c4c90000c6c90000c8c90000cac90000ccc90000cec90000d0c90000d2c90000d4c90000d6c90000d8c90000dac90000dcc90000dec90000e0c90000e2c90000e4c90000e6c90000e8c90000eac90000ecc90000eec90000f0c90000f2c90000f4c90000f6c90000f8c90000fac90000
+    m_ExpandedIDs: 0000000042ce000044ce000046ce000048ce00004ace00004cce00004ece000050ce000052ce000054ce000056ce000058ce00005ace00005cce00005ece000060ce000062ce000064ce000066ce000068ce00006ace00006cce00006ece000070ce000072ce000074ce000076ce000078ce00007ace00007cce00007ece000080ce000082ce000084ce000086ce000088ce00008ace00008cce00008ece000090ce000092ce000094ce000096ce000098ce0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1226,7 +1226,7 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 695.2
+    y: 640
     width: 1216.6
     height: 74.79999
   m_SerializedDataModeController:

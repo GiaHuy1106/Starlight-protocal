@@ -16,6 +16,7 @@ public class FireballProjectile : MonoBehaviour
 
     Vector3 startPos;
     Vector3 direction;
+    GameObject attacker;
 
     // Âm thanh nổ giống OrbProjectile
     public AudioClip explosionSFX;
@@ -57,6 +58,10 @@ public class FireballProjectile : MonoBehaviour
             Explode();
         }
     }
+    public void SetAttacker(GameObject atk)
+    {
+        attacker = atk;
+    }
 
     void OnTriggerEnter(Collider other)
     {
@@ -89,6 +94,22 @@ public class FireballProjectile : MonoBehaviour
             {
                 float finalDamage = damage * 100f / (100f + enemy4.def);
                 enemy4.TakeDamage((int)finalDamage);
+            }
+
+            Boss01Health boss01Health = other.GetComponent<Boss01Health>();
+            if (boss01Health != null)
+            {
+                Debug.Log("timf thaasy script b1");
+                float finalDamage = damage;
+                boss01Health.TakeDamage(finalDamage, attacker);
+                Debug.Log("Đã trừ máu");
+            }
+
+            Boss02Health boss02Health = other.GetComponent<Boss02Health>();
+            if (boss02Health != null)
+            {
+                float finalDamage = damage;
+                boss02Health.TakeDamage(finalDamage, attacker);
             }
             Explode();
         }

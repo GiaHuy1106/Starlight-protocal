@@ -18,7 +18,7 @@ public class OrbProjectile : MonoBehaviour
     Vector3 direction;
     Transform target;
     bool exploded = false;
-
+    GameObject attacker;
     public AudioClip explosionSFX; // âm thanh nổ
     [Range(0f, 1f)]
     public float explosionVolume = 1f;
@@ -70,6 +70,11 @@ public class OrbProjectile : MonoBehaviour
             Explode();
         }
     }
+    public void SetAttacker(GameObject atk)
+    {
+        attacker = atk;
+    }
+
     void OnTriggerEnter(Collider other)
     {
          Debug.Log("Hit: " + other.name);
@@ -102,6 +107,18 @@ public class OrbProjectile : MonoBehaviour
             {
                 float finalDamage = damage * 100f / (100f + enemy4.def);
                 enemy4.TakeDamage((int)finalDamage);
+            }
+            Boss01Health boss01Health = other.GetComponent<Boss01Health>();
+            if (boss01Health != null)
+            {
+                float finalDamage = damage;
+                boss01Health.TakeDamage(finalDamage, attacker);
+            }
+           Boss02Health boss02Health = other.GetComponent<Boss02Health>();
+            if (boss02Health != null)
+            {
+                float finalDamage = damage;
+                boss02Health.TakeDamage(finalDamage, attacker);
             }
             Explode();
         }

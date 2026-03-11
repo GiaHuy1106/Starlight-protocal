@@ -48,12 +48,6 @@ public class Boss01Health : MonoBehaviour
         if (isDead) return; //chặn animation GetHit nếu boss đã chết
         currentHP -= damage;       
         Debug.Log("Boss HP: " + currentHP + " / " + maxHP);
-        if(boss != null)
-        {
-            boss.PlayerGetHit();
-            //KnockBack
-            boss.KnockBack(attacker.transform.position, 0.5f);
-        }
         if (boss != null && boss.IsShieldActive())
         {
             PlayerMovement player = attacker.GetComponent<PlayerMovement>();
