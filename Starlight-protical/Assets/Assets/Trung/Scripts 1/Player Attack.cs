@@ -27,6 +27,7 @@ public class PlayerAttack : MonoBehaviour
     private int specialHash;
     private bool isAttacking;
     EnemyTargetDetector detector;
+    public GameObject Player;
 
     void Start()
     {
@@ -184,7 +185,7 @@ public class PlayerAttack : MonoBehaviour
         {
             Vector3 dir = (detector.currentTarget.position - firePoint.position).normalized;
             projectile.SetDirection(dir);
-            projectile.SetAttacker(gameObject); 
+            projectile.SetAttacker(Player); 
             projectile.SetTarget(detector.currentTarget);
         }
         else
