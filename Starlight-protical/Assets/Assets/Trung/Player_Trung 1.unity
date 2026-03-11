@@ -2672,6 +2672,7 @@ GameObject:
   - component: {fileID: 212089659}
   - component: {fileID: 212089658}
   - component: {fileID: 212089657}
+  - component: {fileID: 212089661}
   m_Layer: 7
   m_Name: Boss02
   m_TagString: Untagged
@@ -2896,6 +2897,29 @@ MonoBehaviour:
   shieldPrefab: {fileID: 1662567779382470279, guid: 8e91262c02d5284499dc8ad25762371c, type: 3}
   shieldDuration: 10
   isShieldActive: 0
+--- !u!136 &212089661
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 212089654}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2.2551534
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.62757623, z: 0}
 --- !u!1 &212398098
 GameObject:
   m_ObjectHideFlags: 0

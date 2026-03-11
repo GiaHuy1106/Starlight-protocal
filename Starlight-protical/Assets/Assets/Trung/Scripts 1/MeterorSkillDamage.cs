@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class MeterorSkillDamage : MonoBehaviour
@@ -16,7 +17,7 @@ public class MeterorSkillDamage : MonoBehaviour
     [Range(0f, 1f)]
     public float hitVolume = 1f;
     public AudioSource sfxSource;      // thường dùng AudioSource trên Main Camera
-
+    GameObject attacker;
     void Start()
     {
         Destroy(gameObject, lifetime);
@@ -100,11 +101,29 @@ public class MeterorSkillDamage : MonoBehaviour
                 float finalDamage = damage * 100f / (100f + enemy4.def);
                 enemy4.TakeDamage((int)finalDamage);
             }
+            Boss01Health boss01Health = hit.GetComponent<Boss01Health>();
+            if (boss01Health != null)
+            {
+                float finalDamage = damage;
+                boss01Health.TakeDamage(finalDamage, attacker);
+            }
+            Boss02Health boss02Health = hit.GetComponent<Boss02Health>();
+            if (boss02Health != null)
+            {
+                float finalDamage = damage;
+                boss02Health.TakeDamage(finalDamage, attacker);
+            }
         }
         // Phát tiếng nổ cho mỗi "wave" meteors rơi, dù có trúng enemy hay không
         if (hitSFX != null && sfxSource != null)
         {
             sfxSource.PlayOneShot(hitSFX, hitVolume);
         }
+
     }
+    public void SetAttacker(GameObject atk)
+    {
+        attacker = atk;
+    }
+
 }

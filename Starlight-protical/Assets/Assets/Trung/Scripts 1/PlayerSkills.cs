@@ -132,8 +132,9 @@ public class PlayerSkill : MonoBehaviour
         Vector3 spawnPos = targetIndicator.transform.position;
 
         GameObject specialInstance = Instantiate(specialPrefab, spawnPos, Quaternion.identity);
-
+        
         MeterorSkillDamage meteorDamage = specialInstance.GetComponent<MeterorSkillDamage>();
+        meteorDamage.SetAttacker(Player);
         if (meteorDamage == null)
         {
             meteorDamage = specialInstance.GetComponentInChildren<MeterorSkillDamage>();
