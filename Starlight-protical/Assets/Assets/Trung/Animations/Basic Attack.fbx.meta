@@ -55,7 +55,7 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.017048132
+      - time: 0.032432746
         functionName: GlowOn
         data: 
         objectReferenceParameter: {instanceID: 0}
@@ -69,14 +69,14 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.97713095
+      - time: 0.9648233
         functionName: GlowOff
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.9816092
+      - time: 0.9785324
         functionName: EndBasicAttack
         data: 
         objectReferenceParameter: {instanceID: 0}

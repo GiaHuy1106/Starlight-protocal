@@ -13,6 +13,7 @@ public class InventorySystem : MonoBehaviour
     //Test item
     public ItemObject BigBluePotion;
     public ItemObject BlueGem;
+    public ItemObject WandLevel1;
 
     //Inventory
     public GameObject inventorySlotsParent; //Panel chứa các slot trong inventory
@@ -46,6 +47,15 @@ public class InventorySystem : MonoBehaviour
         allSlots.AddRange(inventorySlots); //Thêm tất cả các slot trong inventory vào danh sách allSlots
     }
 
+    void Start()
+    {
+        // Spawn Wand Level 1 mặc định
+        if (inventorySlots.Count > 0)
+        {
+            inventorySlots[0].SetItem(WandLevel1, 1);
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -71,6 +81,14 @@ public class InventorySystem : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             Additem(BlueGem, 1);
+        }
+    }
+
+    public void UpdateUI()
+    {
+        foreach (Slots slot in inventorySlots)
+        {
+            slot.UpdateUI();
         }
     }
 
@@ -292,5 +310,28 @@ public class InventorySystem : MonoBehaviour
         {
             craftingUI.Instance.RefreshCurrentUI();
         }
+    }
+
+    // =======================================================
+    // ĐẾM TỔNG SỐ LƯỢNG ITEM TRONG INVENTORY
+    // Dùng cho Crafting UI hiển thị: 0/1, 1/3, 5/10...
+    // =======================================================
+    public int GetInventoryItemAmount(ItemObject item)
+    {
+        // Tránh lỗi null
+        if (item == null) return 0;
+
+        int total = 0;
+
+        // Duyệt toàn bộ slot trong inventory
+        foreach (Slots slot in inventorySlots)
+        {
+            if (slot.HasItem() && slot.GetItem() == item)
+            {
+                total += slot.GetAmount();
+            }
+        }
+
+        return total;
     }
 }

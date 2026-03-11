@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87af97dc15f769c4eb9de625e0ff26af, type: 3}
   m_Name: wandLVL1
   m_EditorClassIdentifier: 
-  itemName: wand level 2
+  itemName: wand level 1
   description: 
-  requiredLevel: 1
+  requiredLevel: 0
   icon: {fileID: 21300000, guid: 8a9035b89c23e46b6bb5a89fb975cab4, type: 3}
   worldPrefab: {fileID: 105532, guid: afbde1d23e194df4ebd0a82acfcca0dc, type: 3}
   itemType: 1

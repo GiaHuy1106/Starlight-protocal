@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: wand level 3
   description: 
   requiredLevel: 2
-  icon: {fileID: 21300000, guid: f2612560389d64920bf1cf12ae57d424, type: 3}
+  icon: {fileID: 21300000, guid: d45b3c4e87f2c4e38a88656c5ba184d1, type: 3}
   worldPrefab: {fileID: 117502, guid: 2b46cc393735f634f89cb88a9e97aaa7, type: 3}
   itemType: 1
   rarity: 2

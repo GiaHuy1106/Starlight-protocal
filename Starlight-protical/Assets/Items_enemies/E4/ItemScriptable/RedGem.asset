@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87af97dc15f769c4eb9de625e0ff26af, type: 3}
   m_Name: RedGem
   m_EditorClassIdentifier: 
-  itemId: 
   itemName: Red gem
   description: 
-  icon: {fileID: 0}
+  requiredLevel: 0
+  icon: {fileID: 21300000, guid: ce8d484039900f748b6ca3d19d29a9fa, type: 3}
   worldPrefab: {fileID: 8066826571987405444, guid: 892ccbc982949c64590c949d0eb14421, type: 3}
   itemType: 2
   rarity: 2

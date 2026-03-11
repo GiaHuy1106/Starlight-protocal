@@ -18,7 +18,7 @@ MonoBehaviour:
   currentItem: {fileID: 11400000, guid: 78560d41d8a98e845a665105d7a7575a, type: 2}
   requiredItems:
   - item: {fileID: 11400000, guid: 78560d41d8a98e845a665105d7a7575a, type: 2}
-    amount: 4
+    amount: 5
   resultItem: {fileID: 11400000, guid: 5a5d5dbeb8d8de045b655b184fc40f50, type: 2}
   resultAmount: 1
   goldCost: 50

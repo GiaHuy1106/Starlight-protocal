@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87af97dc15f769c4eb9de625e0ff26af, type: 3}
   m_Name: RedPotionS
   m_EditorClassIdentifier: 
-  itemId: 
   itemName: Small red potion
   description: Small red potion get max 50% upgrade to wands level 3
-  icon: {fileID: 0}
+  requiredLevel: 0
+  icon: {fileID: 21300000, guid: 9e4fbebb6cde952428e19243aeb3289f, type: 3}
   worldPrefab: {fileID: 6557037264651808174, guid: 5a51515edf5e41c4e85ea7b59f71a09d, type: 3}
   itemType: 1
   rarity: 0
