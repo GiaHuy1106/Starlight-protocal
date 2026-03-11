@@ -1,0 +1,28 @@
+﻿using UnityEngine;
+
+public class BossKickHitbox : MonoBehaviour
+{
+    public int damageAmount = 30;
+    bool hasHit = false; // Tránh va chạm nhiều lần
+    public void ResetHit()
+    {
+        hasHit = false; // Reset mỗi lần hitbox được bật
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (hasHit) return;
+                       
+        if (other.CompareTag("Player"))
+        {
+            
+            PlayerHealth hp = other.GetComponentInParent<PlayerHealth>();
+            if (hp != null)
+            {
+                hasHit = true;
+                hp.TakeDamage(damageAmount);
+                Debug.Log("Boss Kick đánh trúng Player");
+            }
+        }
+    }
+}

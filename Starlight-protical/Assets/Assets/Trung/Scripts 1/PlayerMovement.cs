@@ -37,6 +37,11 @@ public class PlayerMovement : MonoBehaviour
     public int dieHash; 
     public GameObject playerModel; // model để xoay nhân vật 
 
+    private Vector3 knockbackVelocity;
+    private bool isSlowed;
+    private float originalSpeed;
+    public float knockbackDamping = 6f;
+
     void Start() 
     { 
         cameraController = FindObjectOfType<PlayerCameraController>();
@@ -45,6 +50,7 @@ public class PlayerMovement : MonoBehaviour
         moveZHash = Constant.MoveZHash;
         playerAnimator.SetFloat(moveXHash, 0f);
         playerAnimator.SetFloat(moveZHash, 0f);
+        originalSpeed = moveSpeed;
     } 
     // xử lý di chuyển trong FixedUpdate 
     void Update() 
@@ -55,7 +61,11 @@ public class PlayerMovement : MonoBehaviour
             _movementVelocity.z = 0;
 
             ApplyGravity(); // vẫn cho rơi tự nhiên
-            characterController.Move(_movementVelocity * Time.deltaTime);
+            Vector3 finalVelocityLocked = _movementVelocity + knockbackVelocity;
+            characterController.Move(finalVelocityLocked * Time.deltaTime);
+
+            // Giảm dần lực knockback
+            knockbackVelocity = Vector3.Lerp(knockbackVelocity, Vector3.zero, knockbackDamping * Time.deltaTime);
             return;
         }
 
@@ -263,5 +273,28 @@ public class PlayerMovement : MonoBehaviour
         footstepSource.pitch = Random.Range(0.9f, 1.1f);
         footstepSource.PlayOneShot(grassFootsteps[index], 0.8f);
     }
+    public void ApplySlow(float slowPercent, float duration)
+    {
+        if (!isSlowed)
+        {
+            StartCoroutine(SlowCoroutine(slowPercent, duration));
+        }
+    }
 
+    IEnumerator SlowCoroutine(float slowPercent, float duration)
+    {
+        isSlowed = true;
+
+        moveSpeed = originalSpeed * (1f - slowPercent);
+
+        yield return new WaitForSeconds(duration);
+
+        moveSpeed = originalSpeed;
+
+        isSlowed = false;
+    }
+    public void ApplyKnockBack(Vector3 force)
+    {
+        knockbackVelocity = force;
+    }
 }

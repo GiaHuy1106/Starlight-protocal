@@ -16701,6 +16701,7 @@ MonoBehaviour:
   attackHash: 0
   dieHash: 0
   playerModel: {fileID: 1688588347}
+  knockbackDamping: 6
 --- !u!114 &1668885170
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19217,17 +19218,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1163012048031187631, guid: 5c727d3a11508a84bb58095429370aa1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5852285986502252251, guid: 5c727d3a11508a84bb58095429370aa1, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5852285986502252251, guid: 5c727d3a11508a84bb58095429370aa1, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5852285986502252251, guid: 5c727d3a11508a84bb58095429370aa1, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6321548004415055185, guid: 5c727d3a11508a84bb58095429370aa1, type: 3}
       propertyPath: playerTargetTransform
