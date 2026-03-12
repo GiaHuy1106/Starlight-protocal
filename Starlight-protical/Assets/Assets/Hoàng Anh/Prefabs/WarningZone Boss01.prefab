@@ -245,4 +245,4 @@ MonoBehaviour:
   iceFallingPrefab: {fileID: 5370883666413489655, guid: 0a79a87c942e58c4e932f3714f96e855, type: 3}
   groundLayer:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 192
