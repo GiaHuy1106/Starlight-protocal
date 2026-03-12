@@ -44295,7 +44295,7 @@ MonoBehaviour:
   damage: 40
   playerLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 72
   explosionSound: {fileID: 8300000, guid: f8c82233d1cdb854b90b2e721e403328, type: 3}
 --- !u!198 &1888174635501546911
 ParticleSystem:
