@@ -14,8 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Brook
   dialogs:
-  - 
-  - 
-  - 
-  - 
+  - "\u1ED2, ta b\u1EA5t ng\u1EDD l\xE0 ng\u01B0\u01A1i c\u0169ng c\xF3 th\u1EC3
+    \u0111\u1EBFn \u0111\xE2y"
+  - "G\xF9\u01B0\u01B0\u01B0....nha \u0111\u1EA7u th\u1ED1i"
+  - "Ta l\xE0 Brook."
+  - "Ng\xE0i Carmila tri\u1EC7u h\u1ED3i ta \u1EDF d\xE2y \u0111\u1EC3 canh c\u1ED5ng"
+  - "Ta s\u1EBD m\u1EDF c\u1ED5ng cho h\u1ECDc vi\xEAn"
+  - "Ng\u01B0\u1EDDi ngo\xE0i cu\u1ED9c kh\xF4ng \u0111\u01B0\u1EE3c can thi\u1EC7p"
+  - "\u0110\u1EB1ng sau l\xE0 c\xE1nh c\u1ED5ng d\u1EABn \u0111\u1EBFn The Trials."
+  - "Stella. Ng\u01B0\u01A1i h\xE3y c\u1EA9n th\u1EADn !"
   voiceClips: []

@@ -7,5 +7,5 @@ public class Dialogue : ScriptableObject
 {
     public string characterName; // Tên nhân vật
     public List<string> dialogs;
-    public AudioClip[] voiceClips;
+    public AudioClip[] voiceClips;   
 }

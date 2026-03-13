@@ -12,6 +12,8 @@ public class TextTyping : MonoBehaviour
     public Transform target;
     [ShowIf("LookAtTarget")]
     public Transform Canvas;
+    [ShowIf("LookAtTarget")]
+    public bool ReverseDirect;
     public TextMeshProUGUI text;
     public float durationPerLine = 2f;
     int currentLineIndex = 0;
@@ -22,11 +24,21 @@ public class TextTyping : MonoBehaviour
     }
     public TypingStyle typingStyle;
 
+
+    private void Start()
+    {
+        ResetTyping();
+    }
+
+
     private void Update()
     {
         if(LookAtTarget && target != null)
         {
-            Canvas.LookAt(target);
+            var direct = target.position - this.transform.position;
+            if(ReverseDirect)
+             direct = this.transform.position - target.position;           
+            Canvas.LookAt(target, direct);
         }
     }
 
@@ -34,6 +46,7 @@ public class TextTyping : MonoBehaviour
     public void TypingByIndex(int index)
     {
         string line = dialogue.dialogs[index];
+        text.text = "";
         if(typingStyle == TypingStyle.Char)
             StartTypingChar(line);
         else
@@ -42,6 +55,7 @@ public class TextTyping : MonoBehaviour
 
     public void TypingByCurrentLine()
     {
+        text.text = "";
         if(currentLineIndex < dialogue.dialogs.Count)
         {
             string line = dialogue.dialogs[currentLineIndex];
@@ -64,6 +78,7 @@ public class TextTyping : MonoBehaviour
 
     public void TypingFull(float duration)
     {
+        if(text != null)
         StartCoroutine(TypingFull( dialogue.dialogs, duration: durationPerLine));
     }
 
@@ -78,13 +93,17 @@ public class TextTyping : MonoBehaviour
 
     public void StartTypingChar(string s)
     {
-        if(text != null)
+        if(text != null){
+            text.text = "";
             StartCoroutine(TypingChar(s));
+        }
     }
     public void StartTypingWord(string s)
     {
-        if(text != null)
-        StartCoroutine(TypingWord(s));
+        if(text != null){
+            text.text = "";
+            StartCoroutine(TypingWord(s));
+        }
     }
 
     IEnumerator TypingChar(string sequence)
