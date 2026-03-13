@@ -15,6 +15,7 @@ public class TextTyping : MonoBehaviour
     [ShowIf("LookAtTarget")]
     public bool ReverseDirect;
     public TextMeshProUGUI text;
+    public RectTransform backGroundText;
     public float durationPerLine = 2f;
     int currentLineIndex = 0;
     public enum TypingStyle 
@@ -46,7 +47,8 @@ public class TextTyping : MonoBehaviour
     public void TypingByIndex(int index)
     {
         string line = dialogue.dialogs[index];
-        text.text = "";
+        //text.text = "";
+        SetText("");
         if(typingStyle == TypingStyle.Char)
             StartTypingChar(line);
         else
@@ -55,7 +57,8 @@ public class TextTyping : MonoBehaviour
 
     public void TypingByCurrentLine()
     {
-        text.text = "";
+        //text.text = "";
+        SetText("");
         if(currentLineIndex < dialogue.dialogs.Count)
         {
             string line = dialogue.dialogs[currentLineIndex];
@@ -87,21 +90,23 @@ public class TextTyping : MonoBehaviour
 
     public void ResetTyping()
     {
-        text.text = "";
+        SetText("");
         currentLineIndex = 0;
     }
 
     public void StartTypingChar(string s)
     {
         if(text != null){
-            text.text = "";
+            //text.text = "";
+            SetText("");
             StartCoroutine(TypingChar(s));
         }
     }
     public void StartTypingWord(string s)
     {
         if(text != null){
-            text.text = "";
+            //text.text = "";
+            SetText("");
             StartCoroutine(TypingWord(s));
         }
     }
@@ -110,7 +115,9 @@ public class TextTyping : MonoBehaviour
     {      
             foreach (var c in sequence)
             {
-                text.text += c;
+            string s = text.text + c;
+            //text.text += c;
+            SetText(s);
                 yield return new WaitForSeconds(typingSpeed);
             }             
     }
@@ -118,7 +125,9 @@ public class TextTyping : MonoBehaviour
     {
         foreach (var s in sequence.Split(' '))
         {
-            text.text += s + " ";            
+            string t = text.text + s + " ";
+            SetText(t);
+            //text.text += s + " ";            
             yield return new WaitForSeconds(typingSpeed);   
         }
         text.text = text.text.TrimEnd(); // Loại bỏ khoảng trắng cuối cùng
@@ -148,6 +157,18 @@ public class TextTyping : MonoBehaviour
         }
 
 
+    }
+
+    [SerializeField] float textPaddingSize = 4f;
+    Vector2 sizeBg = Vector2.zero;
+    void SetText(string text)
+    {
+        if (backGroundText == null) return;
+        this.text.text = text;
+        this.text.maxVisibleLines = 3;
+        sizeBg.x = this.text.preferredWidth + textPaddingSize * 2f;
+        sizeBg.y = this.text.preferredHeight + textPaddingSize * 2f;
+        backGroundText.sizeDelta = sizeBg;
     }
 
 }
