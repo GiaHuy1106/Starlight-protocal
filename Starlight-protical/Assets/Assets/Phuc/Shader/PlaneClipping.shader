@@ -9,10 +9,8 @@ Shader "Unlit/PlaneClipping"
         Tags { "RenderType"="Opaque" }
         LOD 100
 
-
-
         Pass
-        {      
+        {
             ColorMask 0
             ZWrite On
             CGPROGRAM
