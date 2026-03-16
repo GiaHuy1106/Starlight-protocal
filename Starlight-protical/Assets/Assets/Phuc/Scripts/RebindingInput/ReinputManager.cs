@@ -1,77 +1,105 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections.Generic;
+using System.Linq;
 
 public class ReinputManager : MonoBehaviour
 {
-    InputSystem_Actions inputSystem;
-    InputActionMap PlayerMap;
-    InputAction curAction;
+    InputSystem_Actions inputSystem;   
+    [SerializeField] GameObject RebindingkeyUI;
+    [SerializeField] List<InputReference> inputReferences = new List<InputReference>();
     private void Start()
     {
-        //AddCallbacks();
         inputSystem = new InputSystem_Actions();
-        PlayerMap = inputSystem.Player;
+        LoadBinding();
+        AddCallbacks();
         
-        InputActionMap playerMap = inputSystem.Player;    
-        foreach (var action in playerMap.actions)
-        {
-            for (int i = 0; i < action.bindings.Count; i ++ )
-            {
-                var binding = action.bindings[i];
-                print(action.name + "\t" + binding.path + "\t + Index: " + i);
-            }
-        }
         // Duyệt qua tất cả binding
        
     }
-    public void StartRebinding(InputAction action, string contronExcluding)
-    {
-        curAction = action;
-        action.Disable();
 
-            action
-            .PerformInteractiveRebinding()            
-            .WithControlsExcluding(contronExcluding)
-            .OnMatchWaitForAnother(0.5f)
-            .OnComplete(
-             callback =>
-             {
-                 callback.Dispose();
-                 action.Enable();
-                 RemoveDuplicateBinding();
-             }
-            )
-            .OnCancel(callback => {
-                callback.Dispose();
-                curAction.Enable();
-            })
-            .Start();
-      
+    public void SetActiveRebindingUI(bool active)
+    {
+        if(RebindingkeyUI != null)
+        {
+            RebindingkeyUI.SetActive(active);
+        }
+    }   
+
+    void RemoveDuplicateBinding(InputAction action, InputBinding newbinding)
+    {
+
+        foreach (var i in inputReferences)
+        {
+            var act = i.GetInputAction();
+            if (act == action) continue;
+            for (int j = 0; j < act.bindings.Count; j ++)
+            {
+                var bind = act.bindings[j];
+                if(bind == newbinding)
+                {
+                    act.ApplyBindingOverride("");
+                    i.SetInputText("");
+                }
+            }
+        }       
     }
 
-    void RemoveDuplicateBinding()
-    {
-        foreach (var action in PlayerMap.actions)
-        {
-            for (int i = 0; i < action.bindings.Count; i++)
-            {
 
-            }
+    public void SaveBinding()
+    {
+        string jsonInput = inputSystem.SaveBindingOverridesAsJson();
+        PlayerPrefs.SetString("INPUTDATA", jsonInput);
+        PlayerPrefs.Save();
+    }
+    public void LoadBinding()
+    {
+        string jsonInput = PlayerPrefs.GetString("INPUTDATA", null);
+        if (!string.IsNullOrEmpty(jsonInput))
+        {
+            inputSystem.LoadBindingOverridesFromJson(jsonInput);
         }
     }
 
-
-
     void AddCallbacks()
     {
-        inputSystem.Player.Enable();
-        inputSystem.Player.Move.performed += Move_performed;
-        inputSystem.Player.Attack.performed += Attack_performed;
-        inputSystem.Player.OpenBag.performed += OpenBag_performed;
-        inputSystem.Player.Jump.performed += Jump_performed;
-        inputSystem.Player.Skill1.performed += Skill1_performed;
-        inputSystem.Player.Skill2.performed += Skill2_performed;
+        if (inputReferences != null && inputReferences.Count > 0)
+        {
+            foreach (var i in inputReferences)
+            {
+                i.onClickRebind += StartRebinding;
+                
+            }
+        }
         
+    }
+
+   void StartRebinding(object sender, DataRebindingInputEventArgs data)
+    {
+        InputAction action = data.action;
+        int index = data.bindingIndex;
+        string controlExcluding = data.controlExcluding;
+        action.Disable();
+        action
+        .PerformInteractiveRebinding(index)
+        .WithControlsExcluding(controlExcluding)
+        .OnMatchWaitForAnother(0.5f)
+        .OnComplete(
+         callback =>
+         {
+             callback.Dispose();
+             action.Enable();
+             var newBinding = action.bindings[index];
+             RemoveDuplicateBinding(action, newBinding);
+             InputReference invoker = (InputReference)sender;
+             invoker.SetInputText(newBinding.name.ToUpper());
+         }
+        )
+        .OnCancel(callback => {
+            callback.Dispose();
+            action.Enable();
+        })
+        .Start();
     }
 
     private void Skill2_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
@@ -105,15 +133,21 @@ public class ReinputManager : MonoBehaviour
     }
     private void OnDestroy()
     {
-        //RemoveCallbacks();
+      RemoveCallbacks();
     }
     private void RemoveCallbacks()
     {
-        inputSystem.Player.Move.performed -= Move_performed;
-        inputSystem.Player.Attack.performed -= Attack_performed;
-        inputSystem.Player.OpenBag.performed -= OpenBag_performed;
-        inputSystem.Player.Jump.performed -= Jump_performed;
-        inputSystem.Player.Skill1.performed -= Skill1_performed;
-        inputSystem.Player.Skill2.performed -= Skill2_performed;
+       if(inputReferences!= null && inputReferences.Count > 0)
+        {
+            foreach (var i in inputReferences)
+            {
+                i.onClickRebind -= StartRebinding;
+
+            }
+        }
+    }
+    public void Apply()
+    {
+        SaveBinding();
     }
 }
