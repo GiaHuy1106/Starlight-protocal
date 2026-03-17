@@ -1,11 +1,21 @@
 using System.Collections;
-using NUnit.Framework;
 using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 { 
      public PlayerStats playerStats;
     public Animator playerAnimator;
+
+    [Header("Hurt Sound")]
+    public AudioClip hurtVoice;
+    [Range(0f,1f)]
+    public float hurtVolume = 1f;
+    public AudioSource voiceSource;
+
+    [Header("Death Sound")]
+    public AudioClip deathVoice;
+    [Range(0f,1f)]
+    public float deathVolume = 1f;
 
     [Header("Hurt Settings")]
     public float hurtCooldown = 0.5f;      // thời gian miễn nhiễm
@@ -15,6 +25,7 @@ public class PlayerHealth : MonoBehaviour
     private bool isDead;
     bool ignoreNextHurt = false;
     private PlayerInput playerInput;
+    
 
     void Awake()
     {
@@ -31,6 +42,10 @@ public class PlayerHealth : MonoBehaviour
     {
         playerStats.OnDamaged += PlayHurt;
         playerStats.OnDead += Die;
+        if (voiceSource == null && Camera.main != null)
+        {
+            voiceSource = Camera.main.GetComponent<AudioSource>();
+        }
     }
     // hàm nhận sát thương từ các nguồn khác (enemy, trap, v.v.)
     public void TakeDamage(float damage, bool playHurt = true)
@@ -43,9 +58,11 @@ public class PlayerHealth : MonoBehaviour
         lastHurtTime = Time.time;
         float finalDamage = damage - playerStats.defense;
         if (finalDamage < 1) finalDamage = 1;
-
-        playerStats.TakeDamage((int)finalDamage, playHurt);
         
+        // ⭐ nếu damage này làm chết player → không trigger hurt
+        bool willDie = playerStats.CurrentHP - finalDamage <= 0;
+
+        playerStats.TakeDamage((int)finalDamage, !willDie && playHurt);
         if (!playHurt) return;
 
         PlayerAttack attack = GetComponent<PlayerAttack>();
@@ -58,6 +75,11 @@ public class PlayerHealth : MonoBehaviour
     void PlayHurt(int dmg)
     { 
         if (isDead) return;
+        // ⭐ play hurt voice
+        if (hurtVoice != null && voiceSource != null)
+        {
+            voiceSource.PlayOneShot(hurtVoice, hurtVolume);
+        }
         PlayerAttack attack = GetComponent<PlayerAttack>();
         if (attack != null)
             attack.ForceStopAttack();
@@ -97,6 +119,12 @@ public class PlayerHealth : MonoBehaviour
          if (isDead) return;
 
         isDead = true;
+
+        // ⭐ phát âm thanh chết
+        if (deathVoice != null && voiceSource != null)
+        {
+            voiceSource.PlayOneShot(deathVoice, deathVolume);
+        }
 
         playerAnimator.ResetTrigger(Constant.HurtHash);
         playerAnimator.SetTrigger(Constant.DieHash);

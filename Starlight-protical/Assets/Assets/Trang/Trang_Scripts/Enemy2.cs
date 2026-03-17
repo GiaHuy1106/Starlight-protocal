@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
+using static UnityEngine.Rendering.DebugUI;
 
 public enum Enemy2State
 {
@@ -47,9 +49,7 @@ public class Enemy2 : MonoBehaviour
     public float attackRange = 5f; // khoảng cách tấn công
     public float attackRate = 2f; // thời gian giữa các lần tấn công
     private float nextAttackTime = 0f;
-    //Âm thanh
-    public AudioSource music;
-    public AudioClip[] musicClip; // thứ tự như sau 0.fight 1.patrolling 2.stop 3.hurt 4.die 5.defense
+
     //Thêm thông số  
     [Header("Speed Settings")]
     public float patrolSpeed = 3.5f; //tốc độ bình thường
@@ -70,7 +70,9 @@ public class Enemy2 : MonoBehaviour
     public float defendDuration = 1.5f; // Thời gian đứng đỡ (giây)
     private bool isDefending = false;   // Biến cờ để khóa logic khi đang đỡ
 
-
+    //Âm thanh
+    public AudioSource music;
+    public AudioClip[] musicClip; // thứ tự như sau 0.fight 1.patrolling 2.stop 3.hurt 4.die 5.defense
     //khoảng cách giữa 2 lần di chuyển
     private float stepTimer = 0f;
     public float stepInterval = 0.7f;

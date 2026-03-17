@@ -10,6 +10,8 @@ public class PlayerInput : MonoBehaviour
     bool lockByHurt;
     bool lockByUI;
 
+
+    
     
     public bool IsInputLocked =>
     lockByAim ||
