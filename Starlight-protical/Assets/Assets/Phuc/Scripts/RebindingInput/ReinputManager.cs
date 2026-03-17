@@ -2,27 +2,69 @@
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.UI;
+using TMPro;
+using System.Windows;
 
 public class ReinputManager : MonoBehaviour
-{
-    InputSystem_Actions inputSystem;   
+{    
     [SerializeField] GameObject RebindingkeyUI;
     [SerializeField] List<InputReference> inputReferences = new List<InputReference>();
+    [SerializeField] MessageBox messageBox;
+    const string INPUTDEFAULT = "INPUTDEFAULT";
+    const string INPUTUSER = "INPUTUSER";
+
+    [SerializeField] Button apply;
+   
+
+    bool ismodify = false;
+    public bool IsModify { get => ismodify;
+        set { 
+            if(ismodify != value)
+            {
+
+                ismodify = value;
+                if (ismodify)
+                {
+                    apply.GetComponentInChildren<TextMeshProUGUI>().color = Color.green;
+                    apply.interactable = true;
+                }
+                else
+                {
+                    apply.GetComponentInChildren<TextMeshProUGUI>().color = Color.white;
+                    apply.interactable = false;
+                }
+            }
+        }
+    }
+
+
     private void Start()
-    {
-        inputSystem = new InputSystem_Actions();
-        LoadBinding();
+    {      
         AddCallbacks();
-        
-        // Duyệt qua tất cả binding
-       
+        UpdateUI();
+        if (PlayerPrefs.HasKey(INPUTUSER))
+        {
+            string dataUSER = PlayerPrefs.GetString(INPUTUSER);
+            if(string.IsNullOrEmpty(dataUSER)){
+                LoadBinding(INPUTUSER, dataUSER);
+                UpdateUI();
+            }
+        }
+
+        if (!PlayerPrefs.HasKey(INPUTDEFAULT))
+        {
+            string dataDEFAULT = GameInput.Ins.GetJsonData();
+            PlayerPrefs.SetString(INPUTDEFAULT, dataDEFAULT);
+        }
+        // Duyệt qua tất cả binding   
     }
 
     public void SetActiveRebindingUI(bool active)
     {
         if(RebindingkeyUI != null)
         {
-            RebindingkeyUI.SetActive(active);
+            RebindingkeyUI.SetActive(active);          
         }
     }   
 
@@ -46,18 +88,18 @@ public class ReinputManager : MonoBehaviour
     }
 
 
-    public void SaveBinding()
+    public void SaveBinding(string KEY, string value)
     {
-        string jsonInput = inputSystem.SaveBindingOverridesAsJson();
-        PlayerPrefs.SetString("INPUTDATA", jsonInput);
+        PlayerPrefs.SetString(KEY, value);
         PlayerPrefs.Save();
     }
-    public void LoadBinding()
+    public void LoadBinding(string KEY, string value)
     {
-        string jsonInput = PlayerPrefs.GetString("INPUTDATA", null);
-        if (!string.IsNullOrEmpty(jsonInput))
+       
+        if (!string.IsNullOrEmpty(value))
         {
-            inputSystem.LoadBindingOverridesFromJson(jsonInput);
+            GameInput.Ins.LoadDataJson(value);
+           
         }
     }
 
@@ -79,6 +121,8 @@ public class ReinputManager : MonoBehaviour
         InputAction action = data.action;
         int index = data.bindingIndex;
         string controlExcluding = data.controlExcluding;
+        string text = ((InputReference)sender).GetInputText();
+        ((InputReference)sender).SetInputText("|");
         action.Disable();
         action
         .PerformInteractiveRebinding(index)
@@ -87,50 +131,24 @@ public class ReinputManager : MonoBehaviour
         .OnComplete(
          callback =>
          {
+             IsModify = true;
              callback.Dispose();
              action.Enable();
-             var newBinding = action.bindings[index];
+             var newBinding = action.bindings[index];     
              RemoveDuplicateBinding(action, newBinding);
-             InputReference invoker = (InputReference)sender;
-             invoker.SetInputText(newBinding.name.ToUpper());
+             string controlName = newBinding.path.Split('/')[1];
+             ((InputReference)sender).SetInputText(controlName);
          }
         )
         .OnCancel(callback => {
             callback.Dispose();
+            ((InputReference)sender).SetInputText(text);
             action.Enable();
         })
         .Start();
     }
 
-    private void Skill2_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
-    {
-        print("Skill2" + obj.control.name);
-    }
-
-    private void Skill1_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
-    {
-        print("Skill1" + obj.control.name);
-    }
-
-    private void Jump_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
-    {
-        print("Jump" + obj.control.name);
-    }
-
-    private void OpenBag_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
-    {
-        print("OpenBag" + obj.control.name);
-    }
-
-    private void Attack_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
-    {
-        print("Attack" + obj.control.name);
-    }
-
-    private void Move_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
-    {
-        print("Move: " + obj.control.name);
-    }
+  
     private void OnDestroy()
     {
       RemoveCallbacks();
@@ -148,6 +166,49 @@ public class ReinputManager : MonoBehaviour
     }
     public void Apply()
     {
-        SaveBinding();
+        if (ismodify)
+        {
+            string value = GameInput.Ins.GetJsonData();
+            SaveBinding(INPUTUSER, value);
+            IsModify = false;
+        }
+    }
+    public void Back()
+    {
+        if (ismodify)
+        {
+            messageBox.Show("", (result) =>
+            {
+                if (result)
+                {
+                    string data = GameInput.Ins.GetJsonData();
+                    SaveBinding(INPUTUSER, data);                  
+                    UpdateUI();
+                }
+                else
+                {
+                    string data = PlayerPrefs.GetString(INPUTUSER);
+                    GameInput.Ins.LoadDataJson(data);
+                    UpdateUI();
+                }
+            }
+
+                );
+        }       
+        SetActiveRebindingUI(false);        
+    }
+    public void Reset()
+    {
+        IsModify = true;
+        GameInput.Ins.inputSystem.RemoveAllBindingOverrides();
+        UpdateUI();
+
+    }
+    void UpdateUI()
+    {
+        foreach (var i in inputReferences)
+        {
+            i.UpdateUI();
+        }
     }
 }

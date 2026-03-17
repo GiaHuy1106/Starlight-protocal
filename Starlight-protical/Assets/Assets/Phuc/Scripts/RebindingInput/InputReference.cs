@@ -15,6 +15,7 @@ public class InputReference : MonoBehaviour
     DataRebindingInputEventArgs data;
 
     public InputAction GetInputAction() => referenceAction.action;
+    public int GetBindingIndex() => bindingIndex;
     private void Awake()
     {
         data = new DataRebindingInputEventArgs { action = GetInputAction(), bindingIndex = this.bindingIndex, controlExcluding = this.controlExcluding};
@@ -23,6 +24,7 @@ public class InputReference : MonoBehaviour
     {
         button.onClick.AddListener(OnClickRebind);
         inputText.text = GetInputAction().bindings[bindingIndex].name.ToUpper();
+       
     }
 
     public void OnClickRebind()
@@ -34,11 +36,30 @@ public class InputReference : MonoBehaviour
     {
        if(inputText != null)
         {
-            inputText.text = value;
+            if(!string.IsNullOrEmpty(value))
+            inputText.text = value.ToUpper();
+            else
+                inputText.text = value;
         }
+        
     }
 
+    public string GetInputText()
+    {
+        return inputText.text;
+    }
 
+    public void UpdateUI()
+    {
+        string path = GetInputAction().bindings[bindingIndex].path;
+        var parts = path.Split('/');
+        string text = null;
+       if(parts.Length > 1)
+        {
+            text = parts[parts.Length - 1];
+        }
+        SetInputText(text);
+    }
 }
 
 public class DataRebindingInputEventArgs: EventArgs
