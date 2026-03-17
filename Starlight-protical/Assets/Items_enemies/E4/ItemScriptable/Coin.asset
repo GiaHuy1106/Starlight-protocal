@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87af97dc15f769c4eb9de625e0ff26af, type: 3}
   m_Name: Coin
   m_EditorClassIdentifier: 
-  itemId: 
   itemName: Coins
   description: Coins use for buying consumbale and gems
-  icon: {fileID: 0}
+  requiredLevel: 0
+  icon: {fileID: 21300000, guid: 28539d232f53f5145aca5fba03dfeee0, type: 3}
   worldPrefab: {fileID: 6914486880263375222, guid: 3fcb5deadbbb6e0458e01dd57f15ae58, type: 3}
   itemType: 0
   rarity: 0

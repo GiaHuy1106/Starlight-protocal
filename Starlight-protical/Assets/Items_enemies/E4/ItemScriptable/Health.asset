@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87af97dc15f769c4eb9de625e0ff26af, type: 3}
   m_Name: Health
   m_EditorClassIdentifier: 
-  itemId: 
   itemName: Health
   description: 
-  icon: {fileID: 0}
+  requiredLevel: 0
+  icon: {fileID: 21300000, guid: 741ce8432581dea45873974eae93557d, type: 3}
   worldPrefab: {fileID: 2984157925166043655, guid: 15d344eaa9317874caadc0cbed8937b1, type: 3}
   itemType: 4
   rarity: 0

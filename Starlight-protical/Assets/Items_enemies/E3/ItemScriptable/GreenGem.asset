@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: Green Gem
   description: 
   requiredLevel: 0
-  icon: {fileID: 21300000, guid: 2a4c9b75751e9854d86c26b22469c43b, type: 3}
+  icon: {fileID: 21300000, guid: 05c2c1ee700b5594ca2adfcadf2f2e76, type: 3}
   worldPrefab: {fileID: 4532057304978946274, guid: 635348c9e2f39d345aa75745bbaaeb3e, type: 3}
   itemType: 2
   rarity: 2

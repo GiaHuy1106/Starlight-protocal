@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Coins
   description: Coins use for buying consumbale and gems
-  icon: {fileID: 21300000, guid: 264745156bc6f6a40a16ae14e6012d2f, type: 3}
+  requiredLevel: 0
+  icon: {fileID: 21300000, guid: 275c7fe6e6b71fc46b5cbf8a2bba8915, type: 3}
   worldPrefab: {fileID: 6914486880263375222, guid: 3fcb5deadbbb6e0458e01dd57f15ae58, type: 3}
   itemType: 0
   rarity: 0

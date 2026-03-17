@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87af97dc15f769c4eb9de625e0ff26af, type: 3}
   m_Name: BluePotionS
   m_EditorClassIdentifier: 
-  itemId: 
   itemName: Small blue potion
   description: Small blue potion get max 50% upgrade to wands level 1
-  icon: {fileID: 0}
+  requiredLevel: 0
+  icon: {fileID: 21300000, guid: b0fe3be647f761442a997f3213b5b99c, type: 3}
   worldPrefab: {fileID: 8748649991714601673, guid: 0ce292855309ed944bd4406289053865, type: 3}
   itemType: 1
   rarity: 0

@@ -256,7 +256,7 @@ MonoBehaviour:
     height: 36
   m_MinSize: {x: 50, y: 50}
   m_MaxSize: {x: 4000, y: 4000}
-  m_LastLoadedLayoutName: Huy Layout
+  m_LastLoadedLayoutName: 
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -1016,7 +1016,7 @@ MonoBehaviour:
   m_Position:
     m_Target: {x: 526.90076, y: 0.9995313, z: 856.0303}
     speed: 2
-    m_Value: {x: 875, y: -219.75002, z: 0}
+    m_Value: {x: 526.90076, y: 0.9995313, z: 856.0303}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1068,7 +1068,7 @@ MonoBehaviour:
   m_Size:
     m_Target: 3.5223835
     speed: 2
-    m_Value: 988.54694
+    m_Value: 3.5223835
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -1168,7 +1168,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 58050200
     m_LastClickedID: 132440
-    m_ExpandedIDs: 00000000c0c90000c2c90000c4c90000c6c90000c8c90000ccc90000d2c90000d4c9000070ca000074cd000002ce0000
+    m_ExpandedIDs: 000000002ac000002cc000002ec0000030c0000032c0000034c0000036c0000038c000003ac000003cc000003ec0000040c0000042c0000044c0000046c0000048c00000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1197,7 +1197,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000c0c90000c2c90000c4c90000c6c90000c8c90000ccc90000d2c90000d4c9000070ca000074cd000002ce0000
+    m_ExpandedIDs: 000000002ac000002cc000002ec0000030c0000032c0000034c0000036c0000038c000003ac000003cc000003ec0000040c0000042c0000044c0000046c0000048c00000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 

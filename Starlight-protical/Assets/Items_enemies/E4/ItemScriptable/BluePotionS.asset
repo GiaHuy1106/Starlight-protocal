@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: Small blue potion
   description: Small blue potion get max 50% upgrade to wands level 1
   requiredLevel: 0
-  icon: {fileID: 21300000, guid: 74f3ff7910cd94f41af53cfb1413fa03, type: 3}
+  icon: {fileID: 21300000, guid: 765379defe677b940a4184690a76fc71, type: 3}
   worldPrefab: {fileID: 8748649991714601673, guid: 0ce292855309ed944bd4406289053865, type: 3}
   itemType: 1
   rarity: 0

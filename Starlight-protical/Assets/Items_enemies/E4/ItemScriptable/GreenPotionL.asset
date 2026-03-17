@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87af97dc15f769c4eb9de625e0ff26af, type: 3}
   m_Name: GreenPotionL
   m_EditorClassIdentifier: 
-  itemId: 
   itemName: Large green potion
   description: Big green potion get max 100% upgrade to wands level 2
-  icon: {fileID: 0}
+  requiredLevel: 0
+  icon: {fileID: 21300000, guid: fda1ccb5b66879a459b23b278879d07e, type: 3}
   worldPrefab: {fileID: 5726315679432275643, guid: 5c6b85a535a09874c8a424e1607baa1e, type: 3}
   itemType: 1
   rarity: 1
