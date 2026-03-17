@@ -4067,6 +4067,7 @@ MonoBehaviour:
   previewHandPoint: {fileID: 327153709}
   weapons:
   - weaponName: MagicWand
+    item: {fileID: 11400000, guid: 9a047f8f27980c04286aa19939b28618, type: 2}
     weaponPrefab: {fileID: 8459253984011873932, guid: 32f985935e633304596804d77d0b7dde, type: 3}
     previewPrefab: {fileID: 4295318710035710429, guid: b90f6b75224509748bc3cc003a3ce829, type: 3}
     attack: 50
@@ -4082,6 +4083,7 @@ MonoBehaviour:
     meteorDamage: 50
     meteorCooldown: 10
   - weaponName: MagicWand Lv1
+    item: {fileID: 11400000, guid: 9a047f8f27980c04286aa19939b28618, type: 2}
     weaponPrefab: {fileID: 105532, guid: 7bb0c626165e59d4499c29d4eb657ba8, type: 3}
     previewPrefab: {fileID: 105532, guid: 9b59a1c73117d3c4d9963c5321829b6e, type: 3}
     attack: 80
@@ -4097,6 +4099,7 @@ MonoBehaviour:
     meteorDamage: 60
     meteorCooldown: 9
   - weaponName: MagicWand Lv2
+    item: {fileID: 11400000, guid: cbb66ae798418cd4fb17921e5e65a1ed, type: 2}
     weaponPrefab: {fileID: 115338, guid: e870dadd376d8d045947a987f1345bef, type: 3}
     previewPrefab: {fileID: 115338, guid: fa3ab0aee4c9af1439e9715f514ea34e, type: 3}
     attack: 120
@@ -4112,6 +4115,7 @@ MonoBehaviour:
     meteorDamage: 100
     meteorCooldown: 8
   - weaponName: MagicWand Lv3
+    item: {fileID: 11400000, guid: d71fb73c737ed0c44afbc31a4c4260a8, type: 2}
     weaponPrefab: {fileID: 117502, guid: dac28a1ed287fda4fb3d15ef795f7e15, type: 3}
     previewPrefab: {fileID: 117502, guid: a2b8c4c4a5b4c3a40ba8dd37bd3584e5, type: 3}
     attack: 160
@@ -4127,6 +4131,7 @@ MonoBehaviour:
     meteorDamage: 150
     meteorCooldown: 7
   - weaponName: MagicWand Lv4
+    item: {fileID: 11400000, guid: c4cb4f00786777246a4e9209887d871b, type: 2}
     weaponPrefab: {fileID: 164894, guid: 95d9ca442f1756d43b6320f6c93aead4, type: 3}
     previewPrefab: {fileID: 164894, guid: 8e1a630d61aa1e5469013812cf1f9445, type: 3}
     attack: 180
@@ -4142,6 +4147,7 @@ MonoBehaviour:
     meteorDamage: 180
     meteorCooldown: 6
   playerSkill: {fileID: 1688588350}
+  unlockedWeapons: 
 --- !u!1 &292161029 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5030645071561653626, guid: 379cfb6848589a948b84691a4df3bed9, type: 3}
@@ -8417,6 +8423,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74d324d6434ed9a46bccbb454da98234, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponManager: {fileID: 0}
   craftingRecipes: []
 --- !u!114 &510010213
 MonoBehaviour:
@@ -8476,6 +8483,50 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0.00012207031}
   m_SizeDelta: {x: -200, y: -200}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &525254813
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 525254814}
+  - component: {fileID: 525254815}
+  m_Layer: 3
+  m_Name: WeaponSelection
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &525254814
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 525254813}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1668885164}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &525254815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 525254813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56d1e00b5a03b2d419464cb7609fa05d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &554351398
 GameObject:
   m_ObjectHideFlags: 0
@@ -9140,14 +9191,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BigBluePotion: {fileID: 0}
   BlueGem: {fileID: 0}
+  WandLevel1: {fileID: 0}
   inventorySlotsParent: {fileID: 653753356}
   IconDrag: {fileID: 2131267201}
   pickupRange: 3
   highlightMaterial: {fileID: 2100000, guid: 0ca7107b3fef120498c16cc25e3f444a, type: 2}
-  itemDesciptionParent: {fileID: 1940324457}
-  itemDescriptionIcon: {fileID: 647007857}
-  itemDescriptionName: {fileID: 218009526}
-  itemDescription: {fileID: 467060452}
   inventorySlots: []
   allSlots: []
 --- !u!1 &664053875
@@ -11332,7 +11380,7 @@ RectTransform:
   m_Father: {fileID: 576951932}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -16192,7 +16240,7 @@ RectTransform:
   m_Father: {fileID: 960766634}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -17041,7 +17089,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1410077008
 Transform:
   m_ObjectHideFlags: 0
@@ -19525,7 +19573,7 @@ RectTransform:
   m_Father: {fileID: 798692983}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -20087,6 +20135,7 @@ Transform:
   - {fileID: 192168108}
   - {fileID: 1461781664}
   - {fileID: 291001099}
+  - {fileID: 525254814}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1668885166
@@ -21791,7 +21840,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!136 &1825388857
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -21978,7 +22027,7 @@ RectTransform:
   m_Father: {fileID: 271738967}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}

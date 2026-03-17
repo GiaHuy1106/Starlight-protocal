@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 191333643515575547, guid: 5daff121de6826f4c8029fda5e22b206, type: 3}
+      propertyPath: item
+      value: 
+      objectReference: {fileID: 11400000, guid: 80c3bddd8f389cf469d9983a7764fce2, type: 2}
     - target: {fileID: 2809303206482566689, guid: 5daff121de6826f4c8029fda5e22b206, type: 3}
       propertyPath: m_Name
       value: Skull Variant

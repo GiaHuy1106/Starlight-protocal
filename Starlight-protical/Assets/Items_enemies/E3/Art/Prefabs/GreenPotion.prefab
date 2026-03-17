@@ -68,20 +68,35 @@ PrefabInstance:
       propertyPath: m_Name
       value: GreenPotion
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 905f72ca98139284d856e235054cf139, type: 3}
+      propertyPath: m_TagString
+      value: Item
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 905f72ca98139284d856e235054cf139, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3920592234831164193}
+      addedObject: {fileID: 4031235071911218897}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 905f72ca98139284d856e235054cf139, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1513491185271638950}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 905f72ca98139284d856e235054cf139, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5595697667405046117}
   m_SourcePrefab: {fileID: 100100000, guid: 905f72ca98139284d856e235054cf139, type: 3}
+--- !u!4 &4916846030160342017 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 905f72ca98139284d856e235054cf139, type: 3}
+  m_PrefabInstance: {fileID: 4879258858368945130}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &5726315679432275643 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 905f72ca98139284d856e235054cf139, type: 3}
   m_PrefabInstance: {fileID: 4879258858368945130}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &3920592234831164193
+--- !u!114 &4031235071911218897
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -90,20 +105,43 @@ MonoBehaviour:
   m_GameObject: {fileID: 5726315679432275643}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 845c415f3181b4840ab566c40e714752, type: 3}
+  m_Script: {fileID: 11500000, guid: a5364d400212a3847a5c6021bafc3e38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isRotating: 1
-  rotateX: 0
-  rotateY: 1
-  rotateZ: 0
-  rotationSpeed: 85.67
-  isFloating: 1
-  useEasingForFloating: 1
-  floatHeight: 0.5
-  floatSpeed: 0.4
-  startScale: {x: 0.1, y: 0.1, z: 0.1}
-  endScale: {x: 0.2, y: 0.2, z: 0.2}
-  isScaling: 1
-  useEasingForScaling: 1
-  scaleLerpSpeed: 1.11
+  item: {fileID: 11400000, guid: 6ab6b2ad195472242bfa5abff40fc0c6, type: 2}
+  itemAmount: 1
+--- !u!114 &1513491185271638950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5726315679432275643}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 121350180af0f334795a567764539e43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 4916846030160342017}
+  rotateSpeed: 40
+--- !u!65 &5595697667405046117
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5726315679432275643}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.6790125, y: 2.663424, z: 1.6790125}
+  m_Center: {x: -0.000000029802322, y: 0.49946702, z: 0}
