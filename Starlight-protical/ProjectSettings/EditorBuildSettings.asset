@@ -27,7 +27,7 @@ EditorBuildSettings:
     path: Assets/Assets/Trung/Player.unity
     guid: 0c99148f8e7c54c478d7262c722302df
   - enabled: 1
-    path: Assets/Assets/Trung/Player_Trung 1.unity
+    path: Assets/Assets/Trung/PlayerTest.unity
     guid: dbe3e615ad25dcd429ab03efd3bb0553
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
