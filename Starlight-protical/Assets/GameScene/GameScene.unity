@@ -2591,6 +2591,7 @@ Transform:
   - {fileID: 828948583}
   - {fileID: 155428086}
   - {fileID: 1792919111}
+  - {fileID: 371620370}
   m_Father: {fileID: 1410077008}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &212089656
@@ -5671,11 +5672,11 @@ Transform:
   m_GameObject: {fileID: 371620369}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -6.6190376, y: -3.9656372, z: -9.577477}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -6.666025, y: -2.6437583, z: -6.3849845}
+  m_LocalScale: {x: 0.6666667, y: 0.6666667, z: 0.6666667}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1410077008}
+  m_Father: {fileID: 212089655}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &371620371
 MonoBehaviour:
@@ -7267,11 +7268,11 @@ Transform:
   m_GameObject: {fileID: 397348260}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -6.6190376, y: -3.9656372, z: -9.577477}
+  m_LocalPosition: {x: 3.0209627, y: -3.9656372, z: -9.5774765}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1410077008}
+  m_Father: {fileID: 442694519}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &397348262
 MonoBehaviour:
@@ -8043,6 +8044,7 @@ Transform:
   - {fileID: 947069155}
   - {fileID: 1536168080}
   - {fileID: 1776095338}
+  - {fileID: 397348261}
   m_Father: {fileID: 1410077008}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &442694520
@@ -24071,12 +24073,10 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 371620370}
   - {fileID: 2045999366}
   - {fileID: 207223903}
   - {fileID: 442694519}
   - {fileID: 212089655}
-  - {fileID: 397348261}
   - {fileID: 1600472622}
   m_Father: {fileID: 1745448947}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -28550,7 +28550,7 @@ CharacterController:
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.81, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &1668885169
 MonoBehaviour:
   m_ObjectHideFlags: 0
