@@ -81,7 +81,7 @@ public class Slots : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoi
         else
             Debug.LogWarning("[Slots] SetItem: item NULL");
 
-        //UpdateSlots(); // 👈 bật lại (rất quan trọng)
+        UpdateSlots(); // 👈 bật lại (rất quan trọng)
     }
 
 

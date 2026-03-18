@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upgradeName: Big Green Potion
   description: 
-  upgradeType: 4
+  upgradeType: 5
   currentItem: {fileID: 11400000, guid: b018711651b4def488c27e6bbaac18cb, type: 2}
   requiredItems:
-  - item: {fileID: 11400000, guid: 6ab6b2ad195472242bfa5abff40fc0c6, type: 2}
+  - item: {fileID: 11400000, guid: b018711651b4def488c27e6bbaac18cb, type: 2}
     amount: 4
   resultItem: {fileID: 11400000, guid: 6ab6b2ad195472242bfa5abff40fc0c6, type: 2}
   resultAmount: 1

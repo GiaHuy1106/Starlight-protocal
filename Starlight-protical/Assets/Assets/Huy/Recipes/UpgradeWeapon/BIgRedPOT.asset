@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upgradeName: BIg Red Potion
   description: 
-  upgradeType: 5
+  upgradeType: 6
   currentItem: {fileID: 11400000, guid: 98f3140389bff254a8e6711852ee637f, type: 2}
   requiredItems:
   - item: {fileID: 11400000, guid: 98f3140389bff254a8e6711852ee637f, type: 2}

@@ -24,7 +24,7 @@ MonoBehaviour:
   - item: {fileID: 11400000, guid: 78560d41d8a98e845a665105d7a7575a, type: 2}
     amount: 2
   - item: {fileID: 11400000, guid: 9a047f8f27980c04286aa19939b28618, type: 2}
-    amount: 2
+    amount: 1
   resultItem: {fileID: 11400000, guid: cbb66ae798418cd4fb17921e5e65a1ed, type: 2}
   resultAmount: 1
   goldCost: 0

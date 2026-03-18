@@ -10,6 +10,7 @@ public class Ingredient
 
 public enum type
 {
+    WandLVL1,
     WandLVL2,
     WandLVL3,
     WandLVL4,

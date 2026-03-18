@@ -22,108 +22,61 @@ public class CraftingSystem : MonoBehaviour
             Destroy(gameObject);
     }
 
-
-    // =========================
-    // CRAFT ITEM
-    // =========================
-    // public void CraftItem(CraftingRec recipe)
-    // {
-    //     if (recipe == null)
-    //     {
-    //         Debug.LogWarning("Recipe is null");
-    //         return;
-    //     }
-
-
-    //     if (!CanCraft(recipe))
-    //     {
-    //         Debug.Log("Không đủ nguyên liệu");
-    //         return;
-    //     }
-
-
-    //     // trừ nguyên liệu
-    //     ConsumeIngredients(recipe);
-
-
-    //     // thêm item kết quả
-    //     InventorySystem.Instance.Additem(recipe.resultItem, recipe.resultAmount);
-
-
-    //     // cập nhật inventory UI
-    //     InventorySystem.Instance.UpdateUI();
-
-
-    //     // cập nhật crafting UI
-    //     if (craftingUI.Instance != null)
-    //     {
-    //         int index = craftingUI.Instance.GetCurrentIndex();
-    //         craftingUI.Instance.SetCrafted(index);
-    //     }
-    // }
-
-
     public void CraftItem(CraftingRec recipe)
+{
+
+    if (recipe == null)
     {
-        Debug.Log("CraftItem called");
+        return;
+    }
+
+    if (recipe.resultItem == null)
+    {
+        return;
+    }
+
+    if (InventorySystem.Instance == null)
+    {
+        return;
+    }
+
+    if (weaponManager == null)
+    {
+        return;
+    }
+
+    if (!CanCraft(recipe))
+    {
+        return;
+    }
+
+    Debug.Log("Crafting: " + recipe.resultItem.name);
+
+    ConsumeIngredients(recipe);
+
+    InventorySystem.Instance.Additem(recipe.resultItem, recipe.resultAmount);
+    InventorySystem.Instance.UpdateUI();
 
 
-        if (recipe == null)
+    int weaponIndex = weaponManager.GetWeaponIndexByItem(recipe.resultItem);
+
+
+    if (weaponIndex != -1)
+    {
+        weaponManager.UnlockWeapon(weaponIndex);
+
+        if (WeaponSelection.Instance != null)
         {
-            Debug.LogWarning("Recipe is null");
-            return;
-        }
-
-
-        if (!CanCraft(recipe))
-        {
-            Debug.Log("Không đủ nguyên liệu");
-            return;
-        }
-
-
-        Debug.Log("Crafting: " + recipe.resultItem.name);
-
-
-        ConsumeIngredients(recipe);
-
-
-        InventorySystem.Instance.Additem(recipe.resultItem, recipe.resultAmount);
-
-
-        InventorySystem.Instance.UpdateUI();
-
-
-        if (weaponManager != null)
-        {
-            Debug.Log("Checking if crafted item is weapon");
-
-
-            int weaponIndex = weaponManager.GetWeaponIndexByItem(recipe.resultItem);
-
-
-            if (weaponIndex != -1)
-            {
-                Debug.Log("Unlock weapon after crafting");
-                weaponManager.UnlockWeapon(weaponIndex);
-            }
-            else
-            {
-                Debug.Log("Crafted item is not weapon");
-            }
-        }
-        else
-        {
-            Debug.LogWarning("WeaponManager not found");
-        }
-
-
-        if (craftingUI.Instance != null)
-        {
-            int index = craftingUI.Instance.GetCurrentIndex();
-            craftingUI.Instance.SetCrafted(index);
+            WeaponSelection.Instance.UpdateAllIcons();
         }
     }
+
+    if (craftingUI.Instance != null)
+    {
+        int index = craftingUI.Instance.GetCurrentIndex();
+        craftingUI.Instance.SetCrafted(index);
+    }
+}
 
 
     // =========================

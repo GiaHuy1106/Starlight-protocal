@@ -142,6 +142,10 @@ public class WeaponManager : MonoBehaviour
         unlockedWeapons[index] = true;
 
         Debug.Log("Đã unlock weapon: " + weapons[index].weaponName);
+
+        WeaponSelection.Instance.UpdateAllIcons();
+
+        
     }
 
     public bool IsWeaponUnlocked(int index)

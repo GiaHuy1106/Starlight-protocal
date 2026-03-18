@@ -13,10 +13,12 @@ public class InventorySystem : MonoBehaviour
 
 
     //Test item
-    public ItemObject BigBluePotion;
+    public ItemObject SmallBluePotion;
     public ItemObject BlueGem;
-    public ItemObject WandLevel1;
-
+    public ItemObject SmallGreenPotion;
+    public ItemObject GreenGem;
+    public ItemObject SmallRedPotion;
+    public ItemObject RedGem;
 
     //Inventory
     public GameObject inventorySlotsParent; //Panel chứa các slot trong inventory
@@ -83,13 +85,20 @@ public class InventorySystem : MonoBehaviour
 
     public void testItem()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha0))
-        {
-            Additem(BigBluePotion, 1);
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             Additem(BlueGem, 1);
+            Additem(SmallBluePotion, 2);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            Additem(GreenGem,1);
+            Additem(SmallGreenPotion,2);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            Additem(RedGem,1);
+            Additem(SmallRedPotion, 2);
         }
     }
 
@@ -101,9 +110,6 @@ public class InventorySystem : MonoBehaviour
             slot.UpdateUI();
         }
     }
-
-
-
 
     public void Additem (ItemObject ItemToAdd, int amount)
     {
