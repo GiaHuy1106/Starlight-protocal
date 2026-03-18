@@ -21,7 +21,7 @@ public class MainMenuManager : MonoBehaviour
     {
         isPaused = false;
         Time.timeScale = 1f;
-        SceneManager.LoadScene("GameScene");
+        SceneManager.LoadScene("Zone2");
 
     }
     public void BackMainMenu()

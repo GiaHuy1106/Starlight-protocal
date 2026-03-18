@@ -10,11 +10,16 @@ public class InventoryManager : MonoBehaviour
     public GameObject craftingMenu;
     private bool isCraftingMenuOpen = false;
 
+    //player id panel
+    public GameObject playerID;
+    private bool isPanelOpen = false;
+
 
     void Start()
     {
         inventoryMenu.SetActive(false);
         craftingMenu.SetActive(false);
+        playerID.SetActive(false);
     }
 
     // Update is called once per frame
@@ -37,7 +42,18 @@ public class InventoryManager : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.I) && isCraftingMenuOpen)
         {
-            CloseCraftingMenu();
+            CloseInventory();
+        }
+
+        if (Input.GetKeyDown(KeyCode.T) && !isPanelOpen)
+        {
+            CloseInventory();
+            CloseInventory();
+            playerID.SetActive(true);
+        }
+        else if (Input.GetKeyDown(KeyCode.T) && isPanelOpen)
+        {
+            playerID.SetActive(false);
         }
     }
 

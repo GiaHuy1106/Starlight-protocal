@@ -192,14 +192,17 @@ public class Boss01 : MonoBehaviour, IShieldable
         // Lấy hướng ngẫu nhiên trong phạm vi patrolRadius
         Vector3 randomDir = Random.insideUnitSphere * patrolRadius;
         randomDir += spawnpoint;
+        Debug.Log(randomDir + "" + randomDir);
 
         NavMeshHit hit;
         if (NavMesh.SamplePosition(randomDir, out hit, patrolRadius, NavMesh.AllAreas))
         {
             // Lưu điểm đi tuần mới
             patrolTarget = hit.position;
+            Debug.Log(patrolTarget);
             // Ra lệnh cho boss đi tới điểm đó
             bossNavMeshAgent.SetDestination(patrolTarget);
+            Debug.Log("" + hit.position);
         }
     }
     // FOLLOWING PLAYER
@@ -444,11 +447,16 @@ public class Boss01 : MonoBehaviour, IShieldable
     }    
     //Hàm làm cho boss bị knockback khi dính đamege
     public void KnockBack(Vector3 attackerPosition, float force)
-    {
-        if (isDead) return;
-        Vector3 direction = (transform.position - attackerPosition).normalized;
-        transform.position += direction * force;
-    }
+{
+    if (isDead) return;
+
+    Vector3 direction = transform.position - attackerPosition;
+    direction.y = 0f;
+    direction.Normalize();
+
+    bossNavMeshAgent.Move(direction * force);
+}
+
     public void Die()
     {
         if(isDead) return;

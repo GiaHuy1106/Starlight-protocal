@@ -14849,6 +14849,9 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
   explosionSFX: {fileID: 8300000, guid: df6696c3c5ed97548b947035c51c7951, type: 3}
   explosionVolume: 1
   sfxSource: {fileID: 0}
