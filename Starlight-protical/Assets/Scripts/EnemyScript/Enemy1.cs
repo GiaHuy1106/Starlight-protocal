@@ -22,6 +22,7 @@ public class LootItem
 }
 public class Enemy1 : MonoBehaviour
 {
+    public static Enemy1 Instance { get; private set; }
     public Transform playerTargetTransform;
     public NavMeshAgent slime1NavMeshAgent;
        
@@ -83,6 +84,12 @@ public class Enemy1 : MonoBehaviour
 
     //hiện máu bị trừ
     public TextMeshProUGUI takeDamageText;
+
+    public void Awake()
+    {
+        Instance = this;
+    }
+
     private void Start()
     {
         //vị trí ban đầu
@@ -319,7 +326,7 @@ public class Enemy1 : MonoBehaviour
             
         }    
     }    
-    void Die()
+    public void Die()
     {
         
         if (isDead) return;   // nếu đã chết rồi thì thoát

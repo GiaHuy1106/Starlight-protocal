@@ -21,6 +21,8 @@ public class LootItem3
 }
 public class Enemy3_Controller : MonoBehaviour
 {
+    public static Enemy3_Controller Instance { get; private set; }
+
     public Transform playerTargetTransform;
     public NavMeshAgent slime3NavMeshAgent;
 
@@ -81,6 +83,12 @@ public class Enemy3_Controller : MonoBehaviour
 
     //hiện máu bị trừ
     public TextMeshProUGUI takeDamageText;
+
+    public void Awake()
+    {
+        Instance = this;
+    }
+
     private void Start()
     {
         //vị trí ban đầu
@@ -338,7 +346,7 @@ public class Enemy3_Controller : MonoBehaviour
             currentState = Enemy3State.Die;
         }
     }
-    void Die()
+    public void Die()
     {
          if (isDead) return;   // nếu đã chết rồi thì thoát
         isDead = true;        // đánh dấu đã chết
