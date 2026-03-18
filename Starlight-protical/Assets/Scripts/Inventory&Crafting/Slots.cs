@@ -20,13 +20,39 @@ public class Slots : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoi
 
     private void Awake()
     {
-        // Nếu chưa gán trong Inspector thì tự lấy
-        if (imageIcon == null)
-            imageIcon = transform.GetChild(0).GetComponent<Image>();
+        Debug.Log($"[Slots] Awake on {gameObject.name}");
 
+        if (imageIcon == null)
+        {
+            if (transform.childCount > 0)
+            {
+                imageIcon = transform.GetChild(0).GetComponent<Image>();
+                Debug.Log("[Slots] Auto assign imageIcon from child 0");
+            }
+            else
+            {
+                Debug.LogError("[Slots] Không có child để lấy imageIcon");
+            }
+        }
 
         if (textAmount == null)
-            textAmount = transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+        {
+            if (transform.childCount > 1)
+            {
+                textAmount = transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+                Debug.Log("[Slots] Auto assign textAmount from child 1");
+            }
+            else
+            {
+                Debug.LogError("[Slots] Không có child để lấy textAmount");
+            }
+        }
+
+        if (imageIcon == null)
+            Debug.LogError("[Slots] imageIcon NULL sau Awake");
+
+        if (textAmount == null)
+            Debug.LogError("[Slots] textAmount NULL sau Awake");
     }
 
 
@@ -50,11 +76,12 @@ public class Slots : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoi
         item = newItem;
         amount = newAmount;
 
+        if (item != null)
+            Debug.Log("[Slots] SetItem: " + item.itemName);
+        else
+            Debug.LogWarning("[Slots] SetItem: item NULL");
 
-        //UpdateSlots();
-
-
-        Debug.Log("Slot received item: " + item.itemName);
+        //UpdateSlots(); // 👈 bật lại (rất quan trọng)
     }
 
 
@@ -63,19 +90,42 @@ public class Slots : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPoi
     // =========================
     public void UpdateSlots()
     {
+        Debug.Log($"[Slots] UpdateSlots - Item: {(item != null ? item.itemName : "NULL")} | Amount: {amount}");
+
+        if (imageIcon == null)
+        {
+            Debug.LogError("[Slots] imageIcon NULL -> không thể update UI");
+            return;
+        }
+
+        if (textAmount == null)
+        {
+            Debug.LogError("[Slots] textAmount NULL -> không thể update UI");
+            return;
+        }
+
         if (item != null)
         {
             imageIcon.enabled = true;
 
-
             if (item.icon != null)
+            {
                 imageIcon.sprite = item.icon;
-
+            }
+            else
+            {
+                Debug.LogWarning($"[Slots] Item {item.itemName} không có icon");
+                imageIcon.sprite = null;
+            }
 
             if (amount > 1)
+            {
                 textAmount.text = amount.ToString();
+            }
             else
+            {
                 textAmount.text = "";
+            }
         }
         else
         {

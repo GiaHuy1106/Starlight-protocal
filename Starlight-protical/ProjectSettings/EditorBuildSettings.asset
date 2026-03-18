@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Inventory.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
-    path: Assets/Scenes/MainMenu.unity
+    path: Assets/GameScene/MainMenu.unity
     guid: 81f4eea15428d3b4a9e004e9886be8f5
   - enabled: 1
     path: Assets/Scenes/Enemy1.unity
@@ -27,7 +27,7 @@ EditorBuildSettings:
     path: Assets/Assets/Trung/Player.unity
     guid: 0c99148f8e7c54c478d7262c722302df
   - enabled: 1
-    path: Assets/Assets/Trung/Player_Trung 1.unity
+    path: Assets/GameScene/GameScene.unity
     guid: dbe3e615ad25dcd429ab03efd3bb0553
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
